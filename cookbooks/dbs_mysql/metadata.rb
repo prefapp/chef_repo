@@ -17,7 +17,8 @@ recipe  "dbserver_mysql",
     attributes: [] 
 
 recipe  "server", 
-    description: "Install mysql server"
+    description: "Install mysql server",
+    attributes: ['mysql/server_root_password', "mysql/bind_address"]
 
 #recipe "logrotate",
 #    description: "Rotate apache logs. Requires logrotate cookbook",
@@ -28,13 +29,20 @@ recipe  "server",
 # ATRIBUTOS
 ### 
 # atributos principales
-attribute "apache/listen_ports",
-  :display_name => "Apache Listen Ports",
-  :description => "Ports that Apache should listen on",
+attribute "mysql/server_root_password",
+  :display_name => "MySQL Server Root Password",
+  :description => "Password for the mysqld root user",
   :advanced => false,
-  :type => "array",
-  :default => [ "80" ],
-  :validations => {range: 1..65535}
+  :required => true,
+  :validations => {regex: /\A[\w\.\-]+\z/}
 
-attribute "apache/contact",
+
+attribute "mysql/bind_address",
+  :display_name => "MySQL Bind Address",
+  :description => "Address that mysqld should listen on",
+  :default => "127.0.0.1",
+  :advanced => true,
+  :validations => {regex: /\A\d+\.\d+\.\d+\.\d+\z/}
+
+
 
