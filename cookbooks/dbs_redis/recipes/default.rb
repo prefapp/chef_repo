@@ -11,3 +11,8 @@ include_recipe "apt"
 
 
 include_recipe "mysql"
+
+## Instalamos a gema de mysql
+# porque vai a ser necesaria para executar sqls
+package 'make'
+gem_package 'mysql'
