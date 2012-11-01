@@ -44,7 +44,7 @@ attribute "app_php/mysql/db_password",
     :display_name => "Mysql Database Password" ,
     :description => "Mysql Database password for the application",
     :calculated => true,
-    :default_value => 'random',
+    #:default_value => 'random',
     :validations => {regex: /\A\w+\z/}
 
 
