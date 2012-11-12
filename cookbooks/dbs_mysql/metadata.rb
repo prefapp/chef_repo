@@ -10,7 +10,7 @@ version          "0.0.1"
 end
 
 # recetas
-recipe  "dbserver_mysql", 
+recipe  "default", 
     description: "Install mysql client",
     #attributes: ["!apache/allowed_openids","!apache/ext_status"]
     #como se poden seleccionar estos modulos desde a receta principal, haber que permitirlle as opcions na receta ppal
@@ -18,7 +18,7 @@ recipe  "dbserver_mysql",
 
 recipe  "server", 
     description: "Install mysql server",
-    attributes: ['mysql/server_root_password', "mysql/bind_address"]
+    attributes: [/server.+/, "mysql/bind_address"]
 
 #recipe "logrotate",
 #    description: "Rotate apache logs. Requires logrotate cookbook",
@@ -34,8 +34,24 @@ attribute "mysql/server_root_password",
   :description => "Password for the mysqld root user",
   :advanced => false,
   :required => true,
+  :generated => true,
   :validations => {regex: /\A[\w\.\-]+\z/}
 
+attribute "mysql/server_repl_password",
+  :display_name => "MySQL Server Replication Password",
+  :description => "Password for the mysql replication",
+  :advanced => false,
+  :required => true,
+  :generated => true,
+  :validations => {regex: /\A[\w\.\-]+\z/}
+
+attribute "mysql/server_debian_password",
+  :display_name => "MySQL Server Admin password for Debian",
+  :description => "Password for the mysqld admin user in Debian",
+  :advanced => false,
+  :required => true,
+  :generated => true,
+  :validations => {regex: /\A[\w\.\-]+\z/}
 
 attribute "mysql/bind_address",
   :display_name => "MySQL Bind Address",

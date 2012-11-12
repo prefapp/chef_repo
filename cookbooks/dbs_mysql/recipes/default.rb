@@ -7,9 +7,8 @@
 #
 
 #suponhemos plataforma debian por defecto e actualizamos a cache do apt
+
 include_recipe "apt"
-
-
 include_recipe "mysql"
 
 ## Instalamos a gema de mysql
