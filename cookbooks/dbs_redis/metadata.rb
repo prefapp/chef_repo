@@ -34,7 +34,7 @@ attribute "mysql/server_root_password",
   :description => "Password for the mysqld root user",
   :advanced => false,
   :required => true,
-  :generated => true,
+  :calculated => true,
   :validations => {regex: /\A[\w\.\-]+\z/}
 
 attribute "mysql/server_repl_password",
@@ -42,7 +42,7 @@ attribute "mysql/server_repl_password",
   :description => "Password for the mysql replication",
   :advanced => false,
   :required => true,
-  :generated => true,
+  :calculated => true,
   :validations => {regex: /\A[\w\.\-]+\z/}
 
 attribute "mysql/server_debian_password",
@@ -50,7 +50,7 @@ attribute "mysql/server_debian_password",
   :description => "Password for the mysqld admin user in Debian",
   :advanced => false,
   :required => true,
-  :generated => true,
+  :calculated => true,
   :validations => {regex: /\A[\w\.\-]+\z/}
 
 attribute "mysql/bind_address",
