@@ -19,7 +19,9 @@ ruby = node["lang"]["ruby"]
 #node.set["rvm"]["user_global_gems"] = gems
 #include_recipe "rvm::system"
 
-include_recipe "rvm"
+## instalamos rvm e cargamos os lwrps
+include_recipe "rvm::system_install"
+
 str = ruby["version"]
 str << "@#{ruby["gemset"]}" unless ruby["gemset"].empty?
 
