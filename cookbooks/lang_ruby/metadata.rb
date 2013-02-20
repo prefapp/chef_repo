@@ -14,7 +14,7 @@ recipe "default",
     attributes: []
 
 recipe "install",
-    description: "Installs ruby with the options proportionate",
+    description: "Installs ruby with the provided options",
     attributes: [/.+/],
     dependencies: []
 
