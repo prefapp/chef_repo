@@ -26,18 +26,19 @@ include_recipe "rvm::system"
 
 # RECARGA DE ATRIBUTOS EN TEMPO DE EXECUCION!! ####################
 # xa non a usamos pero queda para referencia
-execute 'foo' do
-  command 'which ruby'
-  notifies :create, 'ruby_block[reload_attributes]', :immediately
-end
-
-ruby_block 'reload_attributes' do
-	block do 
-        node.load_attribute_by_short_filename('default', 'lang_ruby')
-        Chef::Log.info("RUTA RUBY: #{node["lang"]["ruby"]["binary_path"]}")
-    end
-    action :nothing
-end
+# e node.load_attribute_by_short_filename non chuta en chef 11
+#execute 'foo' do
+#  command 'which ruby'
+#  notifies :create, 'ruby_block[reload_attributes]', :immediately
+#end
+#
+#ruby_block 'reload_attributes' do
+#	block do 
+#        node.load_attribute_by_short_filename('default', 'lang_ruby')
+#        Chef::Log.info("RUTA RUBY: #{node["lang"]["ruby"]["binary_path"]}")
+#    end
+#    action :nothing
+#end
 ####################################################################
 
 ## seteamos o provider de rvm

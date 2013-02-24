@@ -31,4 +31,5 @@ node.set["lang"]["ruby"]["binary_path"] = "/usr/local/rvm/rubies/#{version}/bin/
 node.set["lang"]["ruby"]["wrapper"] = "/usr/local/rvm/wrappers/#{version}/ruby"
 
 
-
+# version de rails, por defecto vacio para que colla a ultima
+node.default["lang"]["ruby"]["rails"]["version"] = nil
