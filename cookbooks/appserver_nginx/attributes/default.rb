@@ -5,3 +5,5 @@ default["appserver"]["nginx"]["modules"] = [
     "http_ssl_module",
     "http_gzip_static_module"
 ]
+
+default["ohai"]["plugin_path"] = "/etc/chef/ohai_plugins"
