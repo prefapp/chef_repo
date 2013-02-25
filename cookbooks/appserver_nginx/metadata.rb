@@ -42,7 +42,7 @@ attribute "nginx/version",
 
 attribute "nginx/source/checksum",
     :display_name => 'Nginx source tarball checksum',
-    :description => 'Nginx source tarbal sha512 checksum',
+    :description => 'Nginx source tarbal sha256 checksum',
     :default => '0510af71adac4b90484ac8caf3b8bd519a0f7126250c2799554d7a751a2db388',
     :validations => {regex: /[0-9a-z]+/}
 
