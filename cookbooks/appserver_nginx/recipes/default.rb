@@ -1,6 +1,6 @@
 ## seteamos atributos para o cookbook base (appserver)
-node.default["appserver"]["id"] = "nginx_default"
-node.default["appserver"]["version"] = node["appserver"]["nginx"]["version"]
+#node.default["appserver"]["id"] = "nginx_default"
+#node.default["appserver"]["version"] = node["appserver"]["nginx"]["version"]
 
 ## instalamos nginx, ultima version disponible
 node.set["nginx"]["version"] = node["appserver"]["nginx"]["version"]
@@ -23,10 +23,10 @@ node.set['nginx']['source']['default_configure_flags'] = [
 ## seteamos os parametros para a receta de nginx da comunidade
 node.set["nginx"]["source"]["modules"] = node["appserver"]["nginx"]["modules"]
 
-Chef::Log.info("APPSERVER_ID: #{node['appserver']['id']}")
-Chef::Log.info("APPSERVER_VERSION: #{node["appserver"]["version"]}")
+#Chef::Log.info("APPSERVER_ID: #{node['appserver']['id']}")
+#Chef::Log.info("APPSERVER_VERSION: #{node["appserver"]["version"]}")
 
-require 'pp'
-pp node.debug_value(:nginx)
+#require 'pp'
+#pp node.debug_value(:nginx)
 
 include_recipe "nginx::source"
