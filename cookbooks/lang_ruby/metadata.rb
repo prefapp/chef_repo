@@ -1,3 +1,4 @@
+name             "lang_ruby"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
@@ -7,6 +8,7 @@ version          "0.0.1"
 
 ## Imprescindible en chef 11!!!
 depends "rvm"
+depends "lang_nodejs"
 
 %w{debian ubuntu}.each do |os|
   supports os
