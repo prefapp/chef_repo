@@ -7,6 +7,7 @@ str << "@#{ruby["gemset"]}" unless ruby["gemset"].empty?
 node.set['rvm']['default_ruby'] = str
 node.set['rvm']['user_default_ruby'] = str
 
+# construimos o atributo que instale as gemas no sistema
 gems = []
 ruby["gems"].each do |gem|
     g = {}
@@ -17,8 +18,8 @@ ruby["gems"].each do |gem|
     gems.push(g)
 end
 
-node.set['rvm']['global_gems'] = gems
-node.set["rvm"]["user_global_gems"] = gems
+node.set['rvm']['global_gems'] = (gems.empty?)? nil: gems 
+node.set["rvm"]["user_global_gems"] = node.set['rvm']['global_gems'] 
 
 #instalamos ruby 
 include_recipe "rvm::system"

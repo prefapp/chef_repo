@@ -15,6 +15,8 @@
 #Chef::Log.error("PASSENGER_RUBY: #{ruby_wrapper}")
 
 node.default["lang"]["ruby"]["version"] = "ruby-1.9.3"
+node.default["lang"]["ruby"]["gemset"] = ''
+node.default['lang']['ruby']['rails']['sites'] = []
 
 ruby_versions = { 'ruby-1.9.3' => 'ruby-1.9.3-p374', #'ruby-1.9.3-p385',
                   'ruby-1.9.2' => 'ruby-1.9.2-p320',
@@ -33,3 +35,6 @@ node.set["lang"]["ruby"]["wrapper"] = "/usr/local/rvm/wrappers/#{version}/ruby"
 
 # version de rails, por defecto vacio para que colla a ultima
 node.default["lang"]["ruby"]["rails"]["version"] = nil
+
+# apanho polo erro do certificado en rvm.io
+node.set["rvm"]["installer_url"] = "https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer"

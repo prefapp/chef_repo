@@ -10,6 +10,11 @@ version          "0.0.1"
 depends "rvm"
 depends "lang_nodejs"
 
+# estos 2 son dependencias por culpa da receta deploy_rails_app
+# o mellor as recetas de deploy de apps deberian ir nun cookbook propio
+# depends "dbsystem_mysql"
+# depends "appserver_nginx"
+
 %w{debian ubuntu}.each do |os|
   supports os
 end
@@ -19,14 +24,24 @@ recipe "default",
     attributes: []
 
 recipe "install",
-    description: "Installs ruby with the provided options",
-    attributes: [/.+/],
+    description: "Installs ruby with rvm",
+    attributes: [/^(?!.*\/(app|rails)\/).*$/],
     dependencies: []
+
+recipe "rails",
+    description: "Installs rails framework",
+    attributes: [/rails/],
+    dependencies: ["lang_ruby::install", "lang_nodejs"]
+
+#recipe "sinatra",
+#    description: "Installs sinatra framework",
+#    attributes: [/sinatra/],
+#    dependencies: ["install"]
 
 recipe "install_gems",
     description: "Install globally the gems list provided",
     attributes: ['lang/ruby/gems'],
-    dependencies: ["install"]
+    dependencies: ["lang_ruby::install"]
 
 ## Atributos
 attribute "lang/ruby/version",
@@ -34,7 +49,6 @@ attribute "lang/ruby/version",
     :description => 'Ruby version to install',
     :default => 'ruby-1.9.3',
     :choice => %w{ruby-1.8.6 ruby-1.8.7 ruby-1.9.1 ruby-1.9.2 ruby-1.9.3 system},
-    :validations => {regex: /^\w+\d+\.\d+\.\d+/},
     :advanced => false
 
 
@@ -43,9 +57,31 @@ attribute "lang/ruby/gems",
     :description => 'Gems to install globally',
     :default => ['bundler'],
     # podese especificar a version con <nome>#<version>
-    :validations => {regex: /\A\w+\#\.+\z/}
+    :validations => {regex: /\A\w+(\#\.+)?\z/ }
 
-attribute "lang/ruby/rvm/user",
-    :display_name => 'Rvm user',
-    :description => 'User to install ruby with',
-    :default => ''
+attribute "lang/ruby/gemset",
+    :display_name => "Gemset name",
+    :description => "Gemset name where install gems, default 'nil'",
+    :default => nil,
+    :validations => {regex: /\A\w*\z/}
+
+attribute "lang/ruby/rails/version",
+    :display_name => "Rails version",
+    :description => "Rails version to install, default 'nil' to install last version",
+    :default => nil,
+    :validations => {predefined: "version"}
+
+attribute "lang/ruby/rails/full",
+    :display_name => "Full rails installation",
+    :description => "Install other gems usually needed by rails apps",
+    :default => "false",
+    :choice => ["true", "false"] 
+
+#attribute "lang/ruby/rvm/user",
+#    :display_name => 'Rvm user',
+#    :description => 'User to install ruby with',
+#    :default => ''
+
+
+
+
