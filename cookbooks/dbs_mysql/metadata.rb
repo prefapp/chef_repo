@@ -1,24 +1,25 @@
-maintainer       "RuleYourCloud"
-maintainer_email "info@ruleyourcloud.com"
-license          "All rights reserved"
+maintainer       "RIYIC"
+maintainer_email "info@riyic.com"
+license          "Apache 2.0"
 description      "Installs/Configures mysql client/server"
-#long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
+name             "dbsystem_mysql"
 
 %w{debian ubuntu}.each do |os|
   supports os
 end
 
+depends "mysql"
+depends "database"
+
 # recetas
 recipe  "default", 
     description: "Install mysql client",
-    #attributes: ["!apache/allowed_openids","!apache/ext_status"]
-    #como se poden seleccionar estos modulos desde a receta principal, haber que permitirlle as opcions na receta ppal
     attributes: [] 
 
 recipe  "server", 
     description: "Install mysql server",
-    attributes: [/server.+/, "mysql/bind_address"]
+    attributes: [/server.+/, "mysql/bind_address", /tunable/]
 
 #recipe "logrotate",
 #    description: "Rotate apache logs. Requires logrotate cookbook",
@@ -66,7 +67,7 @@ attribute "mysql/tunable/key_buffer",
 
 attribute "mysql/tunable/max_connections",
   :display_name => "MySQL Tunable Max Connections",
-  :default => 500,
+  :default => "500",
   :validations => {range: 100..10000}
 
 attribute "mysql/tunable/wait_timeout",
