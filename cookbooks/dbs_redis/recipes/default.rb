@@ -8,10 +8,27 @@
 
 #suponhemos plataforma debian por defecto e actualizamos a cache do apt
 
-include_recipe "apt"
-include_recipe "mysql"
+#case node['platform_family']
+#when "debian"
+#    include_recipe "apt"
+#end
 
-## Instalamos a gema de mysql
-# porque vai a ser necesaria para executar sqls
-package 'make'
-gem_package 'mysql'
+## instalamos a gema de mysql para que poida 
+#package 'make'
+#package 'libmysqlclient-dev'
+
+## instalamos os requisitos da gema de mysql ANTES DE QUE SE CONSTRUA A RESOURCE COLLECTION
+#make = package 'make'
+#make.run_action(:install)
+#
+#mysql_client = package "libmysqlclient-dev"
+#mysql_client.run_action(:install)
+
+#chef_gem 'mysql'
+
+
+include_recipe "mysql::client"
+include_recipe "mysql::ruby"
+
+
+
