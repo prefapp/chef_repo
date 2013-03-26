@@ -11,6 +11,7 @@ end
 depends "dbsystem_mysql"
 depends "appserver_nginx"
 depends "lang_ruby"
+depends "build-essential"
 
 recipe "default",
     description: "Install redmine with default options",

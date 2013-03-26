@@ -150,14 +150,14 @@ end
 rvm_shell "rake db:migrate" do    
         user        "redmine"
         group       "redmine"
-        cwd         "#{node.redmine.deploy_to}/current"
-        Chef::Log.error("#{node.redmine.deploy_to}/current")
+        cwd         "#{node["redmine"]["deploy_to"]}/current"
+        Chef::Log.error("#{node["redmine"]["deploy_to"]}/current")
         code        %{bundle exec rake db:migrate}
 end
 
 ## finalmente creamos un link
-link node[:redmine][:dir] do
-  to "#{node.redmine.deploy_to}/current"
+link node["redmine"]["dir"] do
+  to "#{node["redmine"]["deploy_to"]}/current"
 end
 
 ## NON FUNCIONA!!!
