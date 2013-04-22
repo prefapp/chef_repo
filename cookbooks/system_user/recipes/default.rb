@@ -1,33 +1,13 @@
 #
-# Cookbook Name:: system_user
-require 'chef/mixin/shell_out'
+# Cookbook Default recipe:: system_user
 
-include_recipe "shell_lshell"
-
-
-#creamos un usuario con ese shell
+#creamos un usuario coa shell por defecto (bash)
 # receta apilable, usaremola asi
-node["system"]["users"]["lshell"].each |user| do
+node["system"]["users"]["default"].each do |user|
 
-	user user["username"] do
+	system_user user["username"] do
 		action :create
-		comment "lshell user"
-		gid user["group"]
-		home "/home/#{user["username"]}"
-		shell "/bin/lshell"
-		password shell_out!("openssl passwd -1 #{user["password"]}")
-		supports {:manage_home => true}
-		#password "$1$JJsvHslV$szsCjVEroftprNn4JHtDi."
+		group user['group'] if user.include?('group')
+		password user["password"]
 	end
-
-	## para establecer configuracions especificas por usuario
-	## usaremos un LWRP
-	# lshell_user_conf user["username"] do
-	# 	allowed user["allowed"]
-	# 	aliases user["aliases"]
-	# 	forbidden user["forbidden"]
-	# 	intro user["intro"]
-	# 	path user["path"]
-	# end
-
 end
