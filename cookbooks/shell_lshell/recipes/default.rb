@@ -13,8 +13,8 @@ package "git-core"
 
 # clonamos o repo de lshell
 git "#{Chef::Config[:file_cache_path]}/lshell" do
-  repository node["util"]["lshell"]["repo"]["url"]
-  reference node["util"]["lshell"]["repo"]["reference"]
+  repository node["shell"]["lshell"]["repo"]["url"]
+  reference node["shell"]["lshell"]["repo"]["reference"]
   action :sync
   notifies :run, "execute[install_lshell]"
 end
@@ -34,8 +34,22 @@ link "/bin/lshell" do
 end
 
 
-# template "lshell.conf"
-# 	commands 
-# 	alias
+directory node["shell"]["lshell"]["config_dir"] do
+  mode 00750
+  action :create
+end
 
-# end
+# creamos o ficheiro de conf global
+template "#{node["shell"]["lshell"]["config_dir"]}/00global" do
+	source "lshell_global_conf.erb"
+	mode 00640
+	variables(
+		:params => node["shell"]["lshell"]["globals"]
+	)
+end
+
+# creamos o ficheiro de conf defecto e generamos o lconf.conf
+lshell_user_conf "01default" do
+	user "default"
+	options node["shell"]["lshell"]["options"]
+end

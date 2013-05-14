@@ -1,0 +1,6 @@
+[global]
+<% node["shell"]["lshell"]["globals"].keys.each do |global| %> 
+<%	next unless @params[global] %>
+<%=	"#{global} : #{@params[global]}" %>
+<% end %>
+

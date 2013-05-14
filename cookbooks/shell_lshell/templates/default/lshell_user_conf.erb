@@ -1,0 +1,38 @@
+<% 
+def generar_string_array_lshell(array)
+    res = {'add' => [], "del" => [], "neutral" => []}
+
+    array.each do |el|
+        if el =~ /^\+\s*(.+)$/
+            res['add'].push($1)
+        elsif el =~ /^\-\s*(.+)$/
+            res['del'].push($1)
+        else
+            res['neutral'].push(el)
+        end
+    end
+
+    str = ""
+    str << res["neutral"].to_json if res["neutral"].size > 0 
+    str << " + #{res['add'].to_json}" if res["add"].size > 0 
+    str << " - #{res['del'].to_json}" if res["del"].size > 0
+
+    str
+end
+%>
+[<%= @user %>]
+<% node["shell"]["lshell"]["options"].keys.each do |opt| %>
+<%  next unless @params[opt] %>
+<%  if @params[opt].is_a?(Hash) %>
+<%=	    "#{opt} : #{@params[opt].to_json}" %>
+<%  elsif @params[opt].is_a?(Array) %>
+<%=     "#{opt} : #{generar_string_array_lshell(@params[opt])}" %>
+<%  else  ## e unha string, ahora solo hai que distinguir se e un numero ou non para ponherlle comillas%>
+<%      if @params[opt] =~ /^[-+]?[0-9]+$/ %>
+<%=         "#{opt} : #{@params[opt]}" %>
+<%      else %>
+<%=         "#{opt} : '#{@params[opt]}'" %>
+<%      end %>
+<%  end %>
+<% end %>
+
