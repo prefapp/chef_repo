@@ -1,4 +1,4 @@
-shell_lshell Cookbook
+shell_lshell
 ====================
 Cookbook to install Limited Shell (https://github.com/ghantoos/lshell)
 
