@@ -2,7 +2,7 @@ name             'system_group'
 maintainer       'RIYIC'
 maintainer_email 'info@riyic.com'
 license          'Apache 2.0'
-description      'Installs/Configures system_group'
+description      'Manages a local group'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
