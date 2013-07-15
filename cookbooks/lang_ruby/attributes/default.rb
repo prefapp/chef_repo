@@ -1,4 +1,4 @@
-## PARA RECARGARGA DE ATRIBUTOS EN TEMPO DE EXECUCION !!!!
+    ## PARA RECARGARGA DE ATRIBUTOS EN TEMPO DE EXECUCION !!!!
 # xa non o utilizamos porque non basta con esto para recargar as opcions
 # de compilacion do nginx, xa que estan dentro de node.run_state e non se da
 # recargado en tempo de execuccion
@@ -18,9 +18,10 @@ node.default["lang"]["ruby"]["version"] = "ruby-1.9.3"
 node.default["lang"]["ruby"]["gemset"] = ''
 node.default['lang']['ruby']['rails']['sites'] = []
 
-ruby_versions = { 'ruby-1.9.3' => 'ruby-1.9.3-p374', #'ruby-1.9.3-p385',
+ruby_versions = { 'ruby-2.0.0' => 'ruby-2.0.0-p247',
+                  'ruby-1.9.3' => 'ruby-1.9.3-p448', #'ruby-1.9.3-p429',
                   'ruby-1.9.2' => 'ruby-1.9.2-p320',
-                  'ruby-1.8.7' => 'ruby-1.8.7-p371',
+                  'ruby-1.8.7' => 'ruby-1.8.7-p374',
                 }
 
 version = ruby_versions[node["lang"]["ruby"]["version"]]
@@ -37,4 +38,4 @@ node.set["lang"]["ruby"]["wrapper"] = "/usr/local/rvm/wrappers/#{version}/ruby"
 node.default["lang"]["ruby"]["rails"]["version"] = nil
 
 # apanho polo erro do certificado en rvm.io
-node.set["rvm"]["installer_url"] = "https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer"
+#node.set["rvm"]["installer_url"] = "https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer"
