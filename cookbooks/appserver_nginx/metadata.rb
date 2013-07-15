@@ -2,8 +2,8 @@ name             "appserver_nginx"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-#long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.1"
+version          "0.1.0"
+description      "Install/Configures nginx httpd server"
 
 %w{debian ubuntu}.each do |os|
   supports os
@@ -11,39 +11,71 @@ end
 
 depends "nginx"
 depends "runit"
+depends "lang_ruby"
 
 recipe "default",
-    description: "empty",
-    attributes: []
+    :description => "Compile nginx from source and install with the specified modules",
+    :attributes => [/^(?!.*\/(passenger|php)\/).*$/]
+    # :attributes => ['!appserver/nginx/passenger/version', /.+/]
 
-recipe "apache-php5.3",
-    description: "Deploys php5.3 and apache with mod_php, from distribution packages",
-    attributes: [],
-    dependencies: ['webserver_apache']
+recipe "with_passenger",
+    :description => "Compile nginx with passenger support",
+    :attributes => [/.+/],
+    :dependencies => ["lang_ruby::install"]
 
-recipe "nginx-php_source",
-    description: "Deploys last stable versions of php5.4 and nginx with php-fpm, from sources",
-    attributes: ['php/version', 'nginx/version', 'nginx/source/checksum'],
-    dependencies: []
+=begin
+#RECETA CO FLAG DE stackable A true!!
+recipe "add_passenger_site",
+    :description => ,
+    :attributes => ,
+    :dependencies => ["with_passenger"]
+=end
+
+#recipe "with_php-fpm",
+#    description: "Deploys last stable versions of php5.4 and nginx with php-fpm, from sources",
+#    attributes: ['php/version', 'nginx/version', 'nginx/source/checksum'],
+#    dependencies: []
 
 ## Atributos avanzados
-attribute "php/version",
-    :display_name => 'PHP version to compile and install',
-    :description => 'Version to use in the php compilation',
-    :default => '5.4.9',
-    :validations => {regex: /^\d+\.\d+\.\d+/}
+#attribute "appserver/nginx/php/version",
+#    :display_name => 'PHP version to compile and install',
+#    :description => 'Version to use in the php compilation',
+#    :default => '5.4.9',
+#    :validations => {predefined: "version"}
 
 
-attribute "nginx/version",
+
+attribute "appserver/nginx/install_dir",
+    :display_name => 'Nginx installation dir',
+    :description => 'Nginx source installation directory',
+    :default => '/opt/nginx',
+    :advanced => false,
+    :validations => {predefined: "unix_path"}
+
+attribute "appserver/nginx/version",
     :display_name => 'Nginx version to install',
     :description => 'Nginx version to compile and install',
-    :default => '1.2.6',
-    :validations => {regex: /^\d+\.\d+\.\d+/}
+    :default => '1.4.1', #1.2.9
+    :advanced => false,
+    :validations => {predefined: "version"}
 
-
-attribute "nginx/source/checksum",
+attribute "appserver/nginx/checksum",
     :display_name => 'Nginx source tarball checksum',
     :description => 'Nginx source tarbal sha256 checksum',
-    :default => '0510af71adac4b90484ac8caf3b8bd519a0f7126250c2799554d7a751a2db388',
+    :default => 'bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119',#'2457a878943fb409ec4fcb46b43af222d06a584f93228e17a4f02b0e7bfc9de3',
     :validations => {regex: /[0-9a-z]+/}
 
+
+attribute "appserver/nginx/modules",
+    :display_name => 'Nginx modules',
+    :description => 'Nginx modules to compile and install with',
+    :type => "array",
+    :default => ["http_ssl_module", "http_gzip_static_module"],
+    :validations => {regex: /\A\w+\z/}
+
+attribute "appserver/nginx/passenger/version",
+    :display_name => 'Passenger version',
+    :description => 'Passenger version to compile and install with nginx',
+    :default => '4.0.8', #'3.0.21',
+    :advanced => false,
+    :validations => {predefined: "version"}

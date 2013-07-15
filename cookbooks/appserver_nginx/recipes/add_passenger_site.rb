@@ -1,10 +1,13 @@
 DEFAULT_ENV = 'production'
-
 include_recipe "appserver_nginx::with_passenger"
 
-
-node['lang']['ruby']['rails']['sites'].each do |site|
+#node.run_state['appserver_rails_sites'] = 
+#                            [] | node['lang']['ruby']['rails']['sites']
+#
+#node.run_state["appserver_rails_sites"].each do |site|
     
+node['lang']['ruby']['rails']['sites'].each do |site|
+ 
     #creamos a plantilla do vhost
     template site['domain'] do
         path "#{node['nginx']['dir']}/sites-available/#{site['domain']}"
