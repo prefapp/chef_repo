@@ -30,7 +30,9 @@ include_recipe "build-essential"
   package pgk
 end
 
+# instalamos gemas imprescindibles para o deploy de redmine
 gem_package "bundler"
+gem_package "rake"
 
 
 #######################
@@ -64,28 +66,7 @@ deploy_revision "redmine" do
         recursive true
       end
     end
-
-    ## calculamos que partes do bundle que non necesitamos
-    bundle_excluir = ['development', 'test']
-
-    case node['redmine']['database']['type']
-      when "sqlite"
-        bundle_excluir += %w{postgresql mysql}
-
-        file "#{release_path}/db/production.db" do
-          owner "redmine"
-          group "redmine"
-          mode "0644"
-        end
-      when "mysql"
-          bundle_excluir << 'postgresql'
-          bundle_excluir << 'sqlite'
-      when "postgresql"
-          bundle_excluir << "mysql"
-          bundle_excluir << "sqlite"
-
-    end
-
+    
     template "#{node['redmine']['deploy_to']}/shared/config/configuration.yml" do
       source "redmine/configuration.yml"
       owner "redmine"
@@ -113,7 +94,35 @@ deploy_revision "redmine" do
     #  group "redmine"
     #  mode "0664"
     #end
-    
+
+  end
+
+  # facemos manualmente a migracion, xa que desde bash non funciona ben
+  # o bundle install facemolo tamen o final, porque tenhen que estar creados os links
+  # debido a que o Gemfile, a partir da version 2.3 chequea o database.yml para ver que gema usar (mysql, mysql2...)
+  before_restart do
+
+    ## calculamos que partes do bundle que non necesitamos
+    bundle_excluir = ['development', 'test']
+
+    case node['redmine']['database']['type']
+      when "sqlite"
+        bundle_excluir += %w{postgresql mysql}
+
+        file "#{release_path}/db/production.db" do
+          owner "redmine"
+          group "redmine"
+          mode "0644"
+        end
+      when "mysql"
+          bundle_excluir << 'postgresql'
+          bundle_excluir << 'sqlite'
+      when "postgresql"
+          bundle_excluir << "mysql"
+          bundle_excluir << "sqlite"
+
+    end
+
     rvm_shell "bundle install" do    
         user        "redmine"
         group       "redmine"
@@ -121,39 +130,44 @@ deploy_revision "redmine" do
         ## fundamental meter o --path dentro do propio deploy, senon trata de instalar no home do usuario que lance o sudo
         code        %{bundle install --path=vendor/bundle --binstubs --without #{bundle_excluir.join(' ')}}
     end
-    
+
 
     rvm_shell "rake generate_secret_token" do
-      code %{bundle exec rake generate_secret_token}
-      user "redmine"
-      cwd release_path
-      creates "#{node['redmine']['deploy_to']}/shared/config/initializers/secret_token.rb"
-      #only_if { node['redmine']['branch'] =~ /^2./ }
-      not_if { ::File.exists?("#{release_path}/db/schema.rb") }
+        code %{bundle exec rake generate_secret_token}
+        user "redmine"
+        cwd release_path
+        creates "#{node['redmine']['deploy_to']}/shared/config/initializers/secret_token.rb"
+        #only_if { node['redmine']['branch'] =~ /^2./ }
+        not_if { ::File.exists?("#{release_path}/db/schema.rb") }
     end
 
+    rvm_shell "rake db:migrate" do    
+        user        "redmine"
+        group       "redmine"
+        cwd         "#{node["redmine"]["deploy_to"]}/current"
+        code        %{bundle exec rake db:migrate}
+    end
   end
 
-  #migrate true
-  #migration_command 'bundle exec rake db:migrate:all'
+
+  # migrate true
+  # migration_command 'bundle exec rake db:migrate'
   #migrate false
-
-
 
   action :deploy
   #action :force_deploy
-  #notifies :restart, "service[nginx]"
+  
+  notifies :restart, "service[nginx]"
 end
 
 ## aplicamos as migracions da bbdd fora do deploy revision
 # porque non sabemos como meter esta chamada o rvm_shell dentro da migracion
-rvm_shell "rake db:migrate" do    
-        user        "redmine"
-        group       "redmine"
-        cwd         "#{node["redmine"]["deploy_to"]}/current"
-        Chef::Log.error("#{node["redmine"]["deploy_to"]}/current")
-        code        %{bundle exec rake db:migrate}
-end
+# rvm_shell "rake db:migrate" do    
+#         user        "redmine"
+#         group       "redmine"
+#         cwd         "#{node["redmine"]["deploy_to"]}/current"
+#         code        %{bundle exec rake db:migrate}
+# end
 
 ## finalmente creamos un link
 link node["redmine"]["dir"] do

@@ -70,7 +70,9 @@ attribute "redmine/database/password",
     :display_name => "Redmine Database Password" ,
     :description => "Database password for this Redmine installation",
     :calculated => true,
-    :validations => {predefined: "db_password"}
+    :validations => {predefined: "db_password"},
+    :advanced => false
+ 
 
 ## advanced attributes
 attribute "redmine/database/type",
@@ -94,18 +96,12 @@ attribute "redmine/source/repository",
 attribute "redmine/source/reference",
     :display_name => 'Redmine repository reference',
     :description => 'Redmine repository tag/branch/commit to download',
-    :default => '2.2.3',
-    :choice => ["2.2.3", "2.3-stable", "2.2-stable"]
+    :default => '2.3-stable',
+    :validations => {predefined: "revision"}
+    #:choice => ["2.3.1", "2.2.4","2.3-stable", "2.2-stable"]
 
 attribute "redmine/deploy_to",
     :display_name => "Redmine deploy_to directory",
     :description => 'Directory to where deploy redmine source code',
     :default => '/home/redmine/deploy',
     :validations => {predefined: "unix_path"}
-
-
-
-
-
-
-
