@@ -48,13 +48,14 @@ attribute "lang/ruby/version",
     :display_name => 'Ruby version',
     :description => 'Ruby version to install',
     :default => 'ruby-1.9.3',
-    :choice => %w{ruby-1.8.6 ruby-1.8.7 ruby-1.9.1 ruby-1.9.2 ruby-1.9.3 system},
+    :choice => %w{ruby-1.8.6 ruby-1.8.7 ruby-1.9.1 ruby-1.9.2 ruby-1.9.3 ruby-2.0.0 system},
     :advanced => false
 
 
 attribute "lang/ruby/gems",
     :display_name => 'Gems to install',
     :description => 'Gems to install globally',
+    :type => "array",
     :default => ['bundler'],
     # podese especificar a version con <nome>#<version>
     :validations => {regex: /\A\w+(\#\.+)?\z/ }
