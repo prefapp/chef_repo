@@ -12,16 +12,22 @@ end
 depends "nginx"
 depends "runit"
 depends "lang_ruby"
+depends "supervisor"
 
 recipe "default",
     :description => "Compile nginx from source and install with the specified modules",
-    :attributes => [/^(?!.*\/(passenger|php)\/).*$/]
+    :attributes => [/^(?!.*\/(passenger|php|reverse_proxy_sites)\/).*$/]
     # :attributes => ['!appserver/nginx/passenger/version', /.+/]
 
 recipe "with_passenger",
     :description => "Compile nginx with passenger support",
     :attributes => [/.+/],
     :dependencies => ["lang_ruby::install"]
+
+recipe "reverse_proxy",
+    :description => "Configure a list of sites where nginx acts as a reverse proxy",
+    :attributes => [/\/reverse_proxy_sites\//],
+    :dependencies => ["appserver_nginx::default"]
 
 =begin
 #RECETA CO FLAG DE stackable A true!!
@@ -55,7 +61,7 @@ attribute "appserver/nginx/install_dir",
 attribute "appserver/nginx/version",
     :display_name => 'Nginx version to install',
     :description => 'Nginx version to compile and install',
-    :default => '1.4.1', #1.2.9
+    :default => '1.4.2', #1.2.9
     :advanced => false,
     :validations => {predefined: "version"}
 
@@ -71,11 +77,55 @@ attribute "appserver/nginx/modules",
     :description => 'Nginx modules to compile and install with',
     :type => "array",
     :default => ["http_ssl_module", "http_gzip_static_module"],
-    :validations => {regex: /\A\w+\z/}
+    :validations => {regex: /^\w+$/}
 
+attribute "appserver/nginx/use_supervisor",
+    :display_name => 'Use "supervisor" pcs',
+    :description => 'Do you want to use "supervisor" to control nginx process?',
+    :advanced => true,
+    :default => "false",
+    :choice => ["true","false"]
+    
 attribute "appserver/nginx/passenger/version",
     :display_name => 'Passenger version',
     :description => 'Passenger version to compile and install with nginx',
-    :default => '4.0.8', #'3.0.21',
+    :default => '4.0.19', #'3.0.21',
     :advanced => false,
     :validations => {predefined: "version"}
+
+
+# atributos de reverse_proxy
+attribute "appserver/nginx/reverse_proxy_sites/@/domain",
+    :display_name => "Site domain",
+    :description => "Domain related to site",
+    :default => "test.com",
+    :advanced => false,
+    :validations => {predefined: "domain"}
+
+attribute "appserver/nginx/reverse_proxy_sites/@/public_port",
+    :display_name => "Public Port",
+    :description => "Public port where to bind nginx proxy",
+    :advanced => false,
+    :default => "80",
+    :validations => {predefined: "tcp_port"}
+
+attribute "appserver/nginx/reverse_proxy_sites/@/ssl",
+    :display_name => 'Use ssl for this site',
+    :description => 'Has this site an ssl certificate?',
+    :advanced => true,
+    :default => "false",
+    :choice => ["true","false"]
+
+attribute "appserver/nginx/reverse_proxy_sites/@/service_path",
+    :display_name => 'Service path to map in backend',
+    :description => 'Path expected for the service in the backend (primarly for websockets)',
+    :default => '/',
+    :advanced => true,
+    :validations => {predefined: "unix_path"}
+
+attribute "appserver/nginx/reverse_proxy_sites/@/backends",
+    :display_name => "List of backend servers",
+    :description => "List of backend servers in 'ip:port' format",
+    :type => "array",
+    :default => nil,
+    :validations => {regex: /^[\w\.\d\:]+?\:\d+$/}

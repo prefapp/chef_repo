@@ -27,7 +27,41 @@ node.set['nginx']['source']['default_configure_flags'] = [
 ]
 
 ## seteamos os parametros para a receta de nginx da comunidade
-node.set["nginx"]["source"]["modules"] = node["appserver"]["nginx"]["modules"]
+node.set["nginx"]["source"]["modules"] = node["appserver"]["nginx"]["modules"].map{|m| "nginx::#{m}"}
 
+
+# novedades para docker, podemolo meter noutro arquivo mellor?
+
+if node["appserver"]["nginx"]["use_supervisor"]
+    # o init_style supervisor non existe (de momento), pero utilizara init
+    node.override['nginx']['init_style'] = 'supervisor'
+
+    # obligamos a que arranque o nginx en foreground 
+    # (a receta nginx::source pono a false por eso o override)
+    node.override['nginx']['daemon_disable']  = true
+end
 
 include_recipe "nginx::source"
+
+# si queremos usar o supervisor vamos a usar o provider que nos da o seu cookbook
+# pero temos que deshabilitar o nginx para que sexa supervisor quen o xestione
+if node["appserver"]["nginx"]["use_supervisor"]
+
+    # deshabilitamos o servicio nginx para que non se arranque automaticamente
+    # queremos controlalo con supervisor
+    srv = resources(service: "nginx")
+    # srv.provider Chef::Provider::Service::Upstart
+    srv.start_command "/bin/true"
+    srv.stop_command "/bin/true"
+    srv.restart_command "/bin/true"
+    srv.action :nothing
+
+    include_recipe "pcs_supervisor::default"
+
+    supervisor_service "nginx" do        
+        stdout_logfile "/var/log/supervisor/nginx.log"
+        stderr_logfile "/var/log/supervisor/nginx.err"
+        command node["nginx"]["binary"]
+        action "enable"
+    end
+end
