@@ -16,3 +16,11 @@ recipe "default",
     attributes: [/.+/],
     dependencies: []
 
+## Atributos
+attribute "lang/nodejs/version",
+    :display_name => 'Nodejs version',
+    :description => 'Nodejs version to install',
+    :default => 'latest',
+    :validations => {regex: /^(latest|legacy|\d+\.\d+\.\d+)$/}
+    :advanced => false
+

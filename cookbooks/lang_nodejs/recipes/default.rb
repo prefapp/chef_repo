@@ -1,8 +1,17 @@
 ## para debian/ubuntu que se instale por paqueteria por defecto please!
 case node['platform_family']
    when "debian"
-       node.set["nodejs"]["install_method"] = 'package'
+       if node["lang"]["nodejs"]["version"] == 'latest'
+           node.set["nodejs"]["install_method"] = 'package'
+
+       elsif node["lang"]["nodejs"]["version"] == 'legacy'
+           node.set["nodejs"]["install_method"] = 'package'
+           node.set['nodejs']['legacy_packages'] = true
+       else
+           node.set["nodejs"]["install_method"] = "binary"
+           node.set["nodejs"]["check_sha"] = false
+       end
 end
 
 
-include_recipe "nodejs"
+include_recipe "nodejs::default"
