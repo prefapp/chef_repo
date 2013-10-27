@@ -1,49 +1,42 @@
-http {
-    map $http_upgrade $connection_upgrade {
-        default upgrade;
-        ''      close;
-    }
+upstream backend_<%= @domain %> {
+    ip_hash;
+    <% @backends.each do |backend| %>
+    server <%= backend%>;
+    <% end %>
+}
 
-    upstream backend {
-        ip_hash;
-        <% @backends.each do |backend| %>
-        server <%= backend["ip"] %>:<%= backend["port"] %>;
-        <% end %>
-    }
+server {
+    listen       <%= @public_port %>;
+    server_name  <%= @domain %>;
 
-    server {
-        listen       <%=@port %>;
-        server_name  <%= @domain %>;
+    <% if @ssl %>
+    ssl on;
+    ssl_certificate <%=@domain%>.bundle.crt;
+    ssl_certificate_key <%=@domain%>.key;
+    ssl_session_timeout 5m;
+    ssl_protocols  SSLv2 SSLv3 TLSv1;
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers   on;
+    <%end%>
 
-        <% if @ssl %>
-        ssl on;
-        ssl_certificate <%=@domain%>.bundle.crt;
-        ssl_certificate_key <%=@domain%>.key;
-        ssl_session_timeout 5m;
-        ssl_protocols  SSLv2 SSLv3 TLSv1;
-        ssl_ciphers  HIGH:!aNULL:!MD5;
-        ssl_prefer_server_ciphers   on;
-        <%end%>
+    location <%= @service_path %> {
+        access_log off;
 
-        location <%= @service_path %> {
-            access_log off;
+        proxy_pass http://backend_<%= @domain%>;
 
-            proxy_pass http://backend;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header Host $host;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        # WebSocket support (nginx 1.4)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
 
-            # WebSocket support (nginx 1.4)
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection $connection_upgrade;
+        # Path rewriting
+        #rewrite /services/myservice/(.*) /$1 break;
+        rewrite <%= @service_path %>(.*) /$1 break;
+        proxy_redirect off;
 
-            # Path rewriting
-            #rewrite /services/myservice/(.*) /$1 break;
-            rewrite <%= @service_path %>(.*) /$1 break;
-            proxy_redirect off;
-
-        }
     }
 }

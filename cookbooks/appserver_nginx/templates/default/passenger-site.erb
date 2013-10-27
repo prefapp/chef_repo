@@ -1,9 +1,11 @@
 server {
-  listen   80;
-  server_name  <%= @domain %>;
+    listen   80;
+    server_name  <%= @domain %>;
 
-  access_log  <%= node['nginx']['log_dir'] %>/<%= @domain %>.access.log;
-  root   <%= @document_root %>;
-  rails_env <%= @rails_env %>;
-  passenger_enabled on;
+    access_log  <%= node['nginx']['log_dir'] %>/<%= @domain %>.access.log;
+    error_log <%= node["nginx"]["log_dir"]%>/<%=@domain%>.error_log info;
+
+    root   <%= @document_root %>;
+    rails_env <%= @rails_env %>;
+    passenger_enabled on;
 }

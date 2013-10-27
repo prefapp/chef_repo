@@ -32,7 +32,7 @@ node.set["nginx"]["source"]["modules"] = node["appserver"]["nginx"]["modules"].m
 
 # novedades para docker, podemolo meter noutro arquivo mellor?
 
-if node["appserver"]["nginx"]["use_supervisor"]
+if node["riyic"]["dockerized"] == "yes"
     # o init_style supervisor non existe (de momento), pero utilizara init
     node.override['nginx']['init_style'] = 'supervisor'
 
@@ -45,7 +45,7 @@ include_recipe "nginx::source"
 
 # si queremos usar o supervisor vamos a usar o provider que nos da o seu cookbook
 # pero temos que deshabilitar o nginx para que sexa supervisor quen o xestione
-if node["appserver"]["nginx"]["use_supervisor"]
+if node["riyic"]["dockerized"] == "yes"
 
     # deshabilitamos o servicio nginx para que non se arranque automaticamente
     # queremos controlalo con supervisor

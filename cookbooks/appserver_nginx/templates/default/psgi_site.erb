@@ -1,0 +1,34 @@
+server {
+    listen <%= @port%>;
+    server_name <%=@name%>;
+
+    access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
+    error_log <%= node["nginx"]["log_dir"]%>/<%=@name %>.error_log info;
+
+    #rewrite ^/(favicon.ico)$ /images/$1 permanent;
+    #rewrite ^/(robots.txt)$ /files/$1 permanent;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass <%= @uwsgi_socket%>;
+        uwsgi_modifier1 5;
+
+    }    
+
+    #location <%= @service_location %> {
+    #    include uwsgi_params;
+    #    
+    #    uwsgi_param SCRIPT_NAME <%= @service_location %>;
+    #
+    #    uwsgi_pass <%= @uwsgi_socket%>;
+    #    uwsgi_modifier1 5;
+    #}
+
+    location ~* /(images|css|js|files)/ { # static files in public/<folders>
+        root <%=@static_files_path%>; 
+        # A request for "/images/foo.png" will return the file "/home/<user>/service1/public/images/foo.png"
+        access_log off;
+        expires 30d; # max
+    }
+
+}

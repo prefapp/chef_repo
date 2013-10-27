@@ -1,0 +1,7 @@
+# To support websocket if the client asked for a protocol switch via the “Upgrade” header
+# reverse proxy adds header Connection "upgrade", else set Connection "close"
+
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
