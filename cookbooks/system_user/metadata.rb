@@ -46,6 +46,7 @@ attribute "system/users/default/@/username",
     :display_name => 'System username',
     :description => ' User name to add to the system',
     :advanced => false,
+    :default => "user",
     :required => true,
     :validations => {predefined: "username"}
 
@@ -54,6 +55,7 @@ attribute "system/users/default/@/password",
     :display_name => 'User password',
     :description => 'Password to the system user',
     :advanced => false,
+    :calculated => true,
     :required => true,
     :validations => {predefined: "password"}
 
@@ -69,6 +71,7 @@ attribute "system/users/lshell/@/username",
     :description => ' User name to add to the system',
     :advanced => false,
     :required => true,
+    :default => 'user',
     :validations => {predefined: "username"}
 
 
@@ -77,6 +80,7 @@ attribute "system/users/lshell/@/password",
     :description => 'Password to the system user',
     :advanced => false,
     :required => true,
+    :calculated => true,
     :validations => {predefined: "password"}
 
 attribute "system/users/lshell/@/group",
