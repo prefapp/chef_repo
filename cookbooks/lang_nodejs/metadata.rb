@@ -18,9 +18,9 @@ recipe "default",
 
 ## Atributos
 attribute "lang/nodejs/version",
-    :display_name => 'Nodejs version',
+    :display_name => 'Nodejs version (latest = last version, legacy = previous',
     :description => 'Nodejs version to install',
     :default => 'latest',
-    :validations => {regex: /^(latest|legacy|\d+\.\d+\.\d+)$/}
+    :validations => {regex: /^(latest|legacy|\d+\.\d+\.\d+)$/},
     :advanced => false
 
