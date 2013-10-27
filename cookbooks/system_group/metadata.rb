@@ -46,6 +46,7 @@ attribute "system/groups/default/@/name",
     :description => ' Group name to add to the system',
     :advanced => false,
     :required => true,
+    :default => "users",
     :validations => {predefined: "username"}
 
 
@@ -69,6 +70,7 @@ attribute "system/groups/lshell/@/name",
     :description => ' Group name to add to the system',
     :advanced => false,
     :required => true,
+    :default => "users",
     :validations => {predefined: "username"}
 
 
