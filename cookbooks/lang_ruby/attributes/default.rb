@@ -18,8 +18,8 @@ node.default["lang"]["ruby"]["version"] = "ruby-1.9.3"
 node.default["lang"]["ruby"]["gemset"] = ''
 node.default['lang']['ruby']['rails']['sites'] = []
 
-ruby_versions = { 'ruby-2.0.0' => 'ruby-2.0.0-p247',
-                  'ruby-1.9.3' => 'ruby-1.9.3-p448', #'ruby-1.9.3-p429',
+ruby_versions = { 'ruby-2.0.0' => 'ruby-2.0.0-p353',
+                  'ruby-1.9.3' => 'ruby-1.9.3-p484', #'ruby-1.9.3-p429',
                   'ruby-1.9.2' => 'ruby-1.9.2-p320',
                   'ruby-1.8.7' => 'ruby-1.8.7-p374',
                 }
@@ -38,4 +38,4 @@ node.set["lang"]["ruby"]["wrapper"] = "/usr/local/rvm/wrappers/#{version}/ruby"
 node.default["lang"]["ruby"]["rails"]["version"] = nil
 
 # apanho polo erro do certificado en rvm.io
-#node.set["rvm"]["installer_url"] = "https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer"
+# node.set["rvm"]["installer_url"] = "https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer"

@@ -12,7 +12,7 @@ depends "lang_nodejs"
 
 # estos 2 son dependencias por culpa da receta deploy_rails_app
 # o mellor as recetas de deploy de apps deberian ir nun cookbook propio
-# depends "dbsystem_mysql"
+# depends "dbs_mysql"
 # depends "appserver_nginx"
 
 %w{debian ubuntu}.each do |os|
@@ -58,7 +58,7 @@ attribute "lang/ruby/gems",
     :type => "array",
     :default => ['bundler'],
     # podese especificar a version con <nome>#<version>
-    :validations => {regex: /\A\w+(\#\.+)?\z/ }
+    :validations => {predefined: "ruby_gem" }
 
 attribute "lang/ruby/gemset",
     :display_name => "Gemset name",
