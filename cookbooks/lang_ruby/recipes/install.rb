@@ -48,6 +48,10 @@ node.set['rvm']['gem_package']['rvm_string'] = str
 include_recipe "rvm::gem_package"
 
 
+# parcheamos o bash provider para facelo compatible co entorno de ruby seteado por rvm
+# Con esto todos os resources "bash" pasan a ser recursos "rvm_shell"
+patch_bash_script
+
 ## seteamos as rutas de ruby
 # para q as poidan usar outras recetas
 
@@ -55,26 +59,3 @@ include_recipe "rvm::gem_package"
 #node.override['lang']['ruby']['binary_path'] = ruby_path
 #node.override['lang']['ruby']['wrapper'] = ruby_wrapper
 #Chef::Log.info("RUTA RUBY: #{node["lang"]["ruby"]["binary_path"]}, RUTA GEMAS: #{gem_dir}, WRAPPER #{ruby_wrapper}")
-
-
-#include_recipe "rvm::system"
-
-
-## instalamos rvm e cargamos os lwrps
-#include_recipe "rvm::system_install"
-#
-#rvm_default_ruby str do
-#    action :create
-#    user ruby["user"] unless ruby["user"].empty?
-#end
-#
-### instatalamos as gemas solicitadas no gemset establecido
-#ruby["gems"].each do |gem|
-#    (gem_name, gem_version) = gem.split('#')
-#
-#    rvm_gem gem_name do
-#        ruby_string = str
-#        action :install
-#        version = gem_version unless gem_version.nil?
-#    end
-#end
