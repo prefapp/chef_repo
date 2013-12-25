@@ -18,9 +18,16 @@ recipe "default",
 
 ## Atributos
 attribute "lang/nodejs/version",
-    :display_name => 'Nodejs version (latest = last version, legacy = previous',
+    :display_name => 'Nodejs version (latest = last version, legacy = previous)',
     :description => 'Nodejs version to install',
     :default => 'latest',
     :validations => {regex: /^(latest|legacy|\d+\.\d+\.\d+)$/},
     :advanced => false
 
+attribute "lang/nodejs/packages",
+    :display_name => "Npm modules to install globally",
+    :description => "Node modules to install (with npm) globally",
+    :default => [],
+    :type => "array", # probablemente mellor hash
+    :advanced => false,
+    :validations => {:predefined => "node_module"}

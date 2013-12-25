@@ -15,3 +15,13 @@ end
 
 
 include_recipe "nodejs::default"
+
+# instalamos a lista de modulos solicitados
+# de forma global
+
+node["lang"]["nodejs"]["packages"].each do |p|
+
+    bash "install_#{p}" do
+        code "npm install #{p} --global"
+    end
+end
