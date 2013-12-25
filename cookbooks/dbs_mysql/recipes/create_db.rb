@@ -1,15 +1,15 @@
-include_recipe "dbsystem_mysql::server"
+include_recipe "dbs_mysql::server"
 
 # definimos a conexion
 mysql_connection_info = {
-  :host =>  node['mysql']['server']['hostname'],
+  # :host =>  node['mysql']['server']['hostname'],
   :username => "root",
-  :password => node['mysql']['server']['root_password']
+  :password => node['dbs']["mysql"]['server']['root_password']
 }
 
 
 # creamos todas as bbdd que deba ter o servidor mysql
-node['mysql']['server']['dbs'].each do |db|
+node['dbs']['mysql']['dbs'].each do |db|
   mysql_database db['name'] do
       connection mysql_connection_info
       action :create
