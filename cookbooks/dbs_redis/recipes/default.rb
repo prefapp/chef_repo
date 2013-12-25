@@ -1,26 +1,49 @@
-#suponhemos plataforma debian por defecto e actualizamos a cache do apt
+include_recipe "build-essential::default"
 
-#case node['platform_family']
-#when "debian"
-#    include_recipe "apt"
-#end
+# a url da version estable e un pouco diferente 
+# a de descarga das releases
 
-## instalamos a gema de mysql para que poida 
-#package 'make'
-#package 'libmysqlclient-dev'
+url = (node["dbs"]["redis"]["version"] == "stable")?
+    node["dbs"]["redis"]["stable_url"]:
+    node["dbs"]["redis"]["releases_url"]
 
-## instalamos os requisitos da gema de mysql ANTES DE QUE SE CONSTRUA A RESOURCE COLLECTION
-#make = package 'make'
-#make.run_action(:install)
-#
-#mysql_client = package "libmysqlclient-dev"
-#mysql_client.run_action(:install)
+download_dir = node["dbs"]["redis"]["download_dir"]
+install_dir = node["dbs"]["redis"]["install_dir"]
 
-#chef_gem 'mysql'
+# descargamos o tar co source
+code_repo download_dir do
+    provider Chef::Provider::CodeRepoRemoteArchive
+    url url
+    revision "redis-#{node["dbs"]["redis"]["version"]}.tar.gz"
+end
 
+# compilamos redis
+bash 'compile_redis' do
+    cwd  download_dir
+    code <<-EOH
+        make && make install
+    EOH
 
-include_recipe "mysql::client"
-include_recipe "mysql::ruby"
+    not_if do
+        # evitamos compilar si existe o redis-server, 
+        # e a version coincide co atributo "version"
+        # e o flag de force_recompile esta a "no"
+        File.exists?("#{install_dir}/bin/redis-server") and
+        Mixlib::ShellOut.new("redis-server --version").run_command.stdout.
+            match(/v=#{node["dbs"]["redis"]["version"]}/) and
+        node["dbs"]["redis"]["force_recompile"] == "no"
+    end
 
+end
 
+## creamos o script de arranque e arrancamos o servicio
+# instalamos o supervisord e configuramos o control do uwsgi
+include_recipe "pcs_supervisor::default"
 
+supervisor_service "redis" do        
+    stdout_logfile "/var/log/supervisor/redis.log"
+    stderr_logfile "/var/log/supervisor/redis.err"
+    command "redis-server"
+    startsecs 10
+    action "enable"
+end
