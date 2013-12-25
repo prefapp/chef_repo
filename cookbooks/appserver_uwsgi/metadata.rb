@@ -31,13 +31,6 @@ recipe "python",
     dependencies: []
 
 ## Atributos
-# attribute "appserver/uwsgi/modules",
-#     :display_name => 'Modules to compile',
-#     :description => 'Modules to compile uWSGI with',
-#     :default => ["python"],
-#     :type => "array",
-#     :validations => {regex: /^(python|psgi|lua|rack)$/},
-#     :advanced => false
 
 # attribute "appserver/uwsgi/standalone",
 #     :display_name => 'Compile a standalone binary?',
@@ -57,8 +50,9 @@ attribute "appserver/uwsgi/url",
 attribute "appserver/uwsgi/version",
     :display_name => 'uWSGI version',
     :description => 'uWSGI version to install',
-    :default => "1.9.18.2",
+    :default => "1.9.20",
     :required => true,
+    :advanced => false,
     :validations => {predefined: "version"}
 
 attribute "appserver/uwsgi/installation_path",
@@ -66,24 +60,50 @@ attribute "appserver/uwsgi/installation_path",
     :description => 'Directory where download and compile uwsgi',
     :default => "/opt/uwsgi",
     :required => true,
+    :advanced => false,
     :validations => {predefined: "unix_path"}
 
 attribute "appserver/uwsgi/socket",
     :display_name => 'Socket address where bind uwsgi',
     :description => 'Socket address where bind uwsgi',
     :default => "unix:///tmp/uwsgi.sock",
-    :required => true,
     :validations => {predefined: "socket_address"}
 
 attribute "appserver/uwsgi/user",
     :display_name => 'uwsgi user',
+    :default => 'www-data',
     :description => 'User who runs uwsgi',
     :validations => {predefined: "username"}
 
 attribute "appserver/uwsgi/group",
     :display_name => 'uwsgi user group',
+    :default => 'www-data',
     :description => 'User group who runs uwsgi',
     :validations => {predefined: "username"}
+
+
+attribute "appserver/uwsgi/processes",
+    :display_name => 'Default number of uwsgi processes to start',
+    :description => 'Default number of uwsgi processes to start',
+    :validations => {predefined: "int"}
+
+attribute "appserver/uwsgi/threads",
+    :display_name => 'Default number of uwsgi threads to start',
+    :description => 'Default number of uwsgi threads to start',
+    :validations => {predefined: "int"}
+
+
+attribute "appserver/uwsgi/psgi/coroae",
+    :display_name => 'Default number of coroutines to start',
+    :description => 'Coro::AnyEvent coroutines to start at application run',
+    :validations => {predefined: "int"}
+    
+
+attribute "appserver/uwsgi/extra_plugins",
+    :display_name => 'Extra plugins to compile',
+    :description => 'Extra plugins to compile to expand uwsgi functionality',
+    :type => "array",
+    :validations => {predefined: "word"}
 
 
 attribute "appserver/uwsgi/run_options",
@@ -91,5 +111,3 @@ attribute "appserver/uwsgi/run_options",
     :description => 'Options to run uwsgi',
     :type => "hash",
     :validations => {predefined: "command_line_option"}
-
-

@@ -14,6 +14,18 @@ code_repo node["appserver"]["uwsgi"]["installation_path"] do
 
 end
 
+# compilamos o core, o resto vai como plugin
+bash 'compile uWSGI' do
+    cwd  node["appserver"]["uwsgi"]["installation_path"]
+    code <<-EOH
+    python uwsgiconfig.py --build core
+    EOH
+    not_if do
+        File.exists?("#{node["appserver"]["uwsgi"]["installation_path"]}/uwsgi") &&
+        Mixlib::ShellOut.new("uwsgi --version").run_command.stdout.split("\n").include?(node["appserver"]["uwsgi"]["version"])
+    end
+end
+
 # compile
 # incluimos as recetas concretas de cada lenguaje, porque hai que instalar librerias e demais
 # node.run_state['uwsgi_plugins'] = []
