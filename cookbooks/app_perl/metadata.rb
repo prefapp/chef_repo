@@ -4,7 +4,7 @@ maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to deploy perl psgi applications"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.1"
+version          "0.1.0"
 
 depends "lang_perl"
 depends "appserver_nginx"
@@ -48,6 +48,13 @@ attribute "app/perl/psgi_apps/@/target_path",
     :display_name => "Application deployment folder",
     :description => 'The application will be deployed to this folder',
     :default => '/home/owner/my_app',
+    :advanced => false,
+    :validations => {predefined: "unix_path"}
+
+attribute "app/perl/psgi_apps/@/entry_point",
+    :display_name => "Application entry point script",
+    :description => 'Script to start the application',
+    :default => 'app.psgi',
     :advanced => false,
     :validations => {predefined: "unix_path"}
 
@@ -107,13 +114,20 @@ attribute "app/perl/psgi_apps/@/credential",
     :field_type => 'textarea',
     :validations => {predefined: "multiline_text"}
 
+attribute "app/perl/psgi_apps/@/extra_modules",
+    :display_name => 'Extra perl modules',
+    :description => 'Extra perl modules needed by the application',
+    :type => "array",
+    :default => [],
+    :validations => {predefined: "perl_module"}
 
 attribute "app/perl/psgi_apps/@/extra_packages",
-    :display_name => 'System extra packages needed',
-    :description => 'System extra packages needed for the application',
+    :display_name => 'Extra system packages',
+    :description => 'Extra system packages needed by the application',
     :type => "array",
     :default => [],
     :validations => {predefined: "package_name"}
+
 
 attribute "app/perl/psgi_apps/@/postdeploy_script",
     :display_name => 'Bash script with extra tasks to run',
