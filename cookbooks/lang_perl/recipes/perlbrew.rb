@@ -14,8 +14,12 @@ node.set["perlbrew"]["perls"] = []
 # end
 include_recipe "perlbrew::default"
 
-# instalamos a version de perlbrew requerida
-options = "-j #{node["cpu"]["total"]} -Dusethreads}"
+# instalamos a version de perl solicitada
+# opcions que trae a compilacion de debian: -Dccflags=-DDEBIAN -Dcccdlflags=-fPIC
+
+# TIVEMOS QUE METER -A ccflags=-fPIC para poder compilar os plugins de perl en uwsgi
+# ver http://search.cpan.org/dist/mod_perl/docs/user/install/install.pod
+options = "-j #{node["cpu"]["total"]} -Dusethreads -Duselargefiles -A ccflags=-fPIC"
 Chef::Log.info("Opcions de compilacion #{options}")
 
 perlbrew_perl node["lang"]["perl"]["version"] do
@@ -24,11 +28,4 @@ perlbrew_perl node["lang"]["perl"]["version"] do
   install_options options
 end
 
-# instalamos os modulos solicitados
 
-if node["lang"]["perl"]["modules"].length > 0
-  perlbrew_cpanm "#{node["lang"]["perl"]["version"]}-modules" do
-    perlbrew node["lang"]["perl"]["version"]
-    modules node["lang"]["perl"]["modules"]
-  end 
-end
