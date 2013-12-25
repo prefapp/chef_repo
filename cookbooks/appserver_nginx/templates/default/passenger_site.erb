@@ -1,0 +1,11 @@
+server {
+    listen   <%=@port%>;
+    server_name  <%= @name %> <%= @alternative_names.join(' ') %>;
+
+    access_log  <%= node['nginx']['log_dir'] %>/<%= @name %>.access.log;
+    error_log <%= node["nginx"]["log_dir"]%>/<%=@name%>.error_log info;
+
+    root   <%= @static_files_path %>;
+    rails_env <%= @rails_env %>;
+    passenger_enabled on;
+}

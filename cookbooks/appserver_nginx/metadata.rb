@@ -2,7 +2,7 @@ name             "appserver_nginx"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-version          "0.1.0"
+version          "0.1.1"
 description      "Install/Configures nginx httpd server"
 
 %w{debian ubuntu}.each do |os|
@@ -61,14 +61,14 @@ attribute "appserver/nginx/install_dir",
 attribute "appserver/nginx/version",
     :display_name => 'Nginx version to install',
     :description => 'Nginx version to compile and install',
-    :default => '1.4.2', #1.2.9
+    :default => '1.4.3', #1.2.9
     :advanced => false,
     :validations => {predefined: "version"}
 
 attribute "appserver/nginx/checksum",
     :display_name => 'Nginx source tarball checksum',
     :description => 'Nginx source tarbal sha256 checksum',
-    :default => 'bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119',#'2457a878943fb409ec4fcb46b43af222d06a584f93228e17a4f02b0e7bfc9de3',
+    :default => 'ae123885c923a6c3f5bab0a8b7296ef21c4fdf6087834667ebbc16338177de84',#'2457a878943fb409ec4fcb46b43af222d06a584f93228e17a4f02b0e7bfc9de3',
     :validations => {regex: /[0-9a-z]+/}
 
 
