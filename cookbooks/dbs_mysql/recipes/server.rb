@@ -32,30 +32,20 @@ if node["riyic"]["dockerized"] == "yes"
     srv.start_command "/bin/true"
     srv.stop_command "/bin/true"
     srv.restart_command "/bin/true"
+    srv.reload_command "/bin/true"
     srv.action :nothing
 
     include_recipe "pcs_supervisor::default"
 
-    supervisor_service "mysql_server" do        
-        stdout_logfile "/var/log/supervisor/mysql_server.log"
-        stderr_logfile "/var/log/supervisor/mysql_server.err"
-        command "mysqld"
-        startsecs 10
+    supervisor_service "mysqld" do        
+        stdout_logfile "/var/log/supervisor/%(program_name)s.log"
+        stderr_logfile "/var/log/supervisor/%(program_name)s.err"
+        # command "/usr/local/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/bin/mysqld_safe --pid-file=/var/run/mysqld/mysqld.pid"
+        command "/usr/local/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/sbin/mysqld --pid-file=/var/run/mysqld/mysqld.pid"
+        startsecs 2
         stopsignal "QUIT"
         stopasgroup true
         killasgroup true
-        # action [:enable,:start]
-        action [:enable]
-    end
-
-    supervisor_service "mysql_server" do        
-        stdout_logfile "/var/log/supervisor/mysql_server.log"
-        stderr_logfile "/var/log/supervisor/mysql_server.err"
-        command "mysqld"
-        startsecs 10
-        stopsignal "QUIT"
-        stopasgroup true
-        killasgroup true
-        action [:start]
+        action [:enable,:start]
     end
 end
