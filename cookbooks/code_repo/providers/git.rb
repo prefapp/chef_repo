@@ -5,12 +5,18 @@ action :pull do
     owner = new_resource.owner
     group = new_resource.group
 
+    homedir = "/home/#{owner}"
+    # Validamos que target_path sexa distinto do home do usuario
+    if target_path == homedir
+      raise Chef::Exceptions::UnsupportedAction, "Target path can't be equal to user owner homedir (#{homedir})" 
+    end
 
     # preparamos o entorno
     group group
 
     user owner do
       group group
+      home homedir
     end
 
     directory target_path do
