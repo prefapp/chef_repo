@@ -61,7 +61,7 @@ attribute "appserver/nginx/install_dir",
 attribute "appserver/nginx/version",
     :display_name => 'Nginx version to install',
     :description => 'Nginx version to compile and install',
-    :default => '1.4.3', #1.2.9
+    :default => '1.4.4', #1.2.9
     :advanced => false,
     :validations => {predefined: "version"}
 
@@ -82,7 +82,7 @@ attribute "appserver/nginx/modules",
 attribute "appserver/nginx/passenger/version",
     :display_name => 'Passenger version',
     :description => 'Passenger version to compile and install with nginx',
-    :default => '4.0.19', #'3.0.21',
+    :default => '4.0.29', #'3.0.21',
     :advanced => false,
     :validations => {predefined: "version"}
 
