@@ -1,6 +1,6 @@
-appserver_nginx
+pcs_supervisor
 ===============
 
-Nginx cookbook.
+Supervisor cookbook.
 
-Depends on nginx community cookbook (https://github.com/opscode-cookbooks/nginx)
+Depends on supervisor community cookbook (https://github.com/poise/supervisor)
