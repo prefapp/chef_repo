@@ -3,7 +3,7 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to install nodejs language from package or sources"
-version          "0.0.1"
+version          "0.1.0"
 
 depends "nodejs"
 
