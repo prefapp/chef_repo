@@ -3,7 +3,7 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to manage riyic configurations"
-version          "0.0.1"
+version          "0.1.0"
 
 depends "system_cron"
 depends "chef_handler"
