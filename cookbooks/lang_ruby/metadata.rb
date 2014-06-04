@@ -19,9 +19,6 @@ depends "lang_nodejs"
   supports os
 end
 
-recipe "default",
-    description: "empty",
-    attributes: []
 
 recipe "install",
     description: "Installs ruby with rvm",
@@ -47,8 +44,8 @@ recipe "install_gems",
 attribute "lang/ruby/version",
     :display_name => 'Ruby version',
     :description => 'Ruby version to install',
-    :default => 'ruby-1.9.3',
-    :choice => %w{ruby-1.8.6 ruby-1.8.7 ruby-1.9.1 ruby-1.9.2 ruby-1.9.3 ruby-2.0.0 system},
+    :default => 'ruby-2.1',
+    :choice => %w{ruby-2.1 ruby-2.0.0 ruby-1.9.3 system},
     :advanced => false
 
 
