@@ -3,7 +3,7 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to install perl language from package or sources"
-version          "0.1.0"
+version          "0.1.1"
 
 depends "perlbrew"
 
