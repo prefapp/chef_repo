@@ -23,9 +23,11 @@ attribute "lang/perl/version",
     :default => 'system',
     # :validations => {regex: /^(system|\d+\.\d+\.\d+)$/},
     :choice => %w{
-        system  
-        perl-5.19.5
-        perl-5.18.1
+        system
+        stable
+        blead
+        perl-5.20.0
+        perl-5.18.2
         perl-5.16.3
         perl-5.14.4
         perl-5.12.5
