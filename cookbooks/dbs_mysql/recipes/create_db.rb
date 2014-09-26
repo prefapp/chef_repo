@@ -23,6 +23,7 @@ node['dbs']['mysql']['dbs'].each do |db|
   mysql_database_user db['user'] do
     connection mysql_connection_info
     password db['password']
+    host '%' # so that the user can connect from anywhere
     action :create
   end
 
