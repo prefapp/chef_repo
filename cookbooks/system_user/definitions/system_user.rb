@@ -2,6 +2,8 @@ define :system_user, :action=>'create', :shell => '/bin/bash', :group => "users"
   username = params[:name]
 
   if params[:action] == :create
+    # nos aseguramos que exista o grupo
+    group params[:group]
 
     user username do
       Chef::Resource::User.send(:include, UserHelper)
