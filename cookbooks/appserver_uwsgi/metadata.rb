@@ -27,8 +27,8 @@ recipe "psgi",
 
 recipe "python",
     description: "Installs uWSGI with python support",
-    attributes: [/.+/],
-    dependencies: []
+    attributes: [/^(?!.*\/(psgi)\/).*$/],
+    dependencies: ["lang_python::default"]
 
 ## Atributos
 
@@ -50,10 +50,10 @@ attribute "appserver/uwsgi/url",
 attribute "appserver/uwsgi/version",
     :display_name => 'uWSGI version',
     :description => 'uWSGI version to install',
-    :default => "1.9.20",
+    :default => "lts",
     :required => true,
     :advanced => false,
-    :validations => {predefined: "version"}
+    :validations => {regex: /^(latest|lts|\d+\.\d+\.\d+)$/}
 
 attribute "appserver/uwsgi/installation_path",
     :display_name => 'uWSGI installation path',
