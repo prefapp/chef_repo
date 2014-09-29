@@ -4,7 +4,7 @@ maintainer_email 'info@riyic.com'
 license          'Apache 2.0'
 description      'Manages a local group'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.0'
+version          '0.1.1'
 
 depends "shell_lshell"
 
@@ -111,7 +111,7 @@ attribute "system/groups/lshell/@/shell_options/warning_counter",
     :type => "string",
     :default => nil,
     # :validations => {predefined: "signed_int"}
-    :validations => {range: -1..1000}
+    :validations => {range: '-1..1000'}
 
 attribute "system/groups/lshell/@/shell_options/sudo",
     :display_name => "List of allowed commands in sudo",
@@ -190,7 +190,7 @@ attribute "system/groups/lshell/@/shell_options/history_size",
     :description => "History file maximum size in lines",
     :type => "string",
     :default => nil,
-    :validations => {range: 1..10000}
+    :validations => {range: '1..10000'}
 
 
 ##  set history file name (default is /home/%u/.lhistory)
