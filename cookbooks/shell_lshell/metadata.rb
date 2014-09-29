@@ -31,7 +31,7 @@ attribute "shell/lshell/globals/loglevel",
     :type => "string",
     :default => "2",
     :advanced => false,
-    :validations => {range: 0..4}
+    :validations => {range: '0..4'}
 
 ##  configure log file name (default is %u i.e. username.log)
 #logfilename     :  
@@ -75,7 +75,7 @@ attribute "shell/lshell/options/warning_counter",
     :type => "string",
     :default => "2",
     # :validations => {predefined: "signed_int"}
-    :validations => {range: -1..1000}
+    :validations => {range: '-1..1000'}
 
 attribute "shell/lshell/options/sudo",
     :display_name => "List of allowed commands in sudo",
@@ -154,7 +154,7 @@ attribute "shell/lshell/options/history_size",
     :description => "History file maximum size in lines",
     :type => "string",
     :default => "100",
-    :validations => {range: 1..10000}
+    :validations => {range: '1..10000'}
 
 
 ##  set history file name (default is /home/%u/.lhistory)
