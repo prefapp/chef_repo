@@ -12,15 +12,14 @@ depends "python"
 end
 
 recipe "default",
-    description: "Installs python from package and npm",
+    description: "Installs python from package or sources",
     attributes: [/.+/],
     dependencies: []
 
-## Atributos
-#attribute "lang/nodejs/version",
-#    :display_name => 'Nodejs version (latest = last version, legacy = previous',
-#    :description => 'Nodejs version to install',
-#    :default => 'latest',
-#    :validations => {regex: /^(latest|legacy|\d+\.\d+\.\d+)$/},
-#    :advanced => false
-
+attribute "lang/python/packages",
+    :display_name => 'Packages to install',
+    :description => 'List of python packages to install with pip',
+    :type => "array",
+    :default => [],
+    # podese especificar a version con <nome>#<version>
+    :validations => {predefined: "python_package" }
