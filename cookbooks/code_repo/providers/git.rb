@@ -68,6 +68,7 @@ action :pull do
       action      :sync
       user        owner
       group       group
+      depth       new_resource.depth if new_resource.depth
     end
 
     if new_resource.credential

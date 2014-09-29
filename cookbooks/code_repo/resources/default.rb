@@ -7,7 +7,7 @@ attribute :revision,     :kind_of => String
 attribute :owner,        :kind_of => String, :default => "root"
 attribute :group,        :kind_of => String, :default => "root"
 attribute :ssh_host_key, :kind_of => String
-#attribute :remote_user,  :kind_of => String
+attribute :depth,        :kind_of => Integer
 attribute :credential,   :kind_of => String
 
 # atributos concretos para determinados providers

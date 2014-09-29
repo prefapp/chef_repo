@@ -62,6 +62,12 @@ attribute "repository/git/@/owner",
     :advanced => false,
     :validations => {predefined: "username"}
 
+attribute "repository/git/@/depth",
+    :display_name => "Number of revision to include in the swallow clone",
+    :description => 'The number of past revisions that will be included in the git shallow clone. The default behavior will do a full clone.',
+    :default => nil,
+    :validations => {predefined: "int"}
+
 attribute "repository/git/@/group",
     :display_name => "Deployment group",
     :description => 'The group that shall own the target path',

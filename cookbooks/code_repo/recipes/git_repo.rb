@@ -7,7 +7,8 @@ node["repository"]["git"].each do |repo|
     url         repo["url"]
     revision    repo["revision"]
     owner       repo["owner"]
-    group       repo["group"]   
+    group       repo["group"]
+    depth       repo["depth"].to_i if repo.include?("depth")
 
     ssh_host_key    repo["ssh_host_key"] if repo.include?("ssh_host_key")
     credential      repo["credential"]
