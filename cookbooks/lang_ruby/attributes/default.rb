@@ -19,7 +19,8 @@ node.default["lang"]["ruby"]["gemset"] = ''
 node.default['lang']['ruby']['rails']['sites'] = []
 
 ruby_versions = { 
-    'ruby-2.1' => 'ruby-2.1.2',
+    'ruby-2.1' => 'ruby-2.1.3',
+    'ruby-2.1.0' => 'ruby-2.1.3',
     'ruby-2.0.0' => "ruby-2.0.0-p481",#'ruby-2.0.0-p353',
     'ruby-1.9.3' => "ruby-1.9.3-p547",#'ruby-1.9.3-p484', #'ruby-1.9.3-p429',
     #'ruby-1.9.2' => 'ruby-1.9.2-p320',
