@@ -20,53 +20,47 @@ package "subversion"
 package "php5-mysql"
 
 
-unless node['wordpress']['domain']
-    node['wordpress']['domain'] = 'test.com'
-end
-
-
 ##usamos os recursos 'mysql_database_user' e 'mysql_database' definido en database
 # para crear o usuario e bbdd da applicacion se non existe xa
-mysql_connection = {:host =>  node['wordpress']['db_host'],
+mysql_connection = {:host =>  node['app_php']['mysql']['db_host'],
                     :username => 'root',
                     :password => node['mysql']['server_root_password']
 }
 
 #creamos db
-mysql_database node['wordpress']['db_name'] do
+mysql_database node['app_php']['mysql']['db_name'] do
     connection mysql_connection
     action :create
 end
 
 #creamos user
-mysql_database_user node['wordpress']['db_user'] do
+mysql_database_user node['app_php']['mysql']['db_user'] do
     connection mysql_connection
-    password node['wordpress']['db_password']
+    password node['app_php']['mysql']['db_password']
     action :create
 end
 
 #damoslle privilexions ao user sobre a bbdd
-mysql_database_user node['wordpress']['db_user'] do
+mysql_database_user node['app_php']['mysql']['db_user'] do
     connection mysql_connection
     action :grant
-    database_name node['wordpress']['db_name']
+    database_name node['app_php']['mysql']['db_name']
     #privileges [] #por defecto todos
     #host '%' #por defecto localhost
 end
 
 
 ## instalamos a aplicacion usando o LWRP 'application' de application
-application node["wordpress"]['domain'] do
+application node["app_php"]['domain'] do
 
-    path node["wordpress"]["dir"]
+    path node["app_php"]["dir"]
     owner node["apache"]["user"]
     group node["apache"]["group"]
 
-    ## a ver q tal esto
-    # tiramos directamente do repositorio de github
-    # ca version stable (o ultimo commit asociado a tag 3.4.2)
-    repository "https://github.com/WordPress/WordPress.git"
-    revision "6dde3d91f23bff5ab81e91838f19f306b33fe7a8"
+    #usamos o repositorio e a revision que nos mande o usuario
+    repository node["app_php"]["scm"]["repo"]
+    revision node["app_php"]["scm"]["revision"]
+
 
     ## chamamos a o subrecursos php do cookbook application_php
     # para que faga o deploy da app, o cal solo define un par de metodos
@@ -74,34 +68,33 @@ application node["wordpress"]['domain'] do
     # - instalar os paquetes pear que necesitemos
     # - generar o archivo de configuracion da app cos parametros remitidos en database
     
-    db_name = node["wordpress"]["db_name"]
-    db_user = node["wordpress"]["db_user"]
-    db_password = node["wordpress"]["db_password"]
-    db_host = node["wordpress"]["db_host"]
+    db_name = node["app_php"]["mysql"]["db_name"]
+    db_user = node["app_php"]["mysql"]["db_user"]
+    db_password = node["app_php"]["mysql"]["db_password"]
+    db_host = node["app_php"]["mysql"]["db_host"]
 
-    php do
-        #settings_template "#{local_settings_file}.erb"
-        local_settings_file "wp-config.php"
+    ## se temos definido o atributo config_template, creamos o ficheiro de config
+    unless node["app_php"]["config_template"] == ""
+        php do
+            #settings_template "#{local_settings_file}.erb"
+            local_settings_file node["app_php"]["config_template"]
 
-        database do
+            database do
 
-            Chef::Log.info("name #{db_name}, user #{db_user}, pass #{db_password} ")
-            database db_name
-            user db_user
-            password db_password
-            host db_host
-            
-            #database node["wordpress"]['db_name']
-            #user node["wordpress"]['db_user']
-            #password node['wordpress']['db_password']
-            #host node['wordpress']['db_host']
+                Chef::Log.info("name #{db_name}, user #{db_user} ")
+                database db_name
+                user db_user
+                password db_password
+                host db_host
+                
+            end
         end
     end
 
     ## finalmente chamamos o subrecurso apache2_mod_php de application_php
     #  para que cree o virtual_host do apache
     mod_php_apache2 do
-        #server_aliases []
+        server_aliases node["app_php"]["server_aliases"]
         webapp_template "php_vhost.conf.erb"
     end
 
