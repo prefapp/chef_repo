@@ -42,12 +42,21 @@ node["app"]["python"]["wsgi_apps"].each do |app|
   # instalamos a librerias que necesite a applicacion
 
   if app["requirements_file"]
+
     bash "requirements" do
-      user        app["owner"]
-      group       app["group"]
+      ##########################################################
+      # instalamos como root
+      # para instalar como usuario:
+      # 1) necesitamos que usuario tenha shell e home
+      # 2) necesitamos pasarlle o parametro --user a pip
+
+      # user        app["owner"]
+      # group       app["group"]
+      #########################################################
+
       cwd         app["target_path"]
       environment env_hash
-      command     %{pip install -r #{app["requirements_file"]}}
+      code        %{pip install -r #{app["requirements_file"]}}
     end
   end
 
@@ -69,7 +78,7 @@ node["app"]["python"]["wsgi_apps"].each do |app|
         group       app["group"]
         cwd         app["target_path"]
         environment env_hash
-        command     app["migration_command"]
+        code        app["migration_command"]
     end
   end
 
