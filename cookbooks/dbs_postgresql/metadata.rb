@@ -42,6 +42,12 @@ attribute "dbs/postgresql/server/postgres_password",
     :calculated => true,
     :validations => {predefined: "db_password"}
 
+attribute "dbs/postgresql/server/allow_remote_connections",
+    :display_name => "Allow remote connections",
+    :description => "Configure server to listen in all interfaces instead in localhost only",
+    :advanced => false,
+    :default => "no",
+    :choice => ["yes","no"]
 
 # atributos para a receta de create_db
 attribute "dbs/postgresql/dbs/@/name",
@@ -50,7 +56,7 @@ attribute "dbs/postgresql/dbs/@/name",
     :default => "my_db",
     :advanced => false,
     :required => true,
-    :validations => {predefined: "mysql_dbname"}
+    :validations => {predefined: "postgresql_identifier"}
 
 attribute "dbs/postgresql/dbs/@/user",
     :display_name => "Database username",
@@ -58,7 +64,7 @@ attribute "dbs/postgresql/dbs/@/user",
     :default => "my_user",
     :advanced => false,
     :required => true,
-    :validations => {predefined: "mysql_dbuser"}
+    :validations => {predefined: "postgresql_identifier"}
 
 attribute "dbs/postgresql/dbs/@/password",
     :display_name => "Database user password",
@@ -67,3 +73,28 @@ attribute "dbs/postgresql/dbs/@/password",
     :required => true,
     :calculated => true,
     :validations => {predefined: "db_password"}
+
+attribute "dbs/postgresql/user_extra_options/@/user",
+    :display_name => "Database user",
+    :description => "Database user to apply extra options",
+    :advanced => false,
+    :required => true,
+    :calculated => false,
+    :validations => {predefined: "postgresql_identifier"}
+
+attribute "dbs/postgresql/user_extra_options/@/extra_privileges",
+    :display_name => "User extra privileges",
+    :description => "List of user extra privileges",
+    :advanced => false,
+    :type => "array",
+    :required => true,
+    :default => [],
+    :validations => {predefined: "postgresql_extra_privileges"}
+
+
+attribute "dbs/postgresql/user_extra_options/@/allow_remote_connections",
+    :display_name => "Allow remote connections",
+    :description => "Allow or not remote connections with user",
+    :advanced => false,
+    :default => "no",
+    :choice => ["yes","no"]
