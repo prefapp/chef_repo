@@ -13,7 +13,7 @@ connection_info = {
 }
 
 
-# creamos todas as bbdd que deba ter o servidor mysql
+# creamos todas as bbdd que deba ter o servidor
 node['dbs']['postgresql']['dbs'].each do |db|
   postgresql_database db['name'] do
       connection connection_info
