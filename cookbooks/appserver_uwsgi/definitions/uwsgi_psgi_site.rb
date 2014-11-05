@@ -55,6 +55,7 @@ define :uwsgi_psgi_site,  :options => {} do
     run_options["gid"] = gid
     run_options["chmod-socket"] = "666"
     run_options["need-app"] = ""
+    run_options["vacuum"] = ""
 
 
     run_options.merge!(params[:options])
