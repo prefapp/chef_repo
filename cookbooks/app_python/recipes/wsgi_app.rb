@@ -3,7 +3,11 @@ node["app"]["python"]["wsgi_apps"].each do |app|
 
   #instalar paquetes de sistema necesarios
   Array(app["extra_packages"]).each do |pkg|
-    package pkg
+
+    package pkg do 
+        action :nothing
+    end.run_action(:install)
+
   end
 
   # descargamos o codigo da app
@@ -99,19 +103,27 @@ node["app"]["python"]["wsgi_apps"].each do |app|
   # socket que usaremos para comunicar nginx con uwsgi
   mi_socket = "unix:///tmp/#{app["domain"]}.sock"
 
+  # timeout das peticions
+  timeout = app['timeout'] || 120
+
   # configuramos o backend
   uwsgi_python_site app["domain"] do
     app_dir       app["target_path"]
     entry_point   app["entry_point"] 
     socket        mi_socket
+    uid           app["owner"]
+    gid           app["group"]
+    options       :harakiri => timeout
 
   end
 
   # configuramos o frontend
   nginx_uwsgi_site app["domain"] do
-    static_files_path   "#{app["target_path"]}/public"
+    #static_files_path   "#{app["target_path"]}/public"
+    static_files_path   "#{app["target_path"]}/#{app["static_files_path"]}" if app["static_files_path"]
     uwsgi_socket        mi_socket
     protocol            'python'
+    uwsgi_read_timeout  timeout
   end
 
 end

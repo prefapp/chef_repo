@@ -144,3 +144,14 @@ attribute "app/python/wsgi_apps/@/postdeploy_script",
     :default => "",
     :validations => {predefined: "unix_path"}
 
+attribute "app/python/wsgi_apps/@/static_files_path",
+    :display_name => 'Path to static files',
+    :description => 'Path to static files (relative from target_path). Can be empty',
+    :default => "",
+    :validations => {predefined: "unix_path"}
+
+attribute "app/python/wsgi_apps/@/timeout",
+    :display_name => 'Request execution timeout',
+    :description => 'Max execution time for requests (in seconds)',
+    :default => 120,
+    :validations => {predefined: "int"}
