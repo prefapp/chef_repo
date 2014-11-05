@@ -69,7 +69,7 @@ attribute "appserver/nginx/checksum",
     :display_name => 'Nginx source tarball checksum',
     :description => 'Nginx source tarbal sha256 checksum',
     :default => "b5608c2959d3e7ad09b20fc8f9e5bd4bc87b3bc8ba5936a513c04ed8f1391a18",
-    :validations => {regex: /[0-9a-z]+/}
+    :validations => {predefined: "checksum"}
 
 
 attribute "appserver/nginx/modules",
