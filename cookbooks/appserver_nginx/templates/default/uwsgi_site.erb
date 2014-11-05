@@ -13,6 +13,7 @@ server {
         uwsgi_pass <%= @uwsgi_socket%>;
         uwsgi_modifier1 <%= @uwsgi_modifier1%>;
         uwsgi_modifier2 <%= @uwsgi_modifier2%>;
+        uwsgi_read_timeout <%=@uwsgi_read_timeout%>s;
 
     }    
 
@@ -25,11 +26,13 @@ server {
     #    uwsgi_modifier1 5;
     #}
 
+    <%if @static_files_path %>
     location ~* /(images|css|js|files)/ { # static files in public/<folders>
         root <%=@static_files_path%>; 
         # A request for "/images/foo.png" will return the file "/home/<user>/service1/public/images/foo.png"
         access_log off;
         expires 30d; # max
     }
+    <%end%>
 
 }

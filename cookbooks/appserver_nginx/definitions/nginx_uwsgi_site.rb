@@ -8,6 +8,7 @@ define :nginx_uwsgi_site, :template => 'uwsgi_site.erb', :protocol => 'python', 
   port = params[:port] || 80
   service_location = params[:service_location] || '/'
   uwsgi_socket = params[:uwsgi_socket]
+  timeout = params[:uwsgi_read_timeout] || 60
 
   # parametros do protocolo uwsgi
   # http://uwsgi-docs.readthedocs.org/en/latest/Protocol.html
@@ -53,7 +54,8 @@ define :nginx_uwsgi_site, :template => 'uwsgi_site.erb', :protocol => 'python', 
       :uwsgi_modifier1   => uwsgi_modifier1,
       :uwsgi_modifier2   => uwsgi_modifier2,
       :static_files_path => static_files_path,
-      :service_location  => service_location
+      :service_location  => service_location,
+      :uwsgi_read_timeout => timeout 
     )
   end
 
