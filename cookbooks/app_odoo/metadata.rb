@@ -6,13 +6,9 @@ description      "Cookbook to manage odoo (openerp) installations"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.1.0"
 
-depends "lang_python"
 depends "app_python"
-depends "appserver_nginx"
-depends "appserver_uwsgi"
+depends "dbs_postgresql"
 depends "code_repo"
-
-depends "build-essential"
 
 %w{debian ubuntu}.each do |os|
   supports os
