@@ -1,4 +1,4 @@
-require_relative 'provider_riyic_app.rb'
+#require_relative 'provider_riyic_app.rb'
 
 class Chef
 
@@ -53,6 +53,8 @@ class Chef
                     uid           new_resource.owner
                     gid           new_resource.group
                     options       :harakiri => new_resource.timeout
+                    threads       new_resource.threads
+                    processes     new_resource.processes
                 end
 
             end

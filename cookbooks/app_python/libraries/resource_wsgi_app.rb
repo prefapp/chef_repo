@@ -1,5 +1,5 @@
-require File.join(File.dirname(__FILE__), 'resource_riyic_app')
-require File.join(File.dirname(__FILE__), 'provider_wsgi_app')
+#require File.join(File.dirname(__FILE__), 'resource_riyic_app')
+#require File.join(File.dirname(__FILE__), 'provider_wsgi_app')
 
 class Chef
   class Resource
@@ -31,7 +31,23 @@ class Chef
           )
       end
 
+      def processes(arg=nil)
+         set_or_return(
+            :processes,
+            arg,
+            :kind_of => Integer,
+            :default => 2
+         )
+      end
 
+      def threads(arg=nil)
+         set_or_return(
+            :threads,
+            arg,
+            :kind_of => Integer,
+            :default => 0
+         )
+      end
     end
   end
 end
