@@ -29,6 +29,12 @@ recipe "create_db",
     :stackable => true
 
 
+recipe "user_extra_privileges",
+    :description => "Set extra privileges to user role",
+    :attributes => [/\/user_extra_options\//],
+    :dependencies => ["dbs_postgresql::server"],
+    :stackable => true
+
 ### 
 # ATRIBUTOS
 ### 
@@ -74,11 +80,13 @@ attribute "dbs/postgresql/dbs/@/password",
     :calculated => true,
     :validations => {predefined: "db_password"}
 
+# atributos para a recete user_extra_privileges
 attribute "dbs/postgresql/user_extra_options/@/user",
     :display_name => "Database user",
     :description => "Database user to apply extra options",
     :advanced => false,
     :required => true,
+    :default => 'user to apply extra privileges',
     :calculated => false,
     :validations => {predefined: "postgresql_identifier"}
 
@@ -88,7 +96,7 @@ attribute "dbs/postgresql/user_extra_options/@/extra_privileges",
     :advanced => false,
     :type => "array",
     :required => true,
-    :default => [],
+    :default => ["list of extra privileges like CREATEDB"],
     :validations => {predefined: "postgresql_extra_privileges"}
 
 
