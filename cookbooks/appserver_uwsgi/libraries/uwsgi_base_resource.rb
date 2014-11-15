@@ -36,12 +36,12 @@ class Chef
                 #:default => node["appserver"]["uwsgi"]["socket"]
 
             attribute :processes, 
-                :kind_of => String,
-                :default => 1
+                :kind_of => Integer,
+                :default => 2
                 #:default => node["appserver"]["uwsgi"]["processes"]
 
             attribute :threads, 
-                :kind_of => String,
+                :kind_of => Integer,
                 :default => 0
                 #:default => node["appserver"]["uwsgi"]["threads"]
 

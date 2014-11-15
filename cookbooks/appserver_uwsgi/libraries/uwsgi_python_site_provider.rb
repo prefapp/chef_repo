@@ -7,7 +7,7 @@ class Chef
                def specific_plugin_options
                     {
                         "plugin" => "python",
-                        "wsgi-file" => @new_resource.entry_point
+                        "wsgi-file" => new_resource.entry_point
                     }
                end
 
