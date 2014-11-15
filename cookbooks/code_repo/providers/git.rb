@@ -1,4 +1,5 @@
 action :pull do
+
     target_path = new_resource.target_path
     repo_url = new_resource.url
     revision = new_resource.revision
@@ -18,6 +19,8 @@ action :pull do
       group group
       home homedir
     end
+
+    purgar_target_path if new_resource.purge_target_path
 
     directory target_path do
       owner owner
@@ -86,3 +89,31 @@ action :pull do
     new_resource.updated_by_last_action(true)
 
 end
+
+def purgar_target_path
+
+    #
+    # vamos a evaluar si hai que purgar
+    # para eso instanciamos o git provider e usamos un metodo que ten
+    # para determinar se hai que descargar unha nova revision
+    #
+    recurso = git new_resource.target_path do
+      repository  new_resource.url
+      reference   new_resource.revision
+      action      :nothing
+      user        new_resource.owner
+      group       new_resource.group
+      depth       new_resource.depth if new_resource.depth
+    end
+
+    provider = Chef::Provider::Git.new(recurso, nil)
+    provider.load_current_resource
+
+    unless provider.current_revision_matches_target_revision?
+        directory new_resource.target_path do
+            recursive true
+            action  :nothing
+        end.run_action(:delete)
+    end
+end
+
