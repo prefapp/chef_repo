@@ -32,13 +32,15 @@ class Chef
                 end
                 
                 template "#{node['nginx']['dir']}/sites-available/#{new_resource.domain}" do
-                  source   new_resource.template
+
+                  source   new_resource.template || 'uwsgi_site.erb'
                   owner    "root"
                   group    "root"
                   mode     '0644'
                   cookbook new_resource.cookbook
                   variables(
                     :name              => new_resource.domain,
+                    :alternate_names   => new_resource.server_alias,
                     :port              => new_resource.port,
                     :uwsgi_socket      => new_resource.uwsgi_socket,
                     :uwsgi_modifier1   => uwsgi_modifier1,

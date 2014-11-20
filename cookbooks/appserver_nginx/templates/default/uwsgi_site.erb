@@ -1,6 +1,7 @@
 server {
     listen <%= @port%>;
-    server_name <%=@name%>;
+    server_name <%=@name%> <%=@alternate_names.join(' ') %>;
+
 
     access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
     error_log <%= node["nginx"]["log_dir"]%>/<%=@name %>.error_log info;
