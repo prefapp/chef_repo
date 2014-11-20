@@ -63,6 +63,7 @@ class Chef
                 
                 # configuramos o frontend
                 nginx_uwsgi_site new_resource.domain do
+                    server_alias        new_resource.server_alias
                     static_files_path   "#{new_resource.target_path}/#{new_resource.static_files_path}" if new_resource.static_files_path
                     uwsgi_socket        new_resource.internal_socket
                     protocol            'python'
