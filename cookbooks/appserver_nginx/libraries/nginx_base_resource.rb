@@ -12,9 +12,13 @@ class Chef
                 :kind_of => String, 
                 :name_attribute => true
 
+            attribute :server_alias, 
+                :kind_of => [Array, NilClass], 
+                :default => nil
+
             attribute :template,
-                :kind_of => String,
-                :default => 'uwsgi_site.erb'
+                :kind_of => [String,NilClass],
+                :default => nil
 
             attribute :cookbook,
                 :kind_of => String,
