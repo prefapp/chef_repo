@@ -6,6 +6,6 @@ server {
     error_log <%= node["nginx"]["log_dir"]%>/<%=@name%>.error_log info;
 
     root   <%= @static_files_path %>;
-    rails_env <%= @rails_env %>;
+    passenger_app_env <%= @passenger_app_env %>;
     passenger_enabled on;
 }
