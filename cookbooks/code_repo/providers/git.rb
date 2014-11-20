@@ -12,6 +12,8 @@ action :pull do
       raise Chef::Exceptions::UnsupportedAction, "Target path can't be equal to user owner homedir (#{homedir})" 
     end
 
+    purgar_target_path if new_resource.purge_target_path
+
     # preparamos o entorno
     group group
 
@@ -20,7 +22,6 @@ action :pull do
       home homedir
     end
 
-    purgar_target_path if new_resource.purge_target_path
 
     directory target_path do
       owner owner
@@ -101,15 +102,14 @@ def purgar_target_path
       repository  new_resource.url
       reference   new_resource.revision
       action      :nothing
-      user        new_resource.owner
-      group       new_resource.group
-      depth       new_resource.depth if new_resource.depth
     end
 
     provider = Chef::Provider::Git.new(recurso, nil)
     provider.load_current_resource
 
     unless provider.current_revision_matches_target_revision?
+        Chef::Log.info("Removing #{new_resource.target_path} to clone again repo")
+
         directory new_resource.target_path do
             recursive true
             action  :nothing
