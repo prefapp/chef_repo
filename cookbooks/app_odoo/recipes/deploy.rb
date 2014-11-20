@@ -53,6 +53,7 @@ node["app"]["odoo"]["installations"].each do |app|
     # instalamos a aplicacion e configuramos os servicios necesarios
     wsgi_app app["domain"] do
 
+        server_alias       app["alias"]
         target_path        "#{app["target_path"]}/odoo-server"
         environment        app["environment"]
         entry_point        "openerp-wsgi.py"

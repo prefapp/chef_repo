@@ -4,7 +4,7 @@ maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to manage odoo (openerp) installations"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.0"
+version          "0.2.0"
 
 depends "app_python"
 depends "dbs_postgresql"
@@ -25,6 +25,13 @@ attribute "app/odoo/installations/@/domain",
     :default => 'test.com',
     :advanced => false,
     :required => true,
+    :validations => {predefined: "domain"}
+
+attribute "app/odoo/installations/@/alias",
+    :display_name => 'Application domain alias',
+    :description => 'Other domains associated to app virtual host',
+    :default => [],
+    :type => "array",
     :validations => {predefined: "domain"}
 
 
