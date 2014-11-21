@@ -12,7 +12,7 @@ class Chef
 
         # Now we need to set up any resource defaults
         @domain = name  # This is equivalent to setting :name_attribute => true
-        @alias = []
+        @server_alias = []
         @target_path = nil
         @entry_point = nil
         @owner = nil
@@ -40,9 +40,9 @@ class Chef
           )
       end
 
-      def alias(arg=nil)
+      def server_alias(arg=nil)
           set_or_return(
-              :alias, 
+              :server_alias, 
               arg, 
               :kind_of => Array
           )
