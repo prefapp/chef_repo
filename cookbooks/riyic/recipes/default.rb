@@ -19,7 +19,7 @@ end.run_action(:enable)
 # - Se algunha receta usa build_essential, que se instale o principio da fase de compilacion
 # para que outra receta que use a fase de compilacion que xa disponha das ferramentas
 
-node.set['build_essential']['compiletime'] = true
+node.set['build_essential']['compile_time'] = true
 
 # - Actualizamos a cache de apt, por si alguen quere instalar algun paquete na fase de compilacion
 #  tendo en conta que pode que se actualizara a cache do apt no ultimo dia
