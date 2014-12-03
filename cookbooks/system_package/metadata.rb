@@ -3,19 +3,24 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to manage system packages"
-version          "0.0.1"
+version          "0.1.0"
 
 %w{debian ubuntu}.each do |os|
   supports os
 end
 
 recipe "default",
-    description: "Installs system package list",
+    description: "Install system packages listed",
     attributes: [%w(system/packages/list)],
     dependencies: []
 
+recipe "dist-upgrade",
+    description: "Run an upgrade to all packages installed (dist-upgrade)",
+    attributes: [],
+    dependencies: []
+
 recipe "custom_installation",
-    description: "Packages custom installation",
+    description: "Install a package with specific options",
     attributes: [/\/custom_installation\//],
     dependencies: [],
     stackable: true
