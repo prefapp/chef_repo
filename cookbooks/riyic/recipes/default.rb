@@ -13,38 +13,27 @@ chef_handler "Riyic::Report" do
   
 end.run_action(:enable)
 
+#
+# outros arreglos necesarios para evitar problemas
+#
 
-# outros arreglos necesarios para que non nos fallen as recetas
+# seteamos por defecto a codificacion a UTF8
+# Esta sera a codificacion ca que se crean string desde un template ou un ficheiro externo
+# sen esto un template con caracteres utf8 casca
+
+# configuramos as locales (senon vai a dar problemas a execucion de algunha receta de chef)
+include_recipe "riyic::_configure_locale"
 
 # - Se algunha receta usa build_essential, que se instale o principio da fase de compilacion
 # para que outra receta que use a fase de compilacion que xa disponha das ferramentas
 
 node.set['build_essential']['compile_time'] = true
 
+
 # - Actualizamos a cache de apt, por si alguen quere instalar algun paquete na fase de compilacion
 #  tendo en conta que pode que se actualizara a cache do apt no ultimo dia
 
-ultima_actualizacion = Time.new(2000)
-
-if node['platform_family'] == "debian"
-    if File.exists?('/var/lib/apt/periodic/update-success-stamp')
-        ultima_actualizacion = File.mtime('/var/lib/apt/periodic/update-success-stamp')
-    end
-    
-    if  ultima_actualizacion < Time.now - 86400
-      execute "apt-get update" do
-          ignore_failure true
-          action :nothing
-      end.run_action(:run) 
-    end
-
-    # instalamos o paquete update-notifier-common (EN EXECUCION)
-    # o cal provee varias configuracions para apt, unha delas se encarga de actualizar
-    # /var/lib/apt/periodic/update-success-stamp cada vez que corre apt
-
-    p = package "update-notifier-common"
-    p.run_action(:install)
-end
+include_recipe "system_package::update_cache"
 
 
 # creamos unha tarea cron para
