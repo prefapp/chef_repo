@@ -77,15 +77,40 @@ class Chef
                   url               new_resource.repo_url
                   revision          new_resource.revision
                   credential        new_resource.credential
-                  depth             1
+                  depth             new_resource.repo_depth
                   purge_target_path new_resource.purge_target_path
                 end
 
             end
-            
-            def run_postdeploy_script
+
+
+            def migrate_db
+
+                return unless new_resource.migration_command
+
+                bash "migration_#{new_resource.domain}" do
+                    user        new_resource.owner
+                    group       new_resource.group
+                    cwd         new_resource.target_path
+                    environment env_hash
+                    code        new_resource.migration_command
+                end
+
             end
 
+            
+            def run_postdeploy_script
+
+                return unless new_resource.postdeploy_script
+
+                bash "postdeploy-#{new_resource.postdeploy_script}" do
+                    user        new_resource.owner
+                    group       new_resource.group
+                    cwd         new_resource.target_path
+                    code        %{#{new_resource.target_path}/#{new_resource.postdeploy_script}}
+                end
+            end
+ 
         end
 
     end

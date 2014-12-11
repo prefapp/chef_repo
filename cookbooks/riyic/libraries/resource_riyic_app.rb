@@ -28,6 +28,7 @@ class Chef
         @internal_socket = nil
         @timeout = '60'
         @extra_packages = []
+        @purge_target_path = false
       end
 
       # Define the attributes we set defaults for
@@ -141,17 +142,27 @@ class Chef
           set_or_return(
               :migration_command,
               arg,
-              :kind_of => String,
+              :kind_of => [String,NilClass],
+              :default => nil
           )
       end
 
+
+      def postdeploy_script(arg=nil)
+          set_or_return(
+              :postdeploy_script,
+              arg,
+              :kind_of => [String,NilClass],
+              :default => nil
+          )
+      end
 
       def internal_socket(arg=nil)
           set_or_return(
               :internal_socket,
               arg,
               :kind_of => String,
-              :default => "unix:///tmp/riyic_app.sock"
+              :default => "unix:///var/run/riyic_app.sock"
           )
       end
 
@@ -174,12 +185,23 @@ class Chef
           )
       end
 
+      
+      def repo_depth(arg=nil)
+          set_or_return(
+              :repo_depth,
+              arg,
+              :kind_of => Integer,
+              :default => 0
+          )
+      end
+
+
       def purge_target_path(arg=nil)
           set_or_return(
               :purge_target_path,
               arg,
-              :equal_to => [true,false],
-              :default => false
+              :kind_of => [String, NilClass],
+              :default => nil
           )
       end
 
