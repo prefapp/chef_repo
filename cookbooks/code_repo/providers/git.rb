@@ -12,7 +12,7 @@ action :pull do
       raise Chef::Exceptions::UnsupportedAction, "Target path can't be equal to user owner homedir (#{homedir})" 
     end
 
-    purgar_target_path if new_resource.purge_target_path
+    purgar_target_path if new_resource.purge_target_path && new_resource.purge_target_path == 'yes'
 
     # preparamos o entorno
     group group
@@ -72,7 +72,7 @@ action :pull do
       action      :sync
       user        owner
       group       group
-      depth       new_resource.depth if new_resource.depth
+      depth       new_resource.depth if(new_resource.depth && new_resource.depth > 0)
     end
 
     if new_resource.credential
