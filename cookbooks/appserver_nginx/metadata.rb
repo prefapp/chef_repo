@@ -2,7 +2,7 @@ name             "appserver_nginx"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-version          "0.1.3"
+version          "0.1.5"
 description      "Install/Configures nginx httpd server"
 
 %w{debian ubuntu}.each do |os|
@@ -12,6 +12,7 @@ end
 depends "nginx"
 depends "runit"
 depends "lang_ruby"
+depends "pcs_supervisor"
 
 recipe "default",
     :description => "Compile nginx from source and install with the specified modules",
