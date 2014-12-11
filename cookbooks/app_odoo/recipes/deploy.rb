@@ -65,7 +65,7 @@ node["app"]["odoo"]["installations"].each do |app|
         repo_url           app["repo_url"] || node["app"]["odoo"]["default_repo_url"]
         repo_type          app["repo_type"] || node["app"]["odoo"]["default_repo_type"]
         revision           app["revision"] || node["app"]["odoo"]["default_revision"]
-        purge_target_path  true
+        purge_target_path  'yes'
         processes          1
         threads            4
 
@@ -91,7 +91,7 @@ node["app"]["odoo"]["installations"].each do |app|
     end
 
 
-    # descargar modulos extra
+    # descargar modulos extra de espanha
     code_repo "#{app['target_path']}/custom/l10n-spain" do
         action              "pull"
         owner               owner
@@ -103,6 +103,17 @@ node["app"]["odoo"]["installations"].each do |app|
     end
     addons_path << "../custom/l10n-spain"
 
+    # descargar modulos extra
+    code_repo "#{app['target_path']}/custom/partner-contact" do
+        action              "pull"
+        owner               owner
+        group               group
+        url                 'https://github.com/OCA/partner-contact'
+        revision            '8.0'
+        depth               1
+        purge_target_path   true
+    end
+    addons_path << "../custom/partner-contact"
     
     directory "#{app["target_path"]}/custom/other" do
         user    owner
