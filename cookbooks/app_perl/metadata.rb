@@ -11,8 +11,6 @@ depends "appserver_nginx"
 depends "appserver_uwsgi"
 depends "code_repo"
 
-depends "build-essential"
-
 %w{debian ubuntu}.each do |os|
   supports os
 end
@@ -36,13 +34,12 @@ attribute "app/perl/psgi_apps/@/domain",
     :required => true,
     :validations => {predefined: "domain"}
 
-#attribute "app/perl/psgi_apps/@/environment",
-#    :display_name => 'Application environment',
-#    :description => 'Application Environment',
-#    :default => 'production',
-#    :advanced => false,
-#    :required => true,
-#    :validations => {predefined: "word"}
+attribute "app/perl/psgi_apps/@/environment",
+   :display_name => 'Application environment',
+   :description => 'Application Environment',
+   :default => 'production',
+   :required => true,
+   :validations => {predefined: "word"}
 
 attribute "app/perl/psgi_apps/@/target_path",
     :display_name => "Application deployment folder",
