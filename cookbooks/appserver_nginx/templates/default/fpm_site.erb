@@ -1,0 +1,58 @@
+server {
+    listen <%= @port%>;
+    server_name <%=@name%> <%=@alternate_names.join(' ') %>;
+
+    root <%=@document_root%>;
+    
+    index index.php index.html index.htm;
+
+    # include /etc/nginx/security;
+
+
+    access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
+    error_log <%= node["nginx"]["log_dir"]%>/<%=@name %>.error_log info;
+
+    #rewrite ^/(favicon.ico)$ /images/$1 permanent;
+    #rewrite ^/(robots.txt)$ /files/$1 permanent;
+
+    # location / {
+    #     try_files $uri $uri/ /index.html;
+    # } 
+
+    location ~ \.php$ {
+
+            # try_files $uri =404;
+            include fastcgi_params;
+            fastcgi_pass <%=@fpm_socket%>;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_read_timeout    <%=@fastcgi_timeout%>
+            
+    }   
+
+    #location <%= @service_location %> {
+    #    include uwsgi_params;
+    #    
+    #    uwsgi_param SCRIPT_NAME <%= @service_location %>;
+    #
+    #    uwsgi_pass <%= @uwsgi_socket%>;
+    #    uwsgi_modifier1 5;
+    #}
+
+
+    # serve static files directly
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
+        access_log        off;
+        expires           max;
+    }
+
+    <%if @static_files_path %>
+    location ~* /(images|css|js|files)/ { # static files in public/<folders>
+        root <%=@static_files_path%>; 
+        # A request for "/images/foo.png" will return the file "/home/<user>/service1/public/images/foo.png"
+        access_log off;
+        expires 30d; # max
+    }
+    <%end%>
+
+}
