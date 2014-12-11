@@ -53,7 +53,7 @@ class Chef
                       command << "=#{v}" unless v==""
                     end
 
-                    Chef::Log.info("#{command}")
+                    Chef::Log.info("Compilation command: #{command}")
 
                     # instalamos o supervisord e configuramos o control do uwsgi
 
