@@ -36,13 +36,20 @@ attribute "app/python/wsgi_apps/@/domain",
     :required => true,
     :validations => {predefined: "domain"}
 
-#attribute "app/python/psgi_apps/@/environment",
-#    :display_name => 'Application environment',
-#    :description => 'Application Environment',
-#    :default => 'production',
-#    :advanced => false,
-#    :required => true,
-#    :validations => {predefined: "word"}
+attribute "app/python/wsgi_apps/@/server_alias",
+    :display_name => 'Domain aliases',
+    :description => 'Application aliases to respond to in host request',
+    :type => "array",
+    :default => [],
+    :validations => {predefined: "domain"}
+
+attribute "app/python/wsgi_apps/@/environment",
+    :display_name => 'Application environment',
+    :description => 'Application Environment',
+    :default => 'production',
+    :advanced => false,
+    :required => true,
+    :validations => {predefined: "word"}
 
 attribute "app/python/wsgi_apps/@/target_path",
     :display_name => "Application deployment folder",
@@ -74,7 +81,7 @@ attribute "app/python/wsgi_apps/@/group",
 
 attribute "app/python/wsgi_apps/@/repo_url",
     :display_name => 'Repository source code url',
-    :description => 'Repository url from which to download source code',
+    :description => 'Repository url to download source code',
     :advanced => false,
     :required => true,
     :default => "http://my-repo-url.com",
@@ -83,7 +90,7 @@ attribute "app/python/wsgi_apps/@/repo_url",
 
 attribute "app/python/wsgi_apps/@/repo_type",
     :display_name => "Repository type",
-    :description => 'Repository type from which to download application code',
+    :description => 'Repository type to download application code',
     :default => 'git',
     :advanced => false,
     :choice => ["git", "subversion","remote_archive"]
@@ -94,6 +101,20 @@ attribute "app/python/wsgi_apps/@/revision",
     :default => "HEAD",
     :validations => {predefined: "revision"}
 
+
+attribute "app/python/wsgi_apps/@/credential",
+    :display_name => 'Repository remote user credential',
+    :description => 'Application repository remote user credential',
+    :field_type => 'textarea',
+    :validations => {predefined: "multiline_text"}
+
+attribute "app/python/wsgi_apps/@/migration_command",
+    :display_name => 'Migration command',
+    :description => 'Command to run to migrate application to current state',
+    :default => "",
+    :validations => {predefined: "unix_command"}
+
+
 attribute "app/python/wsgi_apps/@/requirements_file",
     :display_name => 'Requirements file',
     :description => 'Specify application requirements in a pip requirements file',
@@ -102,26 +123,6 @@ attribute "app/python/wsgi_apps/@/requirements_file",
     :required => false,
     :validations => {predefined: "unix_path"}
 
-
-attribute "app/python/wsgi_apps/@/migrate",
-    :display_name => 'Apply migrations?',
-    :description => 'If "yes" migrations will be run',
-    :advanced => false,
-    :choice => ["yes","no"],
-    :default => "yes",
-    :required => true
-
-attribute "app/python/wsgi_apps/@/migration_command",
-    :display_name => 'Migration command',
-    :description => 'Command to run to migrate application to current state',
-    :default => "",
-    :validations => {predefined: "unix_command"}
-
-attribute "app/python/wsgi_apps/@/credential",
-    :display_name => 'Repository remote user credential',
-    :description => 'Application repository remote user credential',
-    :field_type => 'textarea',
-    :validations => {predefined: "multiline_text"}
 
 attribute "app/python/wsgi_apps/@/extra_modules",
     :display_name => 'Extra python pip modules',
@@ -154,4 +155,15 @@ attribute "app/python/wsgi_apps/@/timeout",
     :display_name => 'Request execution timeout',
     :description => 'Max execution time for requests (in seconds)',
     :default => 120,
+    :validations => {predefined: "int"}
+
+attribute "app/python/wsgi_apps/@/purge_target_path",
+    :display_name => "Delete target_path folder before deploy",
+    :description => "Delete 'target_path' folder before download application code",
+    :default => 'no'
+
+ attribute "app/python/wsgi_apps/@/repo_depth",
+    :display_name => "Number of past revisions to download (git)",
+    :description => "The number of past revisions that will be included in the git shallow clone. The default behavior will do a full clone.",
+    :default => 0,
     :validations => {predefined: "int"}
