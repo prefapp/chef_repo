@@ -5,7 +5,8 @@ license          "Apache 2.0"
 description      "Cookbook to install and configure php-fpm service"
 version          "0.0.1"
 
-depends "php-fpm"
+#depends "php-fpm"
+depends "php5-fpm"
 
 %w{debian ubuntu}.each do |os|
   supports os
@@ -15,4 +16,3 @@ recipe "default",
     description: "Installs php-fpm from package manager and initialize default 'www' pool",
     attributes: [/.+/],
     dependencies: []
-
