@@ -26,7 +26,7 @@ server {
             fastcgi_pass <%=@fpm_socket%>;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            fastcgi_read_timeout    <%=@fastcgi_timeout%>
+            fastcgi_read_timeout    <%=@fastcgi_timeout%>;
             
     }   
 
