@@ -3,7 +3,8 @@ include_recipe "riyic::_riyic_handlers"
 
 ## habilitamos o handler de riyic::report para que comunique a webapp o estado de convergencia do nodo
 chef_handler "Riyic::Report" do
-  source "/var/chef/handlers/riyic_report.rb"
+  #source "chef/handler/riyic_report.rb"
+  source "#{node["chef_handler"]["handler_path"]}/riyic_report.rb"
 
   arguments :auth_token => node['riyic']['key'], 
             :server_id => node['riyic']['server_id'],

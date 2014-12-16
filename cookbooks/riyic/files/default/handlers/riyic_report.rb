@@ -24,19 +24,25 @@ module Riyic
     class Report < ::Chef::Handler
 
       # servidores de produccion e desarrollo
-      PRODUCTION_SERVER = 'http://www2.ruleyourcloud.com'
-      DEV_SERVER = 'http://10.0.3.1:3000'
+      PRODUCTION_SERVER = 'https://riyic.com/api/v1'
+      DEV_SERVER = 'http://10.0.3.1:3000/api/v1'
 
       attr_reader :config
     
       def initialize(config={})
         @config = config
 
-        host = (@config[:env] == 'production')? PRODUCTION_SERVER: DEV_SERVER
-        
-        controller = (@config[:node_details])? 'nodedetails' : 'reports'
+        #
+        # se non existe o atributo env enton evitamos comunicar nada
+        #
+        if @config[:env]
+            host = (@config[:env] == 'production')? PRODUCTION_SERVER: DEV_SERVER
+            
+            controller = (@config[:node_details])? 'nodedetails' : 'reports'
 
-        @config[:report_url] = "#{host}/admin/servers/#{@config[:server_id]}/#{controller}"
+            @config[:report_url] = "#{host}/servers/#{@config[:server_id]}/#{controller}"
+
+        end
 
         @config
       end
@@ -103,6 +109,9 @@ module Riyic
 
 
       def send_report(run_data)
+
+        return unless(@config[:report_url])
+
         uri = URI(@config[:report_url])
 
         http = Net::HTTP.new(uri.host, uri.port)
