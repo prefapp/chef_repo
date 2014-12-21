@@ -1,7 +1,6 @@
 default["shell"]["lshell"]["repo"]["url"] = "git://github.com/ghantoos/lshell.git"
 
-# commit actual da master (pode que deberamos usar a tag da ultima version estable: '0.9.15.1')
-default["shell"]["lshell"]["repo"]["reference"] = 'b127ac06855698611b7abc3fa379f266706f0485'
+default["shell"]["lshell"]["repo"]["reference"] = 'master'
 
 default["shell"]["lshell"]["config_dir"] = '/etc/lshell.d'
 default["shell"]["lshell"]["config_file"] = '/etc/lshell.conf'
