@@ -8,7 +8,7 @@ version          "0.0.1"
   supports os
 end
 
-depends "dbsystem_mysql"
+depends "dbs_mysql"
 depends "appserver_nginx"
 depends "lang_ruby"
 depends "build-essential"
@@ -16,7 +16,7 @@ depends "build-essential"
 recipe "default",
     description: "Install redmine with default options",
     attributes: [/.+/],
-    dependencies: ["dbsystem_mysql::server", "appserver_nginx::with_passenger", "lang_ruby::install"]
+    dependencies: ["dbs_mysql::server", "appserver_nginx::with_passenger", "lang_ruby::install"]
 
 
 ## atributos
