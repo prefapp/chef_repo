@@ -27,6 +27,8 @@ class Chef
                     # php5_fpm_pool actualmente solo soporta tcp/ip sockets
                     listen_address              '127.0.0.1'
                     listen_port                 9000
+                    pool_user                   new_resource.owner
+                    pool_group                  new_resource.group
                     php_ini_values              "max_execution_time" => new_resource.timeout
                     request_terminate_timeout   new_resource.timeout.to_i
                     overwrite                   true
