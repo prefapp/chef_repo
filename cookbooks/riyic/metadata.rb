@@ -8,6 +8,7 @@ version          "0.1.2"
 depends "system_cron"
 depends "chef_handler"
 depends "locale"
+depends "system_package"
 
 %w{debian ubuntu}.each do |os|
   supports os
