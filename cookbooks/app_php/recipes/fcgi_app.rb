@@ -1,6 +1,6 @@
 include_recipe "app_php::default"
 
-node["app"]["php"]["fcgi_apps"].each do |app|
+Array(node["app"]["php"]["fcgi_apps"]).each do |app|
 
 	fcgi_app app["domain"] do 
 
@@ -34,6 +34,8 @@ node["app"]["php"]["fcgi_apps"].each do |app|
                 end
 
                 notifies   :restart, 'service[nginx]'
+                notifies   :restart, "service[php5-fpm]"
+
 
 	end
 end
