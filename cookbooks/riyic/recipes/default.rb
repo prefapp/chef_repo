@@ -28,7 +28,7 @@ include_recipe "riyic::_configure_locale"
 # - Se algunha receta usa build_essential, que se instale o principio da fase de compilacion
 # para que outra receta que use a fase de compilacion que xa disponha das ferramentas
 
-node.set['build_essential']['compile_time'] = true
+node.set['build-essential']['compile_time'] = true
 
 
 # - Actualizamos a cache de apt, por si alguen quere instalar algun paquete na fase de compilacion
