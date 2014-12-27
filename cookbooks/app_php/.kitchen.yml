@@ -34,7 +34,7 @@ suites:
         - ["recipe[riyic::default]", "recipe[app_php::fcgi_app]"]
     attributes: {
   "riyic": {
-    "dockerized": "yes",
+    "dockerized": "no",
     "updates_check_interval": "never"
   },
   "app": {
