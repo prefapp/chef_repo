@@ -1,13 +1,16 @@
-#include_recipe "php-fpm::default"
+##################################################################################
+# dentro dun container de docker usamos runit para facer de vigilante de procesos
+# e temos que proporcionar o comando co que runit arrancara o servicio
+# - ver o provider Chef::Provider::ContainerService::Runit no cookbook de riyic
+##################################################################################
+node.set["container_service"]["php5-fpm"]["command"] = "/usr/sbin/php5-fpm -F --fpm-config /etc/php5/fpm/php-fpm.conf"
+
+
 #
-# # creamos un pool
-# php_fpm_pool "www" do
+# deixamos que o noso cookbook base se encarge de actualizar a cache do apt
 #
-# 	process_manager "dynamic"
-# 	max_requests 5000
-# 	php_options 'php_admin_flag[log_errors]' => 'on', 'php_admin_value[memory_limit]' => '32M'
-#
-# end
+node.set["php_fpm"]["update_system"] = false
+
 
 include_recipe "php5-fpm::install"
 
