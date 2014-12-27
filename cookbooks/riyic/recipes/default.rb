@@ -36,32 +36,50 @@ node.set['build-essential']['compile_time'] = true
 
 include_recipe "system_package::update_cache"
 
+# Se estamos en docker instalamos runit
+# para usalo como init
+if node['virtualization']['system'] =~ /^lxc|docker$/
+
+    include_recipe "runit::default"
+
+    # arrancamos o servicio de runit en segundo plano
+    # para conseguir executar a converxencia do nodo
+    execute 'start-runsvdir' do
+        command "/usr/bin/runsvdir -P /etc/service 'log: #{ '.' * 395}' &"
+        action  :run
+        not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
+    end
+end
+
 
 # creamos unha tarea cron para
 # executar o cliente de riyic periodicamente si se habilitou a opcion
-
-if node["riyic"]["updates_check_interval"] != "never"
-    include_recipe "system_cron::default"
-
-    interval = node["riyic"]["updates_check_interval"]
-    (min,hour,day,month,weekday) = %w{* * * * *}
-
-    if interval =~ /^(\d+)(min)?$/
-      min = "*/#{$1}"
-    elsif interval =~ /^(\d+)h$/
-      hour = "*/#{$1}"
-    elsif interval =~ /^(\d+)d$/
-      day = "*/#{$1}"
-    end
-
-    cron_d "riyic_update_task" do
-        minute  min
-        hour    hour
-        day     day
-        month   month
-        weekday weekday
-        command "/usr/sbin/ryc -A #{node['riyic']['key']} -S #{node['riyic']['server_id']} -E #{node['riyic']['env']} 2>&1 >/dev/null"
-        user    "root"
-    end
-  
-end
+#
+#if node["riyic"]["updates_check_interval"] && node["riyic"]["updates_check_interval"] != "never"
+#
+#    raise "mecagoen :#{node["riyic"]["updates_check_interval"]}"
+#
+#    include_recipe "system_cron::default"
+#
+#    interval = node["riyic"]["updates_check_interval"]
+#    (min,hour,day,month,weekday) = %w{* * * * *}
+#
+#    if interval =~ /^(\d+)(min)?$/
+#      min = "*/#{$1}"
+#    elsif interval =~ /^(\d+)h$/
+#      hour = "*/#{$1}"
+#    elsif interval =~ /^(\d+)d$/
+#      day = "*/#{$1}"
+#    end
+#
+#    cron_d "riyic_update_task" do
+#        minute  min
+#        hour    hour
+#        day     day
+#        month   month
+#        weekday weekday
+#        command "/usr/sbin/ryc -A #{node['riyic']['key']} -S #{node['riyic']['server_id']} -E #{node['riyic']['env']} 2>&1 >/dev/null"
+#        user    "root"
+#    end
+#  
+#end

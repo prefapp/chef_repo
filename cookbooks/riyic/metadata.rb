@@ -9,6 +9,7 @@ depends "system_cron"
 depends "chef_handler"
 depends "locale"
 depends "system_package"
+depends "runit"
 
 %w{debian ubuntu}.each do |os|
   supports os
