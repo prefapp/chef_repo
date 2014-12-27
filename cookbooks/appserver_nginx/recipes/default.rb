@@ -39,7 +39,19 @@ if node["riyic"]["dockerized"] == "yes"
     # obligamos a que arranque o nginx en foreground 
     # (a receta nginx::source pono a false por eso o override)
     node.override['nginx']['daemon_disable']  = true
+else
+    # se non por defecto usar runit e se pelea con chef-init
+    node.override['nginx']['init_style'] = 'upstart'
 end
+
+
+##################################################################################
+# dentro dun container de docker usamos runit para facer de vigilante de procesos
+# e temos que proporcionar o comando co que runit arrancara o servicio
+# - ver o provider Chef::Provider::ContainerService::Runit no cookbook de riyic
+##################################################################################
+node.set["container_service"]["nginx"]["command"] = "/opt/nginx/sbin/nginx -c /etc/nginx/nginx.conf"
+
 
 include_recipe "nginx::source"
 
