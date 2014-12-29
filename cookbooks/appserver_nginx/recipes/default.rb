@@ -41,7 +41,8 @@ if node["riyic"]["dockerized"] == "yes"
     node.override['nginx']['daemon_disable']  = true
 else
     # se non por defecto usar runit e se pelea con chef-init
-    node.override['nginx']['init_style'] = 'upstart'
+    node.override['nginx']['init_style'] = 'init'
+    node.override['nginx']['daemon_disable']  = true
 end
 
 
