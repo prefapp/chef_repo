@@ -3,6 +3,7 @@ driver:
   name: docker
   use_sudo: false
   disable_upstart: false
+  remove_images: true
 
 provisioner:
   name: chef_solo
@@ -31,7 +32,7 @@ platforms:
 suites:
   - name: default
     run_list:
-        - ["recipe[riyic::default]", "recipe[app_php::fcgi_app]"]
+        - ["recipe[riyic::default]", "recipe[app_php::fcgi_app]","recipe[riyic::test_helper]"]
     attributes: {
   "riyic": {
     "dockerized": "no",

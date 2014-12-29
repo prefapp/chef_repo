@@ -61,4 +61,15 @@ describe "Wordpress PHP app" do
     end
 
 
+    describe "php5-fpm '#{domain}' pool" do
+
+        c = command("ps -auxwwwwf |fgrep 'pool #{domain}'")
+
+        it "must be running as app user '#{user}'" do
+            expect(c.stdout).to match /^#{user}/
+        end
+
+    end
+
+
 end
