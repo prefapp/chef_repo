@@ -10,6 +10,7 @@ depends "lang_php"
 depends "appserver_nginx"
 depends "appserver_fpm"
 depends "code_repo"
+depends "riyic"
 
 %w{debian ubuntu}.each do |os|
   supports os
