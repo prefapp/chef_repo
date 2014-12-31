@@ -2,7 +2,7 @@
 # e para os providers
 include_recipe "lang_python::default"
 
-include_recipe "pcs_supervisor::default"
+#include_recipe "pcs_supervisor::default"
 
 include_recipe "code_repo::default"
 

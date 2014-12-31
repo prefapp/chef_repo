@@ -55,18 +55,26 @@ class Chef
 
                     Chef::Log.info("Compilation command: #{command}")
 
+                    node.set["container_service"]["uwsgi"]["command"] = command
+
+                    service "uwsgi" do
+                        action [:enable, :start]
+                    end
+
+
+                    # deprecado!!
                     # instalamos o supervisord e configuramos o control do uwsgi
 
-                    supervisor_service new_resource.name do        
-                        stdout_logfile "/var/log/supervisor/#{new_resource.name}.log"
-                        stderr_logfile "/var/log/supervisor/#{new_resource.name}.err"
-                        command command
-                        startsecs 10
-                        stopsignal "QUIT"
-                        stopasgroup true
-                        killasgroup true
-                        action [:enable,:start]
-                    end
+                    #supervisor_service new_resource.name do        
+                    #    stdout_logfile "/var/log/supervisor/#{new_resource.name}.log"
+                    #    stderr_logfile "/var/log/supervisor/#{new_resource.name}.err"
+                    #    command command
+                    #    startsecs 10
+                    #    stopsignal "QUIT"
+                    #    stopasgroup true
+                    #    killasgroup true
+                    #    action [:enable,:start]
+                    #end
 
                 end
           end

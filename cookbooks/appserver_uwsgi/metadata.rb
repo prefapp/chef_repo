@@ -9,7 +9,6 @@ depends "lang_python"
 depends "lang_perl"
 depends "build-essential"
 depends "code_repo"
-depends "pcs_supervisor"
 
 %w{debian ubuntu}.each do |os|
   supports os
