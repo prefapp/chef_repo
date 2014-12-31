@@ -9,7 +9,7 @@ class Chef
         super(name, run_context)
         @resource_name = :wsgi_app
         @provider = Chef::Provider::WsgiApp
-        @requirements_file = 'requirements.txt'
+        @requirements_file = nil
         @extra_modules = []
       end
 
@@ -17,8 +17,8 @@ class Chef
           set_or_return(
               :requirements_file,
               arg,
-              :kind_of => String,
-              :default => 'requirements.txt'
+              :kind_of => [String,NilClass],
+              :default => nil
           )
       end
 

@@ -27,6 +27,7 @@ class Chef
                       cwd         new_resource.target_path
                       environment env_hash
                       code        %{pip install -r #{new_resource.requirements_file}}
+                      only_if     new_resource.requirements_file
                     end
                 end
 
@@ -64,6 +65,7 @@ class Chef
                 # configuramos o frontend
                 nginx_uwsgi_site new_resource.domain do
                     server_alias        new_resource.server_alias
+                    document_root       new_resource.target_path
                     static_files_path   "#{new_resource.target_path}/#{new_resource.static_files_path}" if new_resource.static_files_path
                     uwsgi_socket        new_resource.internal_socket
                     protocol            'python'
