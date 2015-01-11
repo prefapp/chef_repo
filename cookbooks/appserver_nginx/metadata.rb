@@ -83,7 +83,7 @@ attribute "appserver/nginx/modules",
 attribute "appserver/nginx/passenger/version",
     :display_name => 'Passenger version',
     :description => 'Passenger version to compile and install with nginx',
-    :default => '4.0.52', #'3.0.21',
+    :default => '4.0.57', 
     :advanced => false,
     :validations => {predefined: "version"}
 
