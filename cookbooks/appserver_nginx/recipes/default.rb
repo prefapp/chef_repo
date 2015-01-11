@@ -32,19 +32,25 @@ node.set["nginx"]["source"]["modules"] = node["appserver"]["nginx"]["modules"].m
 
 # novedades para docker, podemolo meter noutro arquivo mellor?
 
-if node["riyic"]["dockerized"] == "yes"
-    # o init_style supervisor non existe (de momento), pero utilizara init
-    node.override['nginx']['init_style'] = 'supervisor'
+#if node["riyic"]["dockerized"] == "yes"
+#    # o init_style supervisor non existe (de momento), pero utilizara init
+#    node.override['nginx']['init_style'] = 'supervisor'
+#
+#    # obligamos a que arranque o nginx en foreground 
+#    # (a receta nginx::source pono a false por eso o override)
+#    node.override['nginx']['daemon_disable']  = true
+#else
+#    # se non por defecto usar runit e se pelea con chef-init
+#    node.override['nginx']['init_style'] = 'upstart'
+#end
 
-    # obligamos a que arranque o nginx en foreground 
-    # (a receta nginx::source pono a false por eso o override)
-    node.override['nginx']['daemon_disable']  = true
-else
-    # se non por defecto usar runit e se pelea con chef-init
+
+# si temos seteado o flag e senhal de que estamos dentro dun docker
+# evitamos arrancar nada
+if node["riyic"]["inside_container"]
     node.override['nginx']['init_style'] = 'init'
     node.override['nginx']['daemon_disable']  = true
 end
-
 
 ##################################################################################
 # dentro dun container de docker usamos runit para facer de vigilante de procesos
@@ -58,23 +64,23 @@ include_recipe "nginx::source"
 
 # si queremos usar o supervisor vamos a usar o provider que nos da o seu cookbook
 # pero temos que deshabilitar o nginx para que sexa supervisor quen o xestione
-if node["riyic"]["dockerized"] == "yes"
-
-    # deshabilitamos o servicio nginx para que non se arranque automaticamente
-    # queremos controlalo con supervisor
-    srv = resources(service: "nginx")
-    # srv.provider Chef::Provider::Service::Upstart
-    srv.start_command "/bin/true"
-    srv.stop_command "/bin/true"
-    srv.restart_command "/bin/true"
-    srv.action :nothing
-
-    include_recipe "pcs_supervisor::default"
-
-    supervisor_service "nginx" do        
-        stdout_logfile "/var/log/supervisor/nginx.log"
-        stderr_logfile "/var/log/supervisor/nginx.err"
-        command node["nginx"]["binary"]
-        action "enable"
-    end
-end
+#if node["riyic"]["dockerized"] == "yes"
+#
+#    # deshabilitamos o servicio nginx para que non se arranque automaticamente
+#    # queremos controlalo con supervisor
+#    srv = resources(service: "nginx")
+#    # srv.provider Chef::Provider::Service::Upstart
+#    srv.start_command "/bin/true"
+#    srv.stop_command "/bin/true"
+#    srv.restart_command "/bin/true"
+#    srv.action :nothing
+#
+#    include_recipe "pcs_supervisor::default"
+#
+#    supervisor_service "nginx" do        
+#        stdout_logfile "/var/log/supervisor/nginx.log"
+#        stderr_logfile "/var/log/supervisor/nginx.err"
+#        command node["nginx"]["binary"]
+#        action "enable"
+#    end
+#end
