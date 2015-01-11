@@ -19,9 +19,10 @@ ruby["gems"].each do |gem|
 end
 
 node.set['rvm']['global_gems'] = (gems.empty?)? nil: gems 
-node.set["rvm"]["user_global_gems"] = node.set['rvm']['global_gems'] 
+node.set['rvm']['user_global_gems'] = node.set['rvm']['global_gems']
 
 #instalamos ruby 
+node.set['rvm']['install_rubies'] = true
 include_recipe "rvm::system"
 
 
