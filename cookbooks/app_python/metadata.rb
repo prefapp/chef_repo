@@ -4,14 +4,14 @@ maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to deploy python wsgi applications"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.0"
+version          "0.2.1"
 
 depends "lang_python"
 depends "appserver_nginx"
 depends "appserver_uwsgi"
 depends "code_repo"
 
-depends "build-essential"
+depends "riyic" # para o base hwrp
 
 %w{debian ubuntu}.each do |os|
   supports os
@@ -160,7 +160,8 @@ attribute "app/python/wsgi_apps/@/timeout",
 attribute "app/python/wsgi_apps/@/purge_target_path",
     :display_name => "Delete target_path folder before deploy",
     :description => "Delete 'target_path' folder before download application code",
-    :default => 'no'
+    :default => 'no',
+    :choice => ['yes','no']
 
  attribute "app/python/wsgi_apps/@/repo_depth",
     :display_name => "Number of past revisions to download (git)",
