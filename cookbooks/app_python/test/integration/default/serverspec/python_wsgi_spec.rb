@@ -15,11 +15,11 @@ describe "nginx" do
 
 end
 
-describe "Example WSGI app" do
+domain = $node["app"]["python"]["wsgi_apps"][0]["domain"]
 
-    domain = $node["app"]["python"]["wsgi_apps"][0]["domain"]
+describe "Example WSGI app in domain #{domain}" do
 
-    describe "Send a http connection to domain #{domain} in localhost" do
+    describe "Get dynamic page from app (#{domain}/page/foo)" do
     
         c = command("curl -L -H 'Host:#{domain}' 127.0.0.1/page/foo")
 
@@ -32,6 +32,18 @@ describe "Example WSGI app" do
             expect(c.stdout).to match /You are visiting foo/
         end
 
+    end
+
+    describe "Get static page" do
+        c = command("curl -L -H 'Host:#{domain}' 127.0.0.1/static/files/test.html")
+
+        it "connection should not return error" do
+            expect(c.exit_status) == 0
+        end
+
+        it "should return a static page" do
+            expect(c.stdout).to match /test/
+        end
     end
 
     user = $node["app"]["python"]["wsgi_apps"][0]["owner"]
