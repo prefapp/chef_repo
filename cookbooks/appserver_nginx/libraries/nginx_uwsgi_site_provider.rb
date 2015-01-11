@@ -41,12 +41,14 @@ class Chef
                   variables(
                     :name              => new_resource.domain,
                     :alternate_names   => new_resource.server_alias,
+                    :document_root     => new_resource.document_root,
                     :port              => new_resource.port,
+                    :static_files_path => new_resource.static_files_path,
+                    :service_location  => new_resource.service_location,
+
                     :uwsgi_socket      => new_resource.uwsgi_socket,
                     :uwsgi_modifier1   => uwsgi_modifier1,
                     :uwsgi_modifier2   => uwsgi_modifier2,
-                    :static_files_path => new_resource.static_files_path,
-                    :service_location  => new_resource.service_location,
                     :uwsgi_read_timeout => new_resource.uwsgi_read_timeout 
                   )
                 end

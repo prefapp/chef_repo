@@ -16,6 +16,10 @@ class Chef
                 :kind_of => [Array, NilClass], 
                 :default => nil
 
+            attribute :document_root,
+                :kind_of => String,
+                :default => ''
+
             attribute :template,
                 :kind_of => [String,NilClass],
                 :default => nil

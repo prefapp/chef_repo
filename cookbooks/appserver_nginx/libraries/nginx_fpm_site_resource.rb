@@ -4,9 +4,6 @@ class Chef
 
             self.resource_name = 'nginx_fpm_site'
 
-            attribute :document_root,
-                :kind_of => String,
-                :default => ''
 
             attribute :fpm_socket,
                 :kind_of => String,

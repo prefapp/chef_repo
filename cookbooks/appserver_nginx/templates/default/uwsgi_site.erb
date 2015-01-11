@@ -1,6 +1,7 @@
 server {
     listen <%= @port%>;
     server_name <%=@name%> <%=@alternate_names.join(' ') %>;
+    root <%=@document_root%>;
 
 
     access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
@@ -9,7 +10,12 @@ server {
     #rewrite ^/(favicon.ico)$ /images/$1 permanent;
     #rewrite ^/(robots.txt)$ /files/$1 permanent;
 
+    # first try to serve static files, else pass to uwsgi
     location / {
+        try_files $uri @uwsgi;
+    }
+
+    location @uwsgi {
         include uwsgi_params;
         uwsgi_pass <%= @uwsgi_socket%>;
         uwsgi_modifier1 <%= @uwsgi_modifier1%>;

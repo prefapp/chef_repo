@@ -17,6 +17,7 @@ class Chef
                     :name                   => new_resource.domain,
                     :alternate_names        => new_resource.server_alias,
                     :port                   => new_resource.port,
+                    :document_root          => new_resource.document_root,
                     :static_files_path      => new_resource.static_files_path,
                     :service_location       => new_resource.service_location,
                     :passenger_app_env      => new_resource.rack_env,
