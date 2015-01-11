@@ -40,6 +40,9 @@ include_recipe "system_package::update_cache"
 # para usalo como init
 if node['virtualization']['system'] =~ /^lxc|docker$/
 
+    # flag para outros cookbooks
+    node.set["riyic"]["inside_container"] = true
+
     include_recipe "runit::default"
 
     # arrancamos o servicio de runit en segundo plano
