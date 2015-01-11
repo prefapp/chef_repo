@@ -19,6 +19,7 @@ extra_packages = %w{
     libldap2-dev
     libssl-dev
     libjpeg-dev
+    libpng-dev
     fontconfig-config
     fontconfig
 
