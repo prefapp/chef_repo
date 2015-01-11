@@ -14,15 +14,15 @@
 #Chef::Log.error("PASSENGER_ROOT: #{node['nginx']['passenger']['root']} ")
 #Chef::Log.error("PASSENGER_RUBY: #{ruby_wrapper}")
 
-node.default["lang"]["ruby"]["version"] = "ruby-2.1.0" # ruby-1.9.3
+node.default["lang"]["ruby"]["version"] = "ruby-2.1" # ruby-1.9.3
 node.default["lang"]["ruby"]["gemset"] = ''
 node.default['lang']['ruby']['rails']['sites'] = []
 
 ruby_versions = { 
-    'ruby-2.1' => 'ruby-2.1.3',
-    'ruby-2.1.0' => 'ruby-2.1.3',
-    'ruby-2.0.0' => "ruby-2.0.0-p576",#'ruby-2.0.0-p353',
-    'ruby-1.9.3' => "ruby-1.9.3-p547",#'ruby-1.9.3-p484', #'ruby-1.9.3-p429',
+    'ruby-2.1' => 'ruby-2.1.5',
+    'ruby-2.1.0' => 'ruby-2.1.5',
+    'ruby-2.0.0' => "ruby-2.0.0-p598",#'ruby-2.0.0-p353',
+    'ruby-1.9.3' => "ruby-1.9.3-p551",#'ruby-1.9.3-p484', #'ruby-1.9.3-p429',
     #'ruby-1.9.2' => 'ruby-1.9.2-p320',
     #'ruby-1.8.7' => 'ruby-1.8.7-p374',
 }
@@ -43,3 +43,5 @@ node.default["lang"]["ruby"]["rails"]["version"] = nil
 
 # apanho polo erro do certificado en rvm.io
 # node.set["rvm"]["installer_url"] = "https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer"
+
+default["lang"]["ruby"]["gems"] = []
