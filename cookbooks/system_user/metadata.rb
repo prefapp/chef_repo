@@ -4,7 +4,7 @@ maintainer_email 'info@riyic.com'
 license          'Apache 2.0'
 description      'Manage a system user with a associated shell'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.1'
+version          '0.2.1'
 
 depends "shell_lshell"
 
