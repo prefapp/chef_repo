@@ -2,7 +2,7 @@ require_relative "uwsgi_base_provider.rb"
 
 class Chef
      class Provider
-          class UwsgiPythonSite < Chef::Provider::UwsgiBaseProvider
+          class UwsgiPsgiSite < Chef::Provider::UwsgiBaseProvider
 
                def specific_plugin_options
                     options = {
@@ -13,8 +13,8 @@ class Chef
 
                     # si queremos usar coroae hai configurar outro plugin
                     if new_resource.coroae > 0 
-                      options["plugin"] << ',coroae'
-                      options["coroae"] = new_resource.coroae
+                        options["plugin"] << ',coroae'
+                        options["coroae"] = new_resource.coroae
                     end
 
                     options

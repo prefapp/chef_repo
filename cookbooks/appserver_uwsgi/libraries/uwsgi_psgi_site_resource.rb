@@ -2,7 +2,7 @@ require_relative "uwsgi_base_resource.rb"
 
 class Chef
     class Resource
-        class UwsgiPythonSite < Chef::Resource::UwsgiSiteBase
+        class UwsgiPsgiSite < Chef::Resource::UwsgiSiteBase
             self.resource_name = 'uwsgi_psgi_site'
 
             attribute :coroae, 
