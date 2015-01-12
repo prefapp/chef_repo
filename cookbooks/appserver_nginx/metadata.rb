@@ -9,10 +9,8 @@ description      "Install/Configures nginx httpd server"
   supports os
 end
 
-depends "nginx"
-depends "runit"
+depends "nginx", "~> 2.7"
 depends "lang_ruby"
-depends "pcs_supervisor"
 
 recipe "default",
     :description => "Compile nginx from source and install with the specified modules",
