@@ -28,14 +28,6 @@ recipe "reverse_proxy",
     :stackable => true,
     :dependencies => ["appserver_nginx::default"]
 
-=begin
-#RECETA CO FLAG DE stackable A true!!
-recipe "add_passenger_site",
-    :description => ,
-    :attributes => ,
-    :dependencies => ["with_passenger"]
-=end
-
 #recipe "with_php-fpm",
 #    description: "Deploys last stable versions of php5.4 and nginx with php-fpm, from sources",
 #    attributes: ['php/version', 'nginx/version', 'nginx/source/checksum'],
