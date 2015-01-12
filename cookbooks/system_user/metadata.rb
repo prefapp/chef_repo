@@ -32,15 +32,24 @@ depends "shell_lshell"
 
 
 recipe "default",
-    :description => "Add a system user with default shell (bash)",
+    :description => "Add a system user with no shell",
     :attributes => [/\/default\//],
     :stackable => true
 
+recipe "with_bash",
+    :description => "Add a user to the system with bash shell",
+    :attributes => [/\/bash\//],
+    :stackable => true
+
 recipe "with_lshell",
-    :description => "Add a system user with Limited shell (lshell)",
+    :description => "Add a user to the system with Limited shell (lshell)",
     :attributes => [/\/lshell\//],
     :dependencies => ["shell_lshell"],
     :stackable => true
+
+#
+## ATRIBUTES
+#
 
 attribute "system/users/default/@/username",
     :display_name => 'System username',
@@ -50,8 +59,16 @@ attribute "system/users/default/@/username",
     :required => true,
     :validations => {predefined: "username"}
 
+attribute "system/users/bash/@/username",
+    :display_name => 'System username',
+    :description => ' User name to add to the system with bash shell',
+    :advanced => false,
+    :default => "user",
+    :required => true,
+    :validations => {predefined: "username"}
 
-attribute "system/users/default/@/password",
+
+attribute "system/users/bash/@/password",
     :display_name => 'User password',
     :description => 'Password to the system user',
     :advanced => false,
@@ -59,16 +76,17 @@ attribute "system/users/default/@/password",
     :required => true,
     :validations => {predefined: "password"}
 
-attribute "system/users/default/@/group",
+attribute "system/users/bash/@/group",
     :display_name => 'User Group',
     :description => 'Group to join the user, default: users',
     :advanced => false,
     :default => "users",
     :validations => {predefined: "username"}
 
+# lshell
 attribute "system/users/lshell/@/username",
     :display_name => 'System username',
-    :description => ' User name to add to the system',
+    :description => ' User name to add to the system with lshell shell',
     :advanced => false,
     :required => true,
     :default => 'user',

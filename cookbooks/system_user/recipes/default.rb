@@ -1,13 +1,11 @@
-#
-# Cookbook Default recipe:: system_user
+# default recipe
+# create system users with no shell
 
-#creamos un usuario coa shell por defecto (bash)
-# receta apilable, usaremola asi
 node["system"]["users"]["default"].each do |user|
 
-	system_user user["username"] do
-		action :create
-		group user['group'] if user.include?('group')
-		password user["password"]
-	end
+    user user["username"] do
+        action :create
+        system true
+        shell "/bin/false"
+    end
 end
