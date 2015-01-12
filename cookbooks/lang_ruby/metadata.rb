@@ -2,13 +2,14 @@ name             "lang_ruby"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-description      "Cookbook to install ruby language and gems through rvm"
+description      "Cookbook to install ruby language and gems"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.1.4"
 
 ## Imprescindible en chef 11!!!
 depends "rvm"
 depends "lang_nodejs"
+depends "brightbox-ruby"
 
 # estos 2 son dependencias por culpa da receta deploy_rails_app
 # o mellor as recetas de deploy de apps deberian ir nun cookbook propio
@@ -21,7 +22,7 @@ end
 
 
 recipe "install",
-    description: "Installs ruby with rvm",
+    description: "Installs ruby",
     attributes: [/^(?!.*\/(app|rails)\/).*$/],
     dependencies: []
 
@@ -45,7 +46,7 @@ attribute "lang/ruby/version",
     :display_name => 'Ruby version',
     :description => 'Ruby version to install',
     :default => 'ruby-2.1',
-    :choice => %w{ruby-2.1 ruby-2.0.0 ruby-1.9.3 system},
+    :choice => %w{ruby-2.2 ruby-2.1 ruby-2.0.0 ruby-1.9.3},
     :advanced => false
 
 

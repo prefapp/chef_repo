@@ -14,34 +14,31 @@
 #Chef::Log.error("PASSENGER_ROOT: #{node['nginx']['passenger']['root']} ")
 #Chef::Log.error("PASSENGER_RUBY: #{ruby_wrapper}")
 
-node.default["lang"]["ruby"]["version"] = "ruby-2.1" # ruby-1.9.3
+# choose how install ruby (rvm or brightbox ruby-ng)
+default['lang']['ruby']['use_rvm'] = false
+
+node.default["lang"]["ruby"]["version"] = 'ruby-2.1' # ruby-1.9.3
 node.default["lang"]["ruby"]["gemset"] = ''
 node.default['lang']['ruby']['rails']['sites'] = []
 
 ruby_versions = { 
+    'ruby-2.2' => 'ruby-2.2.0',
     'ruby-2.1' => 'ruby-2.1.5',
-    'ruby-2.1.0' => 'ruby-2.1.5',
     'ruby-2.0.0' => "ruby-2.0.0-p598",#'ruby-2.0.0-p353',
     'ruby-1.9.3' => "ruby-1.9.3-p551",#'ruby-1.9.3-p484', #'ruby-1.9.3-p429',
-    #'ruby-1.9.2' => 'ruby-1.9.2-p320',
-    #'ruby-1.8.7' => 'ruby-1.8.7-p374',
 }
 
 
 version = ruby_versions[node["lang"]["ruby"]["version"]]
 
-
 ## establecemos as rutas estaticamente
-node.set["lang"]["ruby"]["version_long"] = version
-node.set["lang"]["ruby"]["gemdir"] = "/usr/local/rvm/gems/#{version}"
-node.set["lang"]["ruby"]["binary_path"] = "/usr/local/rvm/rubies/#{version}/bin/ruby"
-node.set["lang"]["ruby"]["wrapper"] = "/usr/local/rvm/wrappers/#{version}/ruby"
-
-
-# version de rails, por defecto vacio para que colla a ultima
-node.default["lang"]["ruby"]["rails"]["version"] = nil
+node.default["lang"]["ruby"]["version_long"] = version
+node.default["lang"]["ruby"]["gemdir"] = "/usr/local/rvm/gems/#{version}"
+node.default["lang"]["ruby"]["binary_path"] = "/usr/local/rvm/rubies/#{version}/bin/ruby"
+node.default["lang"]["ruby"]["wrapper"] = "/usr/local/rvm/wrappers/#{version}/ruby"
 
 # apanho polo erro do certificado en rvm.io
 # node.set["rvm"]["installer_url"] = "https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer"
 
-default["lang"]["ruby"]["gems"] = []
+default["lang"]["ruby"]["gems"] = ['bundler']
+
