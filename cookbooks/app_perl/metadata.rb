@@ -91,25 +91,18 @@ attribute "app/perl/psgi_apps/@/revision",
     :default => "HEAD",
     :validations => {predefined: "revision"}
 
-attribute "app/perl/psgi_apps/@/migrate",
-    :display_name => 'Apply migrations?',
-    :description => 'If "yes" migrations will be run',
-    :advanced => false,
-    :choice => ["yes","no"],
-    :default => "yes",
-    :required => true
+attribute "app/perl/psgi_apps/@/credential",
+    :display_name => 'Repository remote user credential',
+    :description => 'Application repository remote user credential',
+    :field_type => 'textarea',
+    :validations => {predefined: "multiline_text"}
+
 
 attribute "app/perl/psgi_apps/@/migration_command",
     :display_name => 'Migration command',
     :description => 'Command to run to migrate application to current state',
     :default => "",
     :validations => {predefined: "unix_command"}
-
-attribute "app/perl/psgi_apps/@/credential",
-    :display_name => 'Repository remote user credential',
-    :description => 'Application repository remote user credential',
-    :field_type => 'textarea',
-    :validations => {predefined: "multiline_text"}
 
 attribute "app/perl/psgi_apps/@/extra_modules",
     :display_name => 'Extra perl modules',
@@ -132,3 +125,20 @@ attribute "app/perl/psgi_apps/@/postdeploy_script",
     :default => "",
     :validations => {predefined: "unix_path"}
 
+attribute "app/perl/psgi_apps/@/timeout",
+    :display_name => 'Request execution timeout',
+    :description => 'Max execution time for requests (in seconds)',
+    :default => 120,
+    :validations => {predefined: "int"}
+
+attribute "app/perl/psgi_apps/@/purge_target_path",
+    :display_name => "Delete target_path folder before deploy",
+    :description => "Delete 'target_path' folder before download application code",
+    :default => 'no',
+    :choice => ['yes','no']
+
+ attribute "app/perl/psgi_apps/@/repo_depth",
+    :display_name => "Number of past revisions to download (git)",
+    :description => "The number of past revisions that will be included in the git shallow clone. The default behavior will do a full clone.",
+    :default => 0,
+    :validations => {predefined: "int"}
