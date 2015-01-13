@@ -3,7 +3,7 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to install uWSGI and extensions"
-version          "0.1.2"
+version          "0.2.1"
 
 depends "lang_python"
 depends "lang_perl"
