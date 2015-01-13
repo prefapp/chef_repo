@@ -20,11 +20,10 @@ include_recipe "perlbrew::default"
 # TIVEMOS QUE METER -A ccflags=-fPIC para poder compilar os plugins de perl en uwsgi
 # ver http://search.cpan.org/dist/mod_perl/docs/user/install/install.pod
 options = "-j #{node["cpu"]["total"]} -Dusethreads -Duselargefiles -A ccflags=-fPIC"
-Chef::Log.info("Opcions de compilacion #{options}")
+Chef::Log.info("PERL COMPILATION OPTIONS: #{options}")
 
 perlbrew_perl node["lang"]["perl"]["version"] do
   action :install
-  #version  "mi_version_perl"
   install_options options
 end
 
