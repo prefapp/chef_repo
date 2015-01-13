@@ -1,5 +1,6 @@
-include_recipe "lang_python::default"
-
+# requisitos para todas as recetas (psgi, python...)
+# e para os providers
+include_recipe "code_repo::default"
 include_recipe "build-essential::default"
 
 # download code

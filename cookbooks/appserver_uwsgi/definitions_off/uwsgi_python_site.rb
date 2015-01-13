@@ -26,7 +26,7 @@ define :uwsgi_python_site,  :options => {} do
     # para python os threads non funcionan moi ben, e en perl non creo que vaian moito mellor
     threads = params[:threads] || node["appserver"]["uwsgi"]["threads"]
 
-    # aseguramonos que se instale o uwsgi co plugin psgi e coroae
+    # aseguramonos que se instale o uwsgi co plugin de python
     include_recipe "appserver_uwsgi::python"
 
     run_options = {}

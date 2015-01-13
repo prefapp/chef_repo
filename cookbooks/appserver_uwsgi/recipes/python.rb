@@ -1,4 +1,6 @@
 # montamos a base de uwsg
+include_recipe "lang_python::default"
+
 include_recipe "appserver_uwsgi::default"
 
 # librerias de desarrollo de python (debian, ubuntu)
