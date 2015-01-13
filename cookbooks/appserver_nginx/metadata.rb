@@ -2,15 +2,14 @@ name             "appserver_nginx"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-version          "0.1.3"
+version          "0.1.5"
 description      "Install/Configures nginx httpd server"
 
 %w{debian ubuntu}.each do |os|
   supports os
 end
 
-depends "nginx"
-depends "runit"
+depends "nginx", "~> 2.7"
 depends "lang_ruby"
 
 recipe "default",
@@ -28,14 +27,6 @@ recipe "reverse_proxy",
     :attributes => [/\/reverse_proxy_sites\//],
     :stackable => true,
     :dependencies => ["appserver_nginx::default"]
-
-=begin
-#RECETA CO FLAG DE stackable A true!!
-recipe "add_passenger_site",
-    :description => ,
-    :attributes => ,
-    :dependencies => ["with_passenger"]
-=end
 
 #recipe "with_php-fpm",
 #    description: "Deploys last stable versions of php5.4 and nginx with php-fpm, from sources",
@@ -82,7 +73,7 @@ attribute "appserver/nginx/modules",
 attribute "appserver/nginx/passenger/version",
     :display_name => 'Passenger version',
     :description => 'Passenger version to compile and install with nginx',
-    :default => '4.0.52', #'3.0.21',
+    :default => '4.0.57', 
     :advanced => false,
     :validations => {predefined: "version"}
 

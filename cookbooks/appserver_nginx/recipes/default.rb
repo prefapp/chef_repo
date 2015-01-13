@@ -30,38 +30,19 @@ node.set['nginx']['source']['default_configure_flags'] = [
 node.set["nginx"]["source"]["modules"] = node["appserver"]["nginx"]["modules"].map{|m| "nginx::#{m}"}
 
 
-# novedades para docker, podemolo meter noutro arquivo mellor?
-
-if node["riyic"]["dockerized"] == "yes"
-    # o init_style supervisor non existe (de momento), pero utilizara init
-    node.override['nginx']['init_style'] = 'supervisor'
-
-    # obligamos a que arranque o nginx en foreground 
-    # (a receta nginx::source pono a false por eso o override)
+# si temos seteado o flag e senhal de que estamos dentro dun docker
+# seteamos daemon_disable para que arranque en primer plano
+if node["riyic"]["inside_container"]
+    node.override['nginx']['init_style'] = 'init'
     node.override['nginx']['daemon_disable']  = true
 end
 
+##################################################################################
+# dentro dun container de docker usamos runit para facer de vigilante de procesos
+# e temos que proporcionar o comando co que runit arrancara o servicio
+# - ver o provider Chef::Provider::ContainerService::Runit no cookbook de riyic
+##################################################################################
+node.set["container_service"]["nginx"]["command"] = "/opt/nginx/sbin/nginx -c /etc/nginx/nginx.conf"
+
+
 include_recipe "nginx::source"
-
-# si queremos usar o supervisor vamos a usar o provider que nos da o seu cookbook
-# pero temos que deshabilitar o nginx para que sexa supervisor quen o xestione
-if node["riyic"]["dockerized"] == "yes"
-
-    # deshabilitamos o servicio nginx para que non se arranque automaticamente
-    # queremos controlalo con supervisor
-    srv = resources(service: "nginx")
-    # srv.provider Chef::Provider::Service::Upstart
-    srv.start_command "/bin/true"
-    srv.stop_command "/bin/true"
-    srv.restart_command "/bin/true"
-    srv.action :nothing
-
-    include_recipe "pcs_supervisor::default"
-
-    supervisor_service "nginx" do        
-        stdout_logfile "/var/log/supervisor/nginx.log"
-        stderr_logfile "/var/log/supervisor/nginx.err"
-        command node["nginx"]["binary"]
-        action "enable"
-    end
-end

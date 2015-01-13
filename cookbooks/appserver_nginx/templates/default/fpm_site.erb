@@ -1,7 +1,12 @@
 server {
     listen <%= @port%>;
     server_name <%=@name%> <%=@alternate_names.join(' ') %>;
+
     root <%=@document_root%>;
+    
+    index index.php index.html index.htm;
+
+    # include /etc/nginx/security;
 
 
     access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
@@ -10,19 +15,20 @@ server {
     #rewrite ^/(favicon.ico)$ /images/$1 permanent;
     #rewrite ^/(robots.txt)$ /files/$1 permanent;
 
-    # first try to serve static files, else pass to uwsgi
-    location / {
-        try_files $uri @uwsgi;
-    }
+    # location / {
+    #     try_files $uri $uri/ /index.html;
+    # } 
 
-    location @uwsgi {
-        include uwsgi_params;
-        uwsgi_pass <%= @uwsgi_socket%>;
-        uwsgi_modifier1 <%= @uwsgi_modifier1%>;
-        uwsgi_modifier2 <%= @uwsgi_modifier2%>;
-        uwsgi_read_timeout <%=@uwsgi_read_timeout%>s;
+    location ~ \.php$ {
 
-    }    
+            # try_files $uri =404;
+            include fastcgi_params;
+            fastcgi_pass <%=@fpm_socket%>;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_read_timeout    <%=@fastcgi_timeout%>;
+            
+    }   
 
     #location <%= @service_location %> {
     #    include uwsgi_params;
@@ -32,6 +38,13 @@ server {
     #    uwsgi_pass <%= @uwsgi_socket%>;
     #    uwsgi_modifier1 5;
     #}
+
+
+    # serve static files directly
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
+        access_log        off;
+        expires           max;
+    }
 
     <%if @static_files_path %>
     location ~* /(images|css|js|files)/ { # static files in public/<folders>

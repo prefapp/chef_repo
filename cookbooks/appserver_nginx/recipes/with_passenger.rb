@@ -1,18 +1,19 @@
-## seteamos atributos para o cookbook base (appserver)
-node.set["appserver"]["id"] = "nginx_with_passenger"
-node.set["appserver"]["version"] = node["appserver"]["nginx"]["passenger"]["version"]
+include_recipe "lang_ruby::install"
 
 # seteamos a version de nginx a instalar
 node.set["nginx"]["passenger"]["version"] = node["appserver"]["nginx"]["passenger"]["version"]
 
 # seteamos os valores necesarios para que a receta de passenger
 # detecte a instalacion de ruby con rvm
-node.set["nginx"]["passenger"]["root"] = "#{node['lang']['ruby']['gemdir']}/gems/passenger-#{node['appserver']['version']}"
-node.set["nginx"]["passenger"]["ruby"] = node['lang']['ruby']['wrapper']
+# ou o ruby instalado desde o repo de brightbox
+if node['lang']['ruby']['use_rvm']
+    node.set["nginx"]["passenger"]["ruby"] = node['lang']['ruby']['wrapper']
+else
+    node.set["nginx"]["passenger"]["ruby"] = node["lang"]["ruby"]["binary_path"] 
+end
 
-## usamos gem_dir e ruby_path, 2 helpers definidos no cookbook lang_ruby
-#node.set["nginx"]["passenger"]["root"] = "#{gem_dir}/gems/passenger-#{node['appserver']['version']}"
-#node.set["nginx"]["passenger"]["ruby"] = ruby_wrapper
+node.set["nginx"]["passenger"]["root"] = "#{node['lang']['ruby']['gemdir']}/gems/passenger-#{node['nginx']['passenger']['version']}"
+
 
 Chef::Log.info("NGINX::PASSENGER_ROOT: #{node['nginx']['passenger']['root']} ")
 Chef::Log.info("NGINX::PASSENGER_RUBY: #{node["nginx"]["passenger"]["ruby"]}")

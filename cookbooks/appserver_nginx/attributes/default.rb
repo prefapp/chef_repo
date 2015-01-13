@@ -7,11 +7,16 @@
 #default["appserver"]["nginx"]["version"] = "1.4.1"
 #default["appserver"]["nginx"]["checksum"] = "bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119
 
-# directorio de instalacion (por defecto)
-default["appserver"]["nginx"]["install_dir"] = "/opt/nginx-#{node['appserver']['nginx']['version']}"
 
 default["appserver"]["nginx"]["modules"] = [
     "http_ssl_module",
     "http_gzip_static_module"
 ]
 
+default["appserver"]["nginx"]["version"] = "1.6.2"
+default["appserver"]["nginx"]["checksum"] = "b5608c2959d3e7ad09b20fc8f9e5bd4bc87b3bc8ba5936a513c04ed8f1391a18"
+# directorio de instalacion (por defecto)
+default["appserver"]["nginx"]["install_dir"] = "/opt/nginx"
+
+# default passenger version
+default["appserver"]["nginx"]["passenger"]["version"] = "4.0.57"
