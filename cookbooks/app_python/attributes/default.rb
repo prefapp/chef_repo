@@ -17,3 +17,5 @@ default["app"]["wsgi"]["default_extra_packages"] = []
 default["app"]["wsgi"]["default_requirements_file"] = nil
 default["app"]["wsgi"]["default_purge_target_path"] = "no"
 default["app"]["wsgi"]["default_repo_depth"] = nil
+default["app"]["psgi"]["default_processes"] = 2
+default["app"]["psgi"]["default_threads"] = 0
