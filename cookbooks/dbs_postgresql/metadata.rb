@@ -9,8 +9,8 @@ name             "dbs_postgresql"
   supports os
 end
 
-depends "postgresql"
-depends "database"
+depends "postgresql", "~> 3.4"
+depends "database", "~> 2.3"
 
 # recetas
 recipe  "default", 
