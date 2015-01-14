@@ -10,6 +10,13 @@ if node["dbs"]["postgresql"]["server"]["allow_remote_connections"]
 
 end
 
+# para arrancar o servicio co runit dentro dun container
+node.set['container_service']['postgresql']['command'] = <<EOH
+su -c '/usr/lib/postgresql/#{node['postgresql']['version']}/bin/postgres \\
+      -D #{node['postgresql']['config']['data_directory']} \\
+      -c config_file=#{node['postgresql']['dir']}/postgresql.conf' \\
+- postgres
+EOH
 
 include_recipe "postgresql::server"
 

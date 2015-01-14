@@ -1,5 +1,4 @@
 connection_info = {
-  # :host =>  node['mysql']['server']['hostname'],
   :host => "localhost",
   :username => "postgres",
   :password => node['dbs']["postgresql"]["server"]['postgres_password']
@@ -9,13 +8,18 @@ connection_info = {
 
 node['dbs']['postgresql']['user_extra_options'].each do |item|
 
-    bash "assign-extra_privileges" do
+    bash "assign_extra_privileges" do
+
       user 'postgres'
       code <<-EOH
-    echo "ALTER ROLE #{item['user']} #{item['extra_privileges'].join(' ')};" | psql -p #{node['postgresql']['config']['port']}
-      EOH
+
+echo "ALTER ROLE #{item['user']} #{item['extra_privileges'].join(' ')};" | psql -p #{node['postgresql']['config']['port']}
+      
+EOH
       action :run
+
     end
+
 
     if item['allow_remote_connections'] == 'yes'
 
