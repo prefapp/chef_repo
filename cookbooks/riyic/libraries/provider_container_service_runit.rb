@@ -43,13 +43,18 @@ class Chef
           @service_dir_link = nil
 
           options = node['container_service'][new_resource.service_name]
+          Chef::Log.info(options)
           @command = options['command']
           @log_type = options['log_type'].nil? ? :file : options['log_type'].to_sym
+          @run_script_content = options['run_script_content']
+          @check_script_content = options['check_script_content']
+          @disable = options['disable']
         end
 
         def load_current_resource
           @current_resource = Chef::Resource::Service.new(new_resource.name, run_context)
           @current_resource.service_name(new_resource.service_name)
+          return if @disable
 
           setup
 
@@ -75,6 +80,11 @@ class Chef
           Chef::Log.debug("Creating run script for #{new_resource.service_name}")
           run_script.run_action(:create)
 
+          if @check_script_content
+            Chef::Log.debug("Creating check script for #{new_resource.service_name}")
+            check_script.run_action(:create)
+          end
+
           if @log_type.eql?(:file)
             Chef::Log.debug("Creating /var/log directory for #{new_resource.service_name}")
             log_dir.run_action(:create)
@@ -95,29 +105,35 @@ class Chef
         # Service Resource Overrides
         #
         def enable_service
+          return if @disable
           down_file.run_action(:delete)
         end
 
         def disable_service
+          return if @disable
           down_file.run_action(:create)
           shell_out("#{sv_bin} down #{service_dir_name}")
           Chef::Log.debug("#{new_resource} down")
         end
 
         def start_service
+          return if @disable
           wait_for_service_enable
           shell_out!("#{sv_bin} start #{service_dir_name}")
         end
 
         def stop_service
+          return if @disable
           shell_out!("#{sv_bin} stop #{service_dir_name}")
         end
 
         def restart_service
+          return if @disable
           shell_out!("#{sv_bin} restart #{service_dir_name}")
         end
 
         def reload_service
+          return if @disable
           shell_out!("#{sv_bin} force-reload #{service_dir_name}")
         end
 
@@ -166,9 +182,15 @@ class Chef
         # Helper Methods for Supervisor Setup
         #
         def run_script_content
-          "#!/bin/sh
+
+            (@run_script_content)? 
+
+                @run_script_content :
+
+                "#!/bin/sh
 exec 2>&1
 exec #{@command} 2>&1"
+
         end
 
         def log_run_script_content
@@ -208,6 +230,15 @@ exec #{@command} 2>&1"
           @run_script.mode(00755)
           @run_script
         end
+
+        def check_script
+          return @check_script unless @check_script.nil?
+          @check_script = Chef::Resource::File.new(::File.join(staging_dir_name, 'check'), run_context)
+          @check_script.content(@check_script_content)
+          @check_script.mode(00755)
+          @check_script
+        end
+
 
         def log_dir
           return @log_dir unless @log_dir.nil?

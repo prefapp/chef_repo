@@ -43,6 +43,7 @@ if node['virtualization']['system'] =~ /^lxc|docker$/
     # flag para outros cookbooks
     node.set["riyic"]["inside_container"] = true
 
+    # instalamos runit que vai a ser o gestor de procesos
     include_recipe "runit::default"
 
     # arrancamos o servicio de runit en segundo plano
@@ -52,6 +53,7 @@ if node['virtualization']['system'] =~ /^lxc|docker$/
         action  :run
         not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
     end
+
 end
 
 

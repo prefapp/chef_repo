@@ -27,14 +27,21 @@ class Chef
       def initialize(name, run_context=nil)
         orig_initialize(name, run_context)
 
+
         if running_inside_container?
         
-            unless @service_name == 'runit' || container_service_command_specified?
+            return if @service_name == 'runit'
+            return if @service_name =~ /^no_runit/
+        
+            unless container_service_command_specified?
                 raise "We are running inside a docker container so 'container_service' for service[#{@service_name}] must be specified"
             end
 
             Chef::Log.info("Provider for service[#{@service_name}] has been " \
                 "replaced with Chef::Provider::ContainerService::Runit")
+
+            Chef::Log.info("Command to start service:#{@run_context.node["container_service"][@service_name]["command"]}")
+
             @provider = Chef::Provider::ContainerService::Runit
 
         end
