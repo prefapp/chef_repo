@@ -9,8 +9,8 @@ name             "dbs_mysql"
   supports os
 end
 
-depends "mysql"
-depends "database"
+depends "mysql",'~> 5.5'
+depends "database", '~> 2.3'
 
 # recetas
 recipe  "default", 
