@@ -5,11 +5,14 @@ license          "Apache 2.0"
 description      "Cookbook to manage riyic configurations"
 version          "0.2.6"
 
-depends "system_cron"
-depends "chef_handler"
-depends "locale"
+# riyic
+depends 'system_cron'
 depends "system_package"
-depends "runit"
+
+# supermarket
+depends 'chef_handler', '~> 1.1'
+depends 'locale', '~> 1.0'
+depends 'runit', '~> 1.5'
 
 %w{debian ubuntu}.each do |os|
   supports os
