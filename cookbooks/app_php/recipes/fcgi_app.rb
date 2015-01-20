@@ -34,7 +34,7 @@ Array(node["app"]["php"]["fcgi_apps"]).each do |app|
                 end
 
                 notifies   :restart, 'service[nginx]'
-                notifies   :restart, "service[php5-fpm]"
+                notifies   :restart, 'service[php5-fpm]'
 
 
 	end
