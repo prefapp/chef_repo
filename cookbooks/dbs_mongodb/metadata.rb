@@ -9,7 +9,7 @@ name             "dbs_mongodb"
   supports os
 end
 
-depends "mongodb"
+depends "mongodb",'~> 0.16'
 
 # recetas
 recipe  "default", 
