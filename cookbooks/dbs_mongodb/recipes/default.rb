@@ -1,5 +1,10 @@
 node.set['mongodb']['install_method'] = 'mongodb-org'
+node.set['mongodb']['bind_ip'] = '0.0.0.0'
+
 include_recipe "mongodb::default"
+
+node.set['container_service']['mongodb']['command'] = 
+    'chpst -u mongodb:daemon /usr/bin/mongod -f /etc/mongodb.conf'
 
 ## creamos o script de arranque e arrancamos o servicio
 # instalamos o supervisord e configuramos o control do uwsgi
