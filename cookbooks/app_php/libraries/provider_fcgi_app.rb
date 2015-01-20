@@ -46,7 +46,7 @@ class Chef
                 nginx_fpm_site new_resource.domain do
 
                     server_alias            new_resource.server_alias
-                    document_root           new_resource.target_path
+                    document_root           new_resource.document_root || new_resource.target_path
 
                     static_files_path       "#{new_resource.target_path}/#{new_resource.static_files_path}" if new_resource.static_files_path
                     fpm_socket              new_resource.internal_socket
