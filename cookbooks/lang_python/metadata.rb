@@ -5,7 +5,7 @@ license          "Apache 2.0"
 description      "Cookbook to install python language from package or sources"
 version          "0.1.1"
 
-depends "python"
+depends "python", "~> 1.4"
 
 %w{debian ubuntu}.each do |os|
   supports os
