@@ -7,9 +7,9 @@ description      "Cookbook to install ruby language and gems"
 version          "0.2.0"
 
 ## Imprescindible en chef 11!!!
-depends "rvm"
+depends "rvm",'~> 0.10'
+depends "brightbox-ruby", '~> 1.2'
 depends "lang_nodejs"
-depends "brightbox-ruby"
 
 # estos 2 son dependencias por culpa da receta deploy_rails_app
 # o mellor as recetas de deploy de apps deberian ir nun cookbook propio
