@@ -65,7 +65,7 @@ action :pull do
     #
     # descargamos o codigo da app, ou actualizamos o existente
     #
-    Chef::Log.info("Git pull #{target_path}")
+    Chef::Log.info("Git pull from #{repo_url} to #{target_path}")
     git target_path do
       repository  repo_url
       reference   revision
