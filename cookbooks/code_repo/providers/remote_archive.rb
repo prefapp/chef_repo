@@ -22,7 +22,7 @@ action :pull do
     # descargamos o paquete da app
     #
     tmp_file = "#{Chef::Config[:file_cache_path] || '/tmp'}/#{remote_file}"
-    Chef::Log.info("Remote file pull #{tmp_file}")
+    Chef::Log.info("Remote file pull #{remote_url}/#{remote_file}")
 
     remote_file tmp_file do
       source      "#{remote_url}/#{remote_file}"
@@ -47,6 +47,7 @@ action :pull do
       #EOH
       code <<-EOH
         tar xC #{target_path} --strip-components=1 -f #{::File.basename(tmp_file)}
+        chown -R #{owner}:#{group} #{target_path}
       EOH
     end
 
