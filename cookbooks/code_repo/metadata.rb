@@ -2,7 +2,7 @@ name             "code_repo"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-version          "0.1.2"
+version          "0.1.4"
 description      "Download source code from different source repo types"
 
 %w{debian ubuntu}.each do |os|
