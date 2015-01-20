@@ -58,6 +58,16 @@ class Chef
           )
       end
 
+      def document_root(arg=nil)
+          set_or_return(
+              :document_root,
+              arg,
+              :kind_of => [String, NilClass],
+              :required => false,
+              :default => nil
+          )
+      end
+
       def entry_point(arg=nil)
           set_or_return(
               :entry_point,
