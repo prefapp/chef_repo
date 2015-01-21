@@ -26,10 +26,10 @@ recipe "install",
     attributes: [/^(?!.*\/(app|rails)\/).*$/],
     dependencies: []
 
-recipe "rails",
-    description: "Installs rails framework",
-    attributes: [/rails/],
-    dependencies: ["lang_ruby::install", "lang_nodejs"]
+#recipe "rails",
+#    description: "Installs rails framework",
+#    attributes: [/rails/],
+#    dependencies: ["lang_ruby::install", "lang_nodejs"]
 
 #recipe "sinatra",
 #    description: "Installs sinatra framework",
