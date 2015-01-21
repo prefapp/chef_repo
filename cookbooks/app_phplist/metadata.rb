@@ -2,7 +2,7 @@ name             "app_phplist"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-description      "Cookbook to manage phplist (openerp) installations"
+description      "Cookbook to manage phplist installations"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.1.2"
 
@@ -15,7 +15,8 @@ end
 
 recipe "deploy",
     description: "Deploy a phplist installation",
-    attributes: [/.+/]
+    attributes: [/.+/],
+    stackable: true
 
 
 attribute "app/phplist/installations/@/domain",
@@ -39,7 +40,7 @@ attribute "app/phplist/installations/@/db_host",
     :description => "Database host",
     :default => "db",
     :required => true,
-    :validations => {predefined: "hostname"}
+    :validations => {predefined: "server_name"}
 
 
 attribute "app/phplist/installations/@/db_name",
@@ -87,7 +88,7 @@ attribute "app/phplist/installations/@/smtp_server",
     :description => "Smtp server to use to send emails, empty to localhost",
     :default => '',
     :required => false,
-    :validations => {predefined: "hostname"}
+    :validations => {predefined: "server_name"}
 
 attribute "app/phplist/installations/@/smtp_user",
     :display_name => "Smtp username",
