@@ -24,14 +24,14 @@ recipe "default",
     dependencies: []
 
 ## Atributos
-attribute "riyic/dockerized",
-    :display_name => 'Dockerized',
-    :description => 'Is going to be this server dockerized?',
-    :required => true,
-    :default => "no",
-    :choice => ["yes","no"],    
-    :validations => {regex: /^(never)|\d+(min|h|d)?/},
-    :advanced => false
+#attribute "riyic/dockerized",
+#    :display_name => 'Dockerized',
+#    :description => 'Is going to be this server dockerized?',
+#    :required => true,
+#    :default => "no",
+#    :choice => ["yes","no"],    
+#    :validations => {regex: /^(never)|\d+(min|h|d)?/},
+#    :advanced => false
 
 ## Atributos
 attribute "riyic/system_locale",
