@@ -154,7 +154,7 @@ attribute "app/python/wsgi_apps/@/static_files_path",
 attribute "app/python/wsgi_apps/@/timeout",
     :display_name => 'Request execution timeout',
     :description => 'Max execution time for requests (in seconds)',
-    :default => 120,
+    :default => "120",
     :validations => {predefined: "int"}
 
 attribute "app/python/wsgi_apps/@/purge_target_path",
@@ -166,5 +166,5 @@ attribute "app/python/wsgi_apps/@/purge_target_path",
  attribute "app/python/wsgi_apps/@/repo_depth",
     :display_name => "Number of past revisions to download (git)",
     :description => "The number of past revisions that will be included in the git shallow clone. The default behavior will do a full clone.",
-    :default => 0,
+    :default => "0",
     :validations => {predefined: "int"}
