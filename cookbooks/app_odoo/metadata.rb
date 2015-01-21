@@ -16,7 +16,8 @@ end
 
 recipe "deploy",
     description: "Deploy an odoo installation",
-    attributes: [/.+/]
+    attributes: [/.+/],
+    stackable: true
 
 
 attribute "app/odoo/installations/@/domain",
@@ -35,7 +36,7 @@ attribute "app/odoo/installations/@/alias",
     :validations => {predefined: "domain"}
 
 
-attribute "app/odoo/installations/@/admin_passwd",
+attribute "app/odoo/installations/@/admin_password",
     :display_name => "Odoo admin password",
     :description => "Odoo admin password",
     :required => true,
@@ -57,7 +58,7 @@ attribute "app/odoo/installations/@/db_host",
     :description => "Database host",
     :default => "db",
     :required => true,
-    :validations => {predefined: "hostname"}
+    :validations => {predefined: "server_name"}
 
 
 attribute "app/odoo/installations/@/db_name",
@@ -101,30 +102,30 @@ attribute "app/odoo/installations/@/entry_point",
     :default => 'openerp-wsgi.py',
     :validations => {predefined: "unix_path"}
 
-attribute "app/odoo/installations/@/repo_url",
-    :display_name => 'Repository source code url',
-    :description => 'Repository url from which to download source code',
-    :required => true,
-    :default => "http://my-repo-url.com",
-    :validations => {predefined: "url"}
-
-attribute "app/odoo/installations/@/repo_type",
-    :display_name => "Repository type",
-    :description => 'Repository type from which to download application code',
-    :default => 'git',
-    :choice => ["git", "subversion","remote_archive"]
-
-attribute "app/odoo/installations/@/revision",
-    :display_name => 'Application Repository revision',
-    :description => 'Application repository tag/branch/commit/archive_name to download',
-    :default => "8.0",
-    :validations => {predefined: "revision"}
-
-attribute "app/odoo/installations/@/credential",
-    :display_name => 'Repository remote user credential',
-    :description => 'Application repository remote user credential',
-    :field_type => 'textarea',
-    :validations => {predefined: "multiline_text"}
+#attribute "app/odoo/installations/@/repo_url",
+#    :display_name => 'Repository source code url',
+#    :description => 'Repository url from which to download source code',
+#    :required => true,
+#    :default => "http://my-repo-url.com",
+#    :validations => {predefined: "url"}
+#
+#attribute "app/odoo/installations/@/repo_type",
+#    :display_name => "Repository type",
+#    :description => 'Repository type from which to download application code',
+#    :default => 'git',
+#    :choice => ["git", "subversion","remote_archive"]
+#
+#attribute "app/odoo/installations/@/revision",
+#    :display_name => 'Application Repository revision',
+#    :description => 'Application repository tag/branch/commit/archive_name to download',
+#    :default => "8.0",
+#    :validations => {predefined: "revision"}
+#
+#attribute "app/odoo/installations/@/credential",
+#    :display_name => 'Repository remote user credential',
+#    :description => 'Application repository remote user credential',
+#    :field_type => 'textarea',
+#    :validations => {predefined: "multiline_text"}
 
 attribute "app/odoo/installations/@/user",
     :display_name => "Deployment owner",

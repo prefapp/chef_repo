@@ -141,7 +141,7 @@ node["app"]["odoo"]["installations"].each do |app|
         group       group
         variables(
                     :addons_path => addons_path,
-                    :admin_passwd => app['admin_passwd'],
+                    :admin_passwd => app['admin_password'],
                     :data_dir   => app['data_dir'],
                     :db_name => app['db_name'],
                     :db_user => app['db_user'],
