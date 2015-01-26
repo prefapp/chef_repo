@@ -12,7 +12,7 @@ end
 depends "supervisor"
 
 recipe "default",
-    :description => "Installs supervisor and python support",
+    :description => "Install supervisor process control system",
     :attributes => [/.+/]
 
     
