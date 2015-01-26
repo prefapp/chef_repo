@@ -28,7 +28,6 @@ class Chef
         @internal_socket = nil
         @timeout = '60'
         @extra_packages = []
-        @purge_target_path = false
       end
 
       # Define the attributes we set defaults for
