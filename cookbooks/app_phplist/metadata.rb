@@ -14,7 +14,7 @@ depends "dbs_mysql"
 end
 
 recipe "deploy",
-    description: "Deploy a phplist installation",
+    description: "Deploy a tasty phplist application",
     attributes: [/.+/],
     stackable: true
 
