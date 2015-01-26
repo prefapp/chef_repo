@@ -19,7 +19,7 @@ depends 'runit', '~> 1.5'
 end
 
 recipe "default",
-    description: "Default riyic recipe",
+    description: "Riyic base recipe",
     attributes: [/.+/],
     dependencies: []
 
