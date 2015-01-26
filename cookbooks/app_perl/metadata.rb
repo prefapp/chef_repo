@@ -15,17 +15,16 @@ depends "code_repo"
   supports os
 end
 
-recipe "default",
-    description: "empty",
-    attributes: []
-
 
 recipe "psgi_app",
-    description: "Deploy a psgi app from repository with nginx+uwsgi support",
+    description: "Deploy a psgi app from remote repository served with nginx & uwsgi taste",
     attributes: [/^app\/perl\/psgi_apps\//],
     dependencies: ["lang_perl::default", "appserver_nginx::default", "appserver_uwsgi::psgi"],
     stackable: true
 
+
+# atributes
+#
 attribute "app/perl/psgi_apps/@/domain",
     :display_name => 'Application domain',
     :description => 'Domain associated to app virtual host',
