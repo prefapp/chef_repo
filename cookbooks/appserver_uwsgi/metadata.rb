@@ -20,12 +20,12 @@ end
 #     dependencies: []
 
 recipe "psgi",
-    description: "Installs uWSGI with psgi support",
+    description: "Install uWSGI with psgi support",
     attributes: [/.+/],
     dependencies: ["lang_perl::default"]
 
 recipe "python",
-    description: "Installs uWSGI with python support",
+    description: "Install uWSGI with python support",
     attributes: [/^(?!.*\/(psgi)\/).*$/],
     dependencies: ["lang_python::default"]
 
