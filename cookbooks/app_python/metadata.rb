@@ -17,17 +17,15 @@ depends "riyic" # para o base hwrp
   supports os
 end
 
-recipe "default",
-    description: "empty",
-    attributes: []
-
-
 recipe "wsgi_app",
-    description: "Deploy a wsgi app from repository with nginx+uwsgi support",
+    description: "Deploy a wsgi app from remote repository served with nginx & uwsgi dressing",
     attributes: [/^app\/python\/wsgi_apps\//],
     dependencies: ["lang_python::default", "appserver_nginx::default", "appserver_uwsgi::python"],
     stackable: true
 
+#
+# atributes
+#
 attribute "app/python/wsgi_apps/@/domain",
     :display_name => 'Application domain',
     :description => 'Domain associated to app virtual host',
