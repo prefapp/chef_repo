@@ -13,6 +13,6 @@ depends "php5-fpm"
 end
 
 recipe "default",
-    description: "Installs php-fpm from package manager and initialize default 'www' pool",
+    description: "Install php-fpm from package manager and initialize default 'www' pool",
     attributes: [/.+/],
     dependencies: []
