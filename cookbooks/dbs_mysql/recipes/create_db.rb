@@ -7,9 +7,9 @@ include_recipe "database::mysql"
 # definimos a conexion
 mysql_connection_info = {
   # :host =>  node['mysql']['server']['hostname'],
-  :host => "localhost",
-  :username => "root",
-  :password => node['dbs']["mysql"]['server']['root_password']
+    :host => "127.0.0.1",
+    :username => "root",
+    :password => node['dbs']["mysql"]['server']['root_password']
 }
 
 
