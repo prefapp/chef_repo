@@ -54,6 +54,14 @@ if node['virtualization']['system'] =~ /^lxc|docker$/
         not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
     end
 
+    template "/root/start.sh" do
+        source "start.sh.erb"
+        mode "700"
+        owner "root"
+        group "root"
+    end
+
+
 end
 
 
