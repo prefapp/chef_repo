@@ -2,23 +2,51 @@ include_recipe "app_phplist::default"
 
 node["app"]["phplist"]["installations"].each do |app|
 
-    owner = app["user"] || node["app"]["phplist"]["default_user"]
-    group = app["group"] || 'users'
+        args = {}
+
+        %W{
+            domain
+            target_path
+            user
+            group
+            repo_url
+            repo_type
+            revision
+            db_name
+            db_user
+            db_host
+            db_password
+            smtp_user
+            smtp_password
+            smtp_server
+            test_mode
+            bounce_address
+            bounce_mailbox_host
+            bounce_mailbox_user
+            bounce_mailbox_password
+            bounce_unsuscribe_threshold
+            default_system_language
+
+        }.each do |attribute|
+    
+            args[attribute] = app[attribute] || node["app"]["phplist"]["default_#{attribute}"]
+
+        end
 
     # instalamos a aplicacion e configuramos os servicios necesarios
-    fcgi_app app["domain"] do
+    fcgi_app args["domain"] do
 
-        target_path        app['target_path']
-        document_root      "#{app["target_path"]}/public_html/lists"
-        server_alias       app['alias'] if app['alias']
+        target_path        args['target_path']
+        document_root      "#{args["target_path"]}/public_html/lists"
+        server_alias       args['alias'] if args['alias']
         action             :deploy
-        owner              app['user'] || node['app']['phplist']['default_user']       
-        group              app['group']|| node['app']['phplist']['default_group'] 
+        owner              args['user']
+        group              args['group']
         timeout            "600"
     
-        repo_url           app["repo_url"] || node["app"]["phplist"]["default_repo_url"]
-        repo_type          app["repo_type"] || node["app"]["phplist"]["default_repo_type"]
-        revision           app["revision"] || node["app"]["phplist"]["default_revision"]
+        repo_url           args["repo_url"]
+        repo_type          args["repo_type"]
+        revision           args["revision"]
         purge_target_path  'yes'
 
         notifies          :restart, 'service[nginx]'
@@ -30,23 +58,13 @@ node["app"]["phplist"]["installations"].each do |app|
 
     
     # creamos o ficheiro de configuracion
-    template "#{app['target_path']}/public_html/lists/config/config.php" do
+    template "#{args['target_path']}/public_html/lists/config/config.php" do
 
         source      'config.php.erb'
         cookbook    "app_phplist" 
-        user        owner
-        group       group
-        variables(
-                    :db_name => app['db_name'],
-                    :db_user => app['db_user'],
-                    :db_password => app['db_password'],
-                    :db_host => app['db_host'],
-                    :smtp_server => app['smtp_server'],
-                    :smtp_user => app['smtp_user'],
-                    :smtp_password => app['smtp_password'],
-                    
-                    
-        )
+        user        args["user"]
+        group       args["group"]
+        variables   ({:app => args})
                     
     end
 

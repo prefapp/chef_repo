@@ -102,3 +102,35 @@ attribute "app/phplist/installations/@/smtp_password",
     :description => "Smtp server account password",
     :validations => {predefined: "password"}
 
+attribute "app/phplist/installations/@/bounce_address",
+   :display_name => "Bounces email address",
+   :description => "Email address where most bounces will be delivered",
+   :validations => {predefined: "email"}
+
+attribute "app/phplist/installations/@/bounce_mailbox_host",
+   :display_name => "Pop3 bounce mailbox hostname",
+   :description => "Pop3 server that hosts bounce address mailbox ",
+   :validations => {predefined: "server_name"}
+
+attribute "app/phplist/installations/@/bounce_mailbox_user",
+   :display_name => "Pop3 bounce mailbox username",
+   :description => "Pop3 bounce mailbox username",
+   :validations => {predefined: "smtp_user"}
+
+attribute "app/phplist/installations/@/bounce_mailbox_password",
+   :display_name => "Pop3 bounce mailbox password",
+   :description => "Pop3 bounce mailbox password",
+   :validations => {predefined: "password"}
+
+attribute "app/phplist/installations/@/bounce_unsuscribe_threshold",
+   :display_name => "Pop3 bounce mailbox hostname",
+   :description => "Pop3 server that hosts bounce address mailbox ",
+   :validations => {predefined: "int"}
+
+attribute "app/phplist/installations/@/default_system_language",
+   :display_name => "Default system language",
+   :description => "Use this language as the fallback language",
+   :validations => {predefined: "iso639-1"}
+
+
+

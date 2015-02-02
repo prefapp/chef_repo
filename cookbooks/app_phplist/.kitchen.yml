@@ -51,7 +51,15 @@ suites:
             'db_user': 'phplist',
             'db_host': 'db',
             'db_password': 'phplist',
-        
+            'smtp_user': 'test_user',
+            'smtp_password': 'password',
+            'smtp_server': 'mail.test.com',
+            'test_mode': 0,
+            'bounce_address': 'bounces@phplist.riyic.com',
+            'bounce_mailbox_host': 'pop3_host.riyic.com',
+            'bounce_mailbox_user' : 'username',
+            'bounce_mailbox_password': 'password',
+            'bounce_unsuscribe_threshold' : 5
         }
       ]
     }
