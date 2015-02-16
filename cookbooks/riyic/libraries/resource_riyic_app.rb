@@ -28,6 +28,8 @@ class Chef
         @internal_socket = nil
         @timeout = '60'
         @extra_packages = []
+        @cookbook = nil
+        @fronted_template = nil
       end
 
       # Define the attributes we set defaults for
@@ -214,8 +216,25 @@ class Chef
           )
       end
 
-    end
+      def cookbook(arg=nil)
+          set_or_return(
+              :cookbook,
+              arg,
+              :kind_of => [String, NilClass],
+              :default => nil
+          )
+      end
 
+      def frontend_template(arg=nil)
+          set_or_return(
+              :frontend_template,
+              arg,
+              :kind_of => [String, NilClass],
+              :default => nil
+          )
+      end
+
+    end
   end
 end
 
