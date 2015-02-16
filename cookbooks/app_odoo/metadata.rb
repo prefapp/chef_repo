@@ -4,7 +4,7 @@ maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to manage odoo (openerp) installations"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.2.2"
+version          "0.2.5"
 
 depends "app_python"
 depends "dbs_postgresql"
