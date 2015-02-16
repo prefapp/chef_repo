@@ -9,7 +9,7 @@ class Chef
         super(name, run_context)
         @resource_name = :fcgi_app
         @provider = Chef::Provider::FcgiApp
-        @extra_modules = []
+
       end
 
 
@@ -17,7 +17,17 @@ class Chef
           set_or_return(
               :extra_modules,
               arg,
-              :kind_of => Array
+              :kind_of => Array,
+              :default => []
+          )
+      end
+
+      def php_ini_admin_values(arg=nil)
+          set_or_return(
+              :php_ini_admin_values,
+              arg,
+              :kind_of => Hash,
+              :default => {}
           )
       end
 

@@ -24,12 +24,16 @@ class Chef
 
                 php5_fpm_pool new_resource.domain do
 
+
                     # php5_fpm_pool actualmente solo soporta tcp/ip sockets
                     listen_address              '127.0.0.1'
                     listen_port                 9000
                     pool_user                   new_resource.owner
                     pool_group                  new_resource.group
+
+                    php_ini_admin_values        new_resource.php_ini_admin_values
                     php_ini_values              "max_execution_time" => new_resource.timeout
+                    
                     request_terminate_timeout   new_resource.timeout.to_i
                     overwrite                   true
 
@@ -51,6 +55,9 @@ class Chef
                     static_files_path       "#{new_resource.target_path}/#{new_resource.static_files_path}" if new_resource.static_files_path
                     fpm_socket              new_resource.internal_socket
                     fastcgi_read_timeout    new_resource.timeout
+
+                    cookbook                new_resource.cookbook if new_resource.cookbook
+                    template                new_resource.frontend_template if new_resource.frontend_template
 
                 end
 
