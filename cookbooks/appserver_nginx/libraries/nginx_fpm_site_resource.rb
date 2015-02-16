@@ -13,6 +13,12 @@ class Chef
                 :kind_of => String,
                 :default => "60"
 
+            attribute :max_upload_size,
+                :kind_of => [String, NilClass],
+                :default => nil
+
+            
+
         end
     end
 end
