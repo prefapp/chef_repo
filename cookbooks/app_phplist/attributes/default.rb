@@ -1,4 +1,4 @@
-default['app']['phplist']['version'] = '3.0.11'
+default['app']['phplist']['version'] = '3.0.12'
 
 default['app']['phplist']['domain'] = ''
 
