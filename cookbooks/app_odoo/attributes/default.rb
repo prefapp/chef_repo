@@ -9,4 +9,6 @@ default["app"]["odoo"]["default_user"] = "odoo"
 
 default["app"]["odoo"]["default_group"] = "users"
 
+default["app"]["odoo"]["wkhtmltopdf"]["version"] = "0.12.2.1"
+
 

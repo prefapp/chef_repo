@@ -8,6 +8,8 @@ extra_packages = %w{
     fonts-freefont-ttf
     gsfonts-x11
     gsfonts
+    xfonts-75dpi
+    xfonts-base
     xfonts-utils
     libfontenc1
     libxfont1
@@ -32,15 +34,16 @@ end
 
 # instalamos a ultima version de wkhtmltox 
 # ollo que tenhen que estar instalados os paquetes necesarios no sistema, senon casca
-package_path = "/tmp/wkhtmltox-0.12.1.deb"
+package_path = "/tmp/wkhtmltox.deb"
+latest_version = node["app"]["odoo"]["wkhtmltopdf"]["version"]
 
 remote_file package_path do
-    source "http://jaist.dl.sourceforge.net/project/wkhtmltopdf/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb"
+    source "http://downloads.sourceforge.net/project/wkhtmltopdf/#{latest_version}/wkhtmltox-#{latest_version}_linux-trusty-amd64.deb"
     action :create_if_missing
     backup false
 end
 
-dpkg_package "wkhtmltox-0.12.1.deb" do
+dpkg_package "wkhtmltox.deb" do
     source      package_path 
     action      :install
 end
@@ -69,6 +72,8 @@ node["app"]["odoo"]["installations"].each do |app|
         purge_target_path  'yes'
         processes          1
         threads            4
+        requirements_file  'requirements.txt'
+        extra_modules      %w{unidecode}
 
         notifies          :restart, 'service[nginx]'
     
@@ -100,11 +105,38 @@ node["app"]["odoo"]["installations"].each do |app|
         url                 'https://github.com/OCA/l10n-spain.git'
         revision            '8.0'
         depth               1
-        purge_target_path   true
+        purge_target_path   'yes'
     end
     addons_path << "../custom/l10n-spain"
 
-    # descargar modulos extra
+
+    # descargar modulos de reporting_engine necesarios para os l10n-spain
+    code_repo "#{app['target_path']}/custom/reporting-engines" do
+        action              "pull"
+        owner               owner
+        group               group
+        url                 'https://github.com/OCA/reporting-engines'
+        revision            '8.0'
+        depth               1
+        purge_target_path   'yes'
+    end
+    addons_path << "../custom/reporting-engines"
+
+
+    # descargar modulos extra account-financial-tools necesarios para l10n-spain
+    code_repo "#{app['target_path']}/custom/account-financial-tools" do
+        action              "pull"
+        owner               owner
+        group               group
+        url                 'https://github.com/OCA/account-financial-tools'
+        revision            '8.0'
+        depth               1
+        purge_target_path   'yes'
+    end
+    addons_path << "../custom/account-financial-tools"
+
+
+    # descargar modulos extra partner-contact necesarios para l10n-spain
     code_repo "#{app['target_path']}/custom/partner-contact" do
         action              "pull"
         owner               owner
@@ -112,10 +144,12 @@ node["app"]["odoo"]["installations"].each do |app|
         url                 'https://github.com/OCA/partner-contact'
         revision            '8.0'
         depth               1
-        purge_target_path   true
+        purge_target_path   'yes'
     end
     addons_path << "../custom/partner-contact"
     
+    # por ultimos agregamos modulo para evitar que odoo este solicitando continuamente a vinculacion 
+    # con odoo.com
     directory "#{app["target_path"]}/custom/other" do
         user    owner
         group   group
