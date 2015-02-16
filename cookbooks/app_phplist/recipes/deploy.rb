@@ -24,7 +24,7 @@ node["app"]["phplist"]["installations"].each do |app|
             bounce_mailbox_host
             bounce_mailbox_user
             bounce_mailbox_password
-            bounce_unsuscribe_threshold
+            bounce_unsubscribe_threshold
             default_system_language
 
         }.each do |attribute|

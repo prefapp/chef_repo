@@ -24,7 +24,7 @@ default['app']['phplist']['default_bounce_mailbox_user'] = 'username'
 
 default['app']['phplist']['default_bounce_mailbox_password'] = 'password'
 
-default['app']['phplist']['default_bounce_unsuscribe_threshold'] = 5
+default['app']['phplist']['default_bounce_unsubscribe_threshold'] = 5
 
 default['app']['phplist']['default_system_language'] = 'es'
 
