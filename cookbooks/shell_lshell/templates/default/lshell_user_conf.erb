@@ -31,7 +31,7 @@ end
 <%      if @params[opt] =~ /^[-+]?[0-9]+$/ %>
 <%=         "#{opt} : #{@params[opt]}" %>
 <%      else %>
-<%=         "#{opt} : '#{@params[opt]}'" %>
+<%=         "#{opt} : \"#{@params[opt]}\"" %>
 <%      end %>
 <%  end %>
 <% end %>
