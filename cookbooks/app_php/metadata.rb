@@ -3,7 +3,7 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "All rights reserved"
 description      "Cookbook for the deploy php apps"
-version          "0.1.3"
+version          "0.1.5"
 
 
 depends "lang_php"
