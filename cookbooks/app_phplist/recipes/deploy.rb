@@ -37,7 +37,7 @@ node["app"]["phplist"]["installations"].each do |app|
     fcgi_app args["domain"] do
 
         target_path        args['target_path']
-        document_root      "#{args["target_path"]}/public_html/lists"
+        document_root      "#{args["target_path"]}/public_html"
         server_alias       args['alias'] if args['alias']
         action             :deploy
         owner              args['user']
