@@ -27,7 +27,7 @@ class Chef
                       cwd         new_resource.target_path
                       environment env_hash
                       code        %{pip install -r #{new_resource.requirements_file}}
-                      only_if     new_resource.requirements_file
+                      only_if     {::File.exists?("#{new_resource.target_path}/#{new_resource.requirements_file}")}
                     end
                 end
 
