@@ -36,7 +36,7 @@ $database_password = "<%=@app['db_password']%>";
 <%='define("PHPMAILERHOST",\''+ @app["smtp_server"] + '\');'%>
 <%="\$phpmailer_smtpuser = '#{@app["smtp_user"]}';"%>
 <%="\$phpmailer_smtppassword = '#{@app["smtp_password"]}';"%>
-<%=(@app['smtp_server_secure'] == 'yes')? 'define("PHPMAILER_SECURE") = "tls";' : ''%>
+<%=(@app['smtp_server_secure'] == 'yes')? 'define("PHPMAILER_SECURE","tls");' : ''%>
 <% end %>
 
 # if test is true (not 0) it will not actually send ANY messages, but display what it would have sent

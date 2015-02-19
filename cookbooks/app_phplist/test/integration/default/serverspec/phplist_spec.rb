@@ -6,7 +6,7 @@ describe "Phplist app" do
 
     describe "Send a http connection to domain #{domain} in localhost" do
     
-        c = command("curl -L -H 'Host:#{domain}' 127.0.0.1/")
+        c = command("curl -L -H 'Host:#{domain}' 127.0.0.1/lists/")
 
         it "connection should not return error" do
             expect(c.exit_status) == 0

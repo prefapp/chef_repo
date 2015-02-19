@@ -54,6 +54,7 @@ suites:
             "smtp_user": "test_user",
             "smtp_password": "password",
             "smtp_server": "mail.test.com",
+            "smtp_server_secure": "yes",
             "test_mode": 0,
             "bounce_address": "bounces@phplist.riyic.com",
             "bounce_mailbox_host": "pop3_host.riyic.com",
