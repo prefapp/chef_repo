@@ -68,7 +68,7 @@ attribute "app/phplist/installations/@/db_password",
 attribute "app/phplist/installations/@/target_path",
     :display_name => "Application deployment folder",
     :description => 'The application will be deployed to this folder',
-    :default => '/opt/phplist',
+    :default => '/home/phplist',
     :validations => {predefined: "unix_path"}
 
 attribute "app/phplist/installations/@/user",
@@ -101,6 +101,13 @@ attribute "app/phplist/installations/@/smtp_password",
     :display_name => "Smtp user password",
     :description => "Smtp server account password",
     :validations => {predefined: "password"}
+
+attribute "app/phplist/installations/@/smtp_server_secure",
+    :display_name => "Enable SMTP secure connection?",
+    :description => "Use TLS in smtp server connection",
+    :default => 'yes',
+    :required => false,
+    :choice => %w{yes no}
 
 attribute "app/phplist/installations/@/bounce_address",
    :display_name => "Bounces email address",

@@ -14,6 +14,8 @@ default['app']['phplist']['default_group'] = 'users'
 
 default['app']['phplist']['default_smtp_server'] = '' # localhost
 
+default['app']['phplist']['default_smtp_server_secure'] = 'no' # localhost
+
 default['app']['phplist']['default_test_mode'] = 0
 
 default['app']['phplist']['default_bounce_address'] = nil

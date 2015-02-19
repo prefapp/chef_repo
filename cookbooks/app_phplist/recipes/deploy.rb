@@ -19,6 +19,7 @@ node["app"]["phplist"]["installations"].each do |app|
             smtp_user
             smtp_password
             smtp_server
+            smtp_server_secure
             test_mode
             bounce_address
             bounce_mailbox_host
