@@ -23,3 +23,10 @@ recipe  "default",
 ### 
 # atributos principales
 
+attribute "dbs/mongodb/bind_address",
+    :display_name => 'Bind address',
+    :description => 'Ip address to bind service to',
+    :default => '127.0.0.1',
+    :advanced => false,
+    :validations => {predefined: "ipv4"}
+
