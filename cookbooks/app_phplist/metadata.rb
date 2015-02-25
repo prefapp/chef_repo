@@ -130,14 +130,19 @@ attribute "app/phplist/installations/@/bounce_mailbox_password",
    :validations => {predefined: "password"}
 
 attribute "app/phplist/installations/@/bounce_unsuscribe_threshold",
-   :display_name => "Pop3 bounce mailbox hostname",
-   :description => "Pop3 server that hosts bounce address mailbox ",
+   :display_name => "Pop3 bounce unsuscribe threshold",
+   :description => "Max number of bounces to unsuscribe an account from list",
    :validations => {predefined: "int"}
 
 attribute "app/phplist/installations/@/default_system_language",
    :display_name => "Default system language",
    :description => "Use this language as the fallback language",
    :validations => {predefined: "iso639-1"}
+
+attribute "app/phplist/installations/@/upload_images_dir",
+   :display_name => "Directory where upload newsletter images",
+   :description => "Directory where upload newsletter images",
+   :validations => {predefined: "unix_path"}
 
 
 

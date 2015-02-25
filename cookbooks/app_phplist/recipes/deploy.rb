@@ -1,5 +1,6 @@
 include_recipe "app_phplist::default"
 
+
 node["app"]["phplist"]["installations"].each do |app|
 
         args = {}
@@ -27,6 +28,7 @@ node["app"]["phplist"]["installations"].each do |app|
             bounce_mailbox_password
             bounce_unsubscribe_threshold
             default_system_language
+            upload_images_dir
 
         }.each do |attribute|
     
@@ -49,13 +51,32 @@ node["app"]["phplist"]["installations"].each do |app|
         repo_type          args["repo_type"]
         revision           args["revision"]
         purge_target_path  'yes'
+        extra_packages     ["php5-imap"]
 
+        notifies          :run, 'execute[php5enmod]'
         notifies          :restart, 'service[nginx]'
         notifies          :restart, 'service[php5-fpm]'
-
     
     end
 
+    # en debian/ubuntu hai que activar o modulo de imap
+    execute "php5enmod" do
+        command "php5enmod imap"
+        action :nothing
+    end
+
+    # creamos o directorio de upload de imagenes dentro de public_html
+    # e damoslle permiso de escritura para o webserver
+    if args['upload_images_dir']
+
+        directory "#{args['target_path']}/public_html/#{args['upload_images_dir']}" do
+            mode    "777"
+            action  :create
+            owner   args['user'] 
+            group   args['group']
+        end
+
+    end
 
     
     # creamos o ficheiro de configuracion
@@ -68,6 +89,5 @@ node["app"]["phplist"]["installations"].each do |app|
         variables   ({:app => args})
                     
     end
-
 
 end

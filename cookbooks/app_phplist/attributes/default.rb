@@ -30,7 +30,5 @@ default['app']['phplist']['default_bounce_unsubscribe_threshold'] = 5
 
 default['app']['phplist']['default_system_language'] = 'es'
 
-
-
-
+default['app']['phplist']['default_upload_images_dir'] = nil
 

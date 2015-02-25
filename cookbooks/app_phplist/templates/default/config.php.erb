@@ -117,3 +117,7 @@ $bounce_unsubscribe_threshold = <%=@app["bounce_unsubscribe_threshold"]%>;
 <% if @app["default_system_language"] %>
 $default_system_language = '<%=@app["default_system_language"]%>';
 <%end%>
+
+<% if @app["upload_images_dir"] %>
+define('UPLOADIMAGES_DIR','<%=@app["upload_images_dir"]%>');
+<%end%>

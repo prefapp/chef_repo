@@ -60,7 +60,8 @@ suites:
             "bounce_mailbox_host": "pop3_host.riyic.com",
             "bounce_mailbox_user" : "username",
             "bounce_mailbox_password": "password",
-            "bounce_unsuscribe_threshold" : 5
+            "bounce_unsuscribe_threshold" : 5,
+            "upload_images_dir": "testeando"
         }
       ]
     }
