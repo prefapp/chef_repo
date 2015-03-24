@@ -1,4 +1,4 @@
-php5_fpm_pool "www" do
+php5_fpm_pool node["appserver"]["fpm"]["pools"] do
     pm                      "dynamic"
     pm_max_requests         5000
     php_ini_admin_flags     'log_errores' => 'on'

@@ -3,10 +3,10 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to install and configure php-fpm service"
-version          "0.1.0"
+version          "0.2.1"
 
 #depends "php-fpm"
-depends "php5-fpm"
+depends "php5-fpm", '~> 0.4'
 
 %w{debian ubuntu}.each do |os|
   supports os
