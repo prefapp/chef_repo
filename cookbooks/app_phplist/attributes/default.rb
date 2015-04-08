@@ -1,6 +1,6 @@
 default['app']['phplist']['version'] = '3.0.12'
 
-default['app']['phplist']['domain'] = ''
+default['app']['phplist']['default_domain'] = ''
 
 default['app']['phplist']['default_repo_url'] = 'http://prdownloads.sourceforge.net/phplist/'
 
