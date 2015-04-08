@@ -42,7 +42,7 @@ fcgi_app app["domain"] do
     cookbook           'app_owncloud'
     frontend_template  'nginx_owncloud.erb'
     
-    php_ini_admin_values  "max_upload_size" => app['max_upload_size'],
+    php_ini_admin_values  "upload_max_filesize" => app['max_upload_size'],
                           "post_max_size" => app['max_upload_size']
 
     notifies          :restart, 'service[nginx]'
