@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "postgresql" do
+describe "mysql" do
 
     it "is listening on port tcp/3306 of 0.0.0.0" do
         expect(port(3306)).to be_listening.on('0.0.0.0').with('tcp')
@@ -20,7 +20,7 @@ describe "postgresql" do
     
     # debe existir o user_db
     describe command(
-        "mysql -u root -p#{root_pass} -e 'SELECT * FROM user WHERE User = #{db['user']}' mysql"
+        "mysql -u root -p#{root_pass} -e 'SELECT * FROM user WHERE User = \"#{db['user']}\"' mysql"
     ) do
         its(:stdout) {should match /#{db['user']}/}
     end
