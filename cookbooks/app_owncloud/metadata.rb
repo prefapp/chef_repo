@@ -4,7 +4,7 @@ maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Cookbook to manage owncloud"
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.1"
+version          "0.1.2"
 
 depends "app_php"
 depends "dbs_mysql"
@@ -27,12 +27,54 @@ attribute "app/owncloud/domain",
     :required => true,
     :validations => {predefined: "domain"}
 
+attribute "app/owncloud/version",
+    :display_name => 'Owncloud version',
+    :description => 'Owncloud version to install',
+    :default => 'latest',
+    :advanced => false,
+    :required => true,
+    :choice => ['latest','8.1.2', '8.0.7','7.0.9','6.0.9']
+
 attribute "app/owncloud/alias",
     :display_name => 'Application domain alias',
     :description => 'Other domains associated to app virtual host',
     :default => [],
     :type => "array",
     :validations => {predefined: "domain"}
+
+attribute "app/owncloud/adminlogin",
+    :display_name => "Owncloud admin user",
+    :description => 'Admin user in owncloud app',
+    :required => true,
+    :default => 'admin',
+    :validations => {predefined: "username"}
+
+attribute "app/owncloud/adminpass",
+    :display_name => "Owncloud admin user password",
+    :description => 'Owncloud admin user password',
+    :required => true,
+    :calculated => true,
+    :validations => {predefined: "username"}
+
+attribute "app/owncloud/smtp_server",
+    :display_name => "Smtp host",
+    :description => "Smtp server to use to send emails, empty to localhost",
+    :default => '',
+    :required => false,
+    :validations => {predefined: "server_name"}
+
+attribute "app/owncloud/smtp_user",
+    :display_name => "Smtp username",
+    :description => "Smtp server login account",
+    :default => '',
+    :required => false,
+    :validations => {predefined: "smtp_user"}
+
+attribute "app/owncloud/smtp_password",
+    :display_name => "Smtp user password",
+    :description => "Smtp server account password",
+    :validations => {predefined: "password"}
+
 
 
 attribute "app/owncloud/dbhost",
@@ -46,14 +88,14 @@ attribute "app/owncloud/dbhost",
 attribute "app/owncloud/dbname",
     :display_name => "Database name",
     :description => "Database Name",
-    :default => "phplist_db",
+    :default => "owncloud_db",
     :required => true,
     :validations => {predefined: "mysql_dbname"}
 
 attribute "app/owncloud/dbuser",
     :display_name => "Database username",
     :description => "Database related user",
-    :default => "phplist_user",
+    :default => "owncloud_user",
     :required => true,
     :validations => {predefined: "mysql_dbuser"}
 
@@ -70,20 +112,6 @@ attribute "app/owncloud/dbtype",
     :required => true,
     :default => 'sqlite',
     :choice => %w{sqlite mysql pgsql}
-
-attribute "app/owncloud/adminlogin",
-    :display_name => "Owncloud admin user",
-    :description => 'Admin user in owncloud app',
-    :required => true,
-    :default => 'admin',
-    :validations => {predefined: "username"}
-
-attribute "app/owncloud/adminpass",
-    :display_name => "Owncloud admin user password",
-    :description => 'Owncloud admin user password',
-    :required => true,
-    :calculated => true,
-    :validations => {predefined: "username"}
 
 attribute "app/owncloud/target_path",
     :display_name => "Application deployment folder",
@@ -108,25 +136,4 @@ attribute "app/owncloud/group",
     :description => 'The group that shall own the target path',
     :default => 'users',
     :validations => {predefined: "username"}
-
-attribute "app/owncloud/smtp_server",
-    :display_name => "Smtp host",
-    :description => "Smtp server to use to send emails, empty to localhost",
-    :default => '',
-    :required => false,
-    :validations => {predefined: "server_name"}
-
-attribute "app/owncloud/smtp_user",
-    :display_name => "Smtp username",
-    :description => "Smtp server login account",
-    :default => '',
-    :required => false,
-    :validations => {predefined: "smtp_user"}
-
-attribute "app/owncloud/smtp_password",
-    :display_name => "Smtp user password",
-    :description => "Smtp server account password",
-    :validations => {predefined: "password"}
-
-
 
