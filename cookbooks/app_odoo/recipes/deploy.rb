@@ -34,16 +34,16 @@ end
 
 # instalamos a ultima version de wkhtmltox 
 # ollo que tenhen que estar instalados os paquetes necesarios no sistema, senon casca
-package_path = "/tmp/wkhtmltox.deb"
-latest_version = node["app"]["odoo"]["wkhtmltopdf"]["version"]
+package_path = "/tmp/wkhtmltopdf.deb"
 
 remote_file package_path do
-    source "http://downloads.sourceforge.net/project/wkhtmltopdf/#{latest_version}/wkhtmltox-#{latest_version}_linux-trusty-amd64.deb"
+    #source "#{node['app']['odoo']['wkhtmltopdf']['download_url']}/#{latest_version}/wkhtmltox-#{latest_version}_linux-trusty-amd64.deb"
+    source node['app']['odoo']['wkhtmltopdf']['download_url'].call
     action :create_if_missing
     backup false
 end
 
-dpkg_package "wkhtmltox.deb" do
+dpkg_package "wkhtmltopdf.deb" do
     source      package_path 
     action      :install
 end
@@ -69,6 +69,7 @@ node["app"]["odoo"]["installations"].each do |app|
         repo_url           app["repo_url"] || node["app"]["odoo"]["default_repo_url"]
         repo_type          app["repo_type"] || node["app"]["odoo"]["default_repo_type"]
         revision           app["revision"] || node["app"]["odoo"]["default_revision"]
+        repo_depth         1
         purge_target_path  'yes'
         processes          1
         threads            4
@@ -84,9 +85,10 @@ node["app"]["odoo"]["installations"].each do |app|
 
     # creamos o directorio para a sesion e demais data
     directory app["data_dir"] do
-        user    owner
-        group   group
-        action  :create
+        user        owner
+        group       group
+        recursive   true
+        action      :create
     end
 
     # creamos o directorio para os custom plugins
@@ -183,6 +185,20 @@ node["app"]["odoo"]["installations"].each do |app|
                     :db_host => app['db_host']
         )
                     
+    end
+
+
+    # creamos unha extra task para forzar o propietario do volumen do data_dir
+    # dentro dun container
+    if node["riyic"]["inside_container"]
+
+        file "#{node['riyic']['extra_tasks_dir']}/#{app['domain']}-odoo_deploy.sh" do
+            mode '0700'
+            owner 'root'
+            group 'root'
+            content "chown -R #{owner}:#{group} #{app['data_dir']}"
+        end
+
     end
 
 
