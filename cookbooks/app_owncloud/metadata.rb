@@ -76,7 +76,6 @@ attribute "app/owncloud/smtp_password",
     :validations => {predefined: "password"}
 
 
-
 attribute "app/owncloud/dbhost",
     :display_name => "Database host",
     :description => "Database host",
