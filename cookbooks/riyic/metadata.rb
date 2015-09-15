@@ -42,6 +42,14 @@ attribute "riyic/system_locale",
     :validations => {regex: /^(C|POSIX|[a-z]{2,3}\_[a-z]{2})\.?[a-z0-9\-]{0,10}$/i },
     :advanced => false
 
+attribute 'riyic/enable_report',
+    :display_name => 'Enable chef convergence report',
+    :description => 'Enable delivery of chef convergence report to riyic',
+    :required => false,
+    :default => 'no',
+    :choice => ['yes','no'],
+    :advanced => false
+
 attribute "riyic/updates_check_interval",
     :display_name => 'Updates check interval',
     :description => 'How often check for update with central server (1min,2h,3d)',

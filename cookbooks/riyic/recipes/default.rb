@@ -2,17 +2,20 @@
 include_recipe "riyic::_riyic_handlers"
 
 ## habilitamos o handler de riyic::report para que comunique a webapp o estado de convergencia do nodo
-chef_handler "Riyic::Report" do
-  #source "chef/handler/riyic_report.rb"
-  source "#{node["chef_handler"]["handler_path"]}/riyic_report.rb"
+if node['riyic']['enable_report'] == 'yes'
 
-  arguments :auth_token => node['riyic']['key'], 
-            :server_id => node['riyic']['server_id'],
-            :env => node['riyic']['env']
+    chef_handler "Riyic::Report" do
+      source "#{node["chef_handler"]["handler_path"]}/riyic_report.rb"
+    
+      arguments :auth_token => node['riyic']['key'], 
+                :server_id => node['riyic']['server_id'],
+                :env => node['riyic']['env']
+    
+      action :nothing
+      
+    end.run_action(:enable)
 
-  action :nothing
-  
-end.run_action(:enable)
+end
 
 #
 # outros arreglos necesarios para evitar problemas
@@ -54,13 +57,26 @@ if node['virtualization']['system'] =~ /^lxc|docker$/
         not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
     end
 
-    template "/root/start.sh" do
-        source "start.sh.erb"
-        mode "700"
-        owner "root"
-        group "root"
+
+    # definimos os resources que representan ao ficheiros de extra-tasks para que
+    # nas demais recipes se poidan modificar
+    node.set['riyic']['extra_tasks_dir'] = '/root/extra_tasks/'
+
+    directory node['riyic']['extra_tasks_dir'] do
+        owner 'root'
+        group 'root'
+        mode '0700'
     end
 
+
+    # por ultimo creamos o ficheiro que arrancara o runit dentro do container
+    # e executara todos os ficheiros de extra_tasks que vaian deixando as apps   
+    template '/root/start.sh' do
+        source 'start.sh.erb'
+        mode '0700'
+        owner 'root'
+        group 'root'
+    end
 
 end
 
