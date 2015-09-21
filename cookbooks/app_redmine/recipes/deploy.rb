@@ -2,6 +2,9 @@ include_recipe "app_redmine::default"
 
 app = node["app"]["redmine"]
 
+package "imagemagick"
+package "libmagickwand-dev"
+
 rack_app app["domain"] do
 
     target_path        app['target_path']
