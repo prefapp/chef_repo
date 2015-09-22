@@ -81,7 +81,7 @@ attribute "app/redmine/revision",
 attribute "app/redmine/repo_type",
     :display_name => 'Repo Type',
     :description => 'Repository type from which to download application code',
-    :default => 'remote_archive',
+    :default => 'remote_archive'
 
 attribute "app/redmine/target_path",
     :display_name => "Redmine deploy_to directory",
