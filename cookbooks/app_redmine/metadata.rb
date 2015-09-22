@@ -23,28 +23,29 @@ attribute "app/redmine/domain",
     :advanced => false,
     :validations => {predefined: "domain"}
 
-attribute "app/redmine/dir",
-    :display_name => "Redmine root directory",
-    :description => 'Document_root directory to where point virtualhost',
-    :default => '/home/redmine/doc_root',
-    :advanced => false,
-    :validations => {predefined: "unix_path"}
+attribute "app/redmine/alias",
+    :display_name => 'Application domain alias',
+    :description => 'Other domains associated to app virtual host',
+    :default => [],
+    :type => "array",
+    :validations => {predefined: "domain"}
 
-attribute "app/redmine/database/name",
+
+attribute "app/redmine/dbname",
     :display_name => "Redmine database name",
     :description => 'Redmine database name (only to mysql or postgresql)',
     :default => 'redmine',
     :validations => {predefined: "mysql_dbname"},
     :advanced => false
 
-attribute "app/redmine/database/username",
+attribute "app/redmine/dbuser",
     :display_name => "Redmine database username",
     :description => 'Redmine database username (only to mysql or postgresql)',
     :default => 'redmine',
     :validations => {predefined: "mysql_dbuser"},
     :advanced => false
 
-attribute "app/redmine/database/password",
+attribute "app/redmine/dbpassword",
     :display_name => "Redmine Database Password" ,
     :description => "Database password for this Redmine installation",
     :calculated => true,
@@ -53,32 +54,36 @@ attribute "app/redmine/database/password",
  
 
 ## advanced attributes
-attribute "app/redmine/database/type",
+attribute "app/redmine/dbtype",
     :display_name => "Redmine database type",
     :description => 'Redmine database type ( sqlite, mysql or postgresql)',
     :default => 'mysql',
     :choice => ["sqlite", "mysql"]
 
-attribute "app/redmine/database/hostname",
+attribute "app/redmine/dbhost",
     :display_name => "Redmine database hostname",
     :description => 'Redmine database hostname (only to mysql or postgresql)',
     :default => 'localhost',
     :validations => {predefined: "host"}
 
-attribute "app/redmine/source/repository",
+attribute "app/redmine/repo_url",
     :display_name => 'Redmine repository',
     :description => 'Redmine repository from which to download source code',
-    :default => 'git://github.com/redmine/redmine.git',
+    :default => 'http://www.redmine.org/releases',
     :validations => {predefined: "url"}
 
-attribute "app/redmine/source/reference",
-    :display_name => 'Redmine repository reference',
-    :description => 'Redmine repository tag/branch/commit to download',
-    :default => '2.3-stable',
+attribute "app/redmine/revision",
+    :display_name => 'Redmine version',
+    :description => 'Redmine file version to download ',
+    :default => 'redmine-3.1.0.tar.gz',
     :validations => {predefined: "revision"}
-    #:choice => ["2.3.1", "2.2.4","2.3-stable", "2.2-stable"]
 
-attribute "app/redmine/deploy_to",
+attribute "app/redmine/repo_type",
+    :display_name => 'Repo Type',
+    :description => 'Repository type from which to download application code',
+    :default => 'remote_archive',
+
+attribute "app/redmine/target_path",
     :display_name => "Redmine deploy_to directory",
     :description => 'Directory to where deploy redmine source code',
     :default => '/home/redmine/deploy',

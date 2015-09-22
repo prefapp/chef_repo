@@ -20,3 +20,16 @@ rack_app app["domain"] do
     notifies          :restart, 'service[nginx]'
 
 end
+
+template "#{app['target_path']}/config/database.yml" do
+
+    source      'database.yml.erb'
+    cookbook    "app_redmine"
+    user        app["user"]
+    group       app["group"]
+    variables   ({
+        :app => app,
+    })
+
+end
+
