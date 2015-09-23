@@ -32,4 +32,19 @@ template "#{app['target_path']}/config/database.yml" do
     })
 
 end
+bash 'bundle_install' do
+
+   user 	app['user']
+   group       	app["group"]
+   cwd  	app['target_path']
+   code        'bundle install --path vendor/bundle --binstubs'
+
+end
+
+bash 'generate_secret_token_redmine' do
+   user		app['user']
+   group       	app["group"]
+   cwd 		app['target_path']
+   code        'bundle exec rake generate_secret_token'
+end
 
