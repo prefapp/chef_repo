@@ -88,3 +88,11 @@ attribute "app/redmine/target_path",
     :description => 'Directory to where deploy redmine source code',
     :default => '/home/redmine/deploy',
     :validations => {predefined: "unix_path"}
+
+attribute "app/redmine/adminpass",
+    :display_name => "Redmine admin user password",
+    :description => 'Redmine admin user password',
+    :required => true,
+    :calculated => true,
+    :validations => {predefined: "username"}
+
