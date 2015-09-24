@@ -17,10 +17,14 @@ rack_app app["domain"] do
     repo_type          app["repo_type"]
     revision           app["revision"]
     purge_target_path  'yes'
+
+    migration_command  'bundle exec rake db:migrate'
+
     notifies          :restart, 'service[nginx]'
 
 end
 
+# generate config file
 template "#{app['target_path']}/config/database.yml" do
 
     source      'database.yml.erb'
@@ -32,19 +36,38 @@ template "#{app['target_path']}/config/database.yml" do
     })
 
 end
-bash 'bundle_install' do
 
-   user 	app['user']
-   group       	app["group"]
-   cwd  	app['target_path']
-   code        'bundle install --path vendor/bundle --binstubs'
+# generate secret token (postdeploy tasks)
+#bash 'generate_secret_token_redmine' do
+#   user		    app['user']
+#   group        app["group"]
+#   cwd 		    app['target_path']
+#   code         'bundle exec rake generate_secret_token'
+#end
+
+# extra_tasks para o arranque do container
+if node["riyic"]["inside_container"]
+    
+    file "#{node['riyic']['extra_tasks_dir']}/redmine-#{app['domain']}.sh" do
+
+        mode '0700'
+        owner 'root'
+        group 'root'
+
+        content <<-EOF
+
+su -c 'cd #{app['target_path']} && bundle exec rake generate_secret_token' #{app['user']}
+        
+EOF
+    
+    end    
+
+else
+    bash 'generate_secret_token_redmine' do
+       user		    app['user']
+       group        app["group"]
+       cwd 		    app['target_path']
+       code         'bundle exec rake generate_secret_token'
+    end
 
 end
-
-bash 'generate_secret_token_redmine' do
-   user		app['user']
-   group       	app["group"]
-   cwd 		app['target_path']
-   code        'bundle exec rake generate_secret_token'
-end
-
