@@ -2,7 +2,7 @@ name             "lang_java"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-description      " This cookbook installs a Java JDK/JRE. "
+description      " This cookbook installs a Java JDK/Oracle. "
 #long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
 
@@ -23,6 +23,10 @@ attribute "lang/java/install_flavor",
    
 attribute "lang/java/jdk_version",
     :display_name => 'JDK version',
-    :description => 'JDK version to install'
+    :description => 'JDK version to install
+  
+attribute "lang/java/java_home",
+    :display_name => 'JVM install dir',
+    :description => 'JVM install dir'
     
     
