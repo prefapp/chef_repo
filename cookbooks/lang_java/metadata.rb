@@ -15,3 +15,14 @@ end
 
 recipe "install", description: "Installs Java"
 
+attribute "lang/java/install_flavor",
+    :display_name => 'Flavor of JVM',
+    :description => 'Flavor of JVM you would like installed',
+    :default => ['openjdk'],
+    :choice => %w{openjdk oracle}
+   
+attribute "lang/java/jdk_version",
+    :display_name => 'JDK version',
+    :description => 'JDK version to install'
+    
+    
