@@ -7,7 +7,7 @@ description      " This cookbook installs a Java JDK/Oracle. "
 version          "0.0.1"
 
 ## Imprescindible en chef 11!!!
-depends "lang_java"
+depends "java"
 
 %w{debian ubuntu}.each do |os|
   supports os
@@ -23,7 +23,7 @@ attribute "lang/java/install_flavor",
    
 attribute "lang/java/jdk_version",
     :display_name => 'JDK version',
-    :description => 'JDK version to install
+    :description => 'JDK version to install'
   
 attribute "lang/java/java_home",
     :display_name => 'JVM install dir',
