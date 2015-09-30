@@ -37,14 +37,6 @@ template "#{app['target_path']}/config/database.yml" do
 
 end
 
-# generate secret token (postdeploy tasks)
-#bash 'generate_secret_token_redmine' do
-#   user		    app['user']
-#   group        app["group"]
-#   cwd 		    app['target_path']
-#   code         'bundle exec rake generate_secret_token'
-#end
-
 # extra_tasks para o arranque do container
 if node["riyic"]["inside_container"]
     
@@ -54,13 +46,14 @@ if node["riyic"]["inside_container"]
         owner 'root'
         group 'root'
 
-        content <<-EOF
+        content %{
+export RACK_ENV=#{app['environment']}
+export RAILS_ENV=#{app['environment']}
+export MERB_ENV=#{app['environment']}
 
-su -c 'cd #{app['target_path']} && bundle exec rake generate_secret_token' #{app['user']}
-        
-EOF
-    
-    end    
+su -c 'cd #{app['target_path']} && bundle install --no-deployment --path vendor/bundle --binstubs && bundle exec rake generate_secret_token' #{app['user']}
+}
+    end
 
 else
     bash 'generate_secret_token_redmine' do

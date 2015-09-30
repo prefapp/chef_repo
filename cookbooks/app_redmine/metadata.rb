@@ -2,7 +2,7 @@ name             "app_redmine"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-version          "0.0.1"
+version          "0.1.1"
 
 depends "dbs_mysql"
 depends "app_ruby"
@@ -11,7 +11,7 @@ depends "app_ruby"
   supports os
 end
 
-recipe "deploy:",
+recipe "deploy",
     description: "Install redmine with default options",
     attributes: [/.+/]
 
@@ -81,7 +81,8 @@ attribute "app/redmine/revision",
 attribute "app/redmine/repo_type",
     :display_name => 'Repo Type',
     :description => 'Repository type from which to download application code',
-    :default => 'remote_archive'
+    :default => 'remote_archive',
+    :choice => ["git", "subversion","remote_archive"]
 
 attribute "app/redmine/target_path",
     :display_name => "Redmine deploy_to directory",
@@ -94,5 +95,17 @@ attribute "app/redmine/adminpass",
     :description => 'Redmine admin user password',
     :required => true,
     :calculated => true,
+    :validations => {predefined: "password"}
+
+attribute "app/redmine/user",
+    :display_name => "Deployment owner",
+    :description => 'User that shall own the target path',
+    :default => 'redmine',
+    :validations => {predefined: "username"}
+
+attribute "app/redmine/group",
+    :display_name => "Deployment group",
+    :description => 'The group that shall own the target path',
+    :default => 'users',
     :validations => {predefined: "username"}
 
