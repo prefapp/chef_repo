@@ -7,6 +7,22 @@ version          "0.0.1"
 
 depends "lang_java"
 
+%w{debian ubuntu}.each do |os|
+  supports os
+end
+
+recipe "server:",
+    description: "Install Minecraft Server",
+    attributes: [/.+/]
+
+opname
+
+attribute "app/minecraft/opname",
+    :display_name => 'Admin Nickname',
+    :description => 'Nickname to give initial operator status'
+    :required => false,
+    :default => 'admin'
+
 attribute "app/minecraft/online-mode"
     :display_name => 'Online mode',
     :description => 'Whether the server will verify usernames with minecraft.net'
@@ -35,7 +51,7 @@ attribute "app/minecraft/level-name"
     :display_name => 'Level Name',
     :description => 'Name for the level'
     :required => false,
-    :default => '20',
+    :default => 'levelname',
     :advanced => false,
 
 attribute "app/minecraft/server-port"
