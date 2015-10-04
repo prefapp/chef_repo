@@ -15,51 +15,50 @@ recipe "server:",
     description: "Install Minecraft Server",
     attributes: [/.+/]
 
-opname
 
 attribute "app/minecraft/opname",
     :display_name => 'Admin Nickname',
-    :description => 'Nickname to give initial operator status'
+    :description => 'Nickname to give initial operator status',
     :required => false,
     :default => 'admin'
 
-attribute "app/minecraft/online-mode"
+attribute "app/minecraft/online-mode",
     :display_name => 'Online mode',
-    :description => 'Whether the server will verify usernames with minecraft.net'
+    :description => 'Whether the server will verify usernames with minecraft.net',
     :required => false,
     :default => 'no',
     :choice => ['yes','no'],
     :advanced => false
 
-attribute "app/minecraft/monsters"
+attribute "app/minecraft/monsters",
     :display_name => 'Spawn Monsters',
-    :description => 'Spawn Monsters'
+    :description => 'Spawn Monsters',
     :required => false,
     :default => 'no',
     :choice => ['yes','no'],
     :advanced => false
 
-attribute "app/minecraft/max-players"
+attribute "app/minecraft/max-players",
     :display_name => 'Maximum Players',
-    :description => 'Maximum Players'
+    :description => 'Maximum Players',
     :required => false,
     :default => '20',
     :advanced => false,
     :validations => {regex: /^\d+$/}
 
-attribute "app/minecraft/level-name"
+attribute "app/minecraft/level-name",
     :display_name => 'Level Name',
-    :description => 'Name for the level'
+    :description => 'Name for the level',
     :required => false,
     :default => 'levelname',
-    :advanced => false,
+    :advanced => false
 
-attribute "app/minecraft/server-port"
+attribute "app/minecraft/server-port",
     :display_name => 'Minecraft Server listen port',
     :description => 'Minecraft Server listen port',
     :required => false,
     :default => '20',
-    :advanced => false,
+    :advanced => false
     
 
 
