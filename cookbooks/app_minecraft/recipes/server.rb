@@ -1,9 +1,17 @@
 app = node["app"]["minecraft"]
+service_name = 'minecraftserver'
 
-user minecraft do
+user "minecraft" do
   comment 'minecraf_user'
   home '/opt/minecraft'
   shell '/bin/bash'
+end
+
+directory '/opt/minecraft' do
+  owner 'minecraft'
+  group 'minecraft'
+  mode '0755'
+  action :create
 end
 
 remote_file '/opt/minecraft/minecraft_server.1.8.8.jar' do
@@ -44,4 +52,32 @@ file '/opt/minecraft/banned-ips.txt' do
   owner 'minecraft'
   group 'minecraft'
 end
+
+
+
+# si temos seteado o flag e senhal de que estamos dentro dun docker
+# seteamos daemon_disable para que arranque en primer plano
+
+if node["riyic"]["inside_container"]
+    node.override['minecraftserver']['init_style'] = 'init'
+    node.override['minecraftserver']['daemon_disable']  = true
+end
+
+
+node.set['container_service']['minecraftserver']['command'] = 'java -Xmx1024M -Xms1024M -jar /opt/minecraft/minecraft_server.1.8.8.jar nogui'
+
+
+service "minecraftserver" do
+   action [:enable, :start]
+end
+
+
+#runit_service "minecraftserver" do
+#  default_logger true
+#end
+
+#service 'minecraftserver' do
+ #   supports       :status => true, :restart => true, :reload => true
+#end
+
 
