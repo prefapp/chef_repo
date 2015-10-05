@@ -2,7 +2,7 @@ name             "appserver_nginx"
 maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
-version          "0.2.5"
+version          "0.2.6"
 description      "Install/Configures nginx httpd server"
 
 %w{debian ubuntu}.each do |os|
