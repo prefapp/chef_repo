@@ -27,11 +27,11 @@ include_recipe "dbs_postgresql::_default_charset_utf8"
 # extra_tasks para o arranque do container
 if node["riyic"]["inside_container"]
     
-    file "#{node['riyic']['extra_tasks_dir']}/#{dbs_postgresql-server.sh}" do
+    file "#{node['riyic']['extra_tasks_dir']}/dbs_postgresql-server.sh" do
         mode '0700'
         owner 'root'
         group 'root'
-        content "chown -R #{postgres}:#{postgres} #{node['postgresql']['data_directory']}"
+        content "chown -R postgres:postgres #{node['postgresql']['data_directory']}"
     end    
 
 end
