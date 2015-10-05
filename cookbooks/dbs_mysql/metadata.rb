@@ -2,7 +2,7 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Installs/Configures mysql client/server"
-version          "0.2.1"
+version          "0.2.2"
 name             "dbs_mysql"
 
 %w{debian ubuntu}.each do |os|
