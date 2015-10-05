@@ -53,31 +53,26 @@ file '/opt/minecraft/banned-ips.txt' do
   group 'minecraft'
 end
 
-
-
-# si temos seteado o flag e senhal de que estamos dentro dun docker
-# seteamos daemon_disable para que arranque en primer plano
-
-if node["riyic"]["inside_container"]
-    node.override['minecraftserver']['init_style'] = 'init'
-    node.override['minecraftserver']['daemon_disable']  = true
+# Tenemos que crear un archivo para aceptar el eula
+file '/opt/minecraft/eula.txt' do
+  content 'eula=true'
+  mode '0755'
+  owner 'minecraft'
+  group 'minecraft'
 end
 
+file '/opt/minecraft/whitelist.json' do
+  content ''
+  mode '0755'
+  owner 'minecraft'
+  group 'minecraft'
+end
 
-node.set['container_service']['minecraftserver']['command'] = 'java -Xmx1024M -Xms1024M -jar /opt/minecraft/minecraft_server.1.8.8.jar nogui'
+node.set['container_service']['minecraftserver']['command'] = 'su - minecraft -c "java -Xmx512M -Xms512M -jar /opt/minecraft/minecraft_server.1.8.8.jar nogui"'
 
 
 service "minecraftserver" do
    action [:enable, :start]
 end
-
-
-#runit_service "minecraftserver" do
-#  default_logger true
-#end
-
-#service 'minecraftserver' do
- #   supports       :status => true, :restart => true, :reload => true
-#end
 
 
