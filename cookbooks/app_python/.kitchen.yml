@@ -18,7 +18,7 @@ provisioner:
 platforms:
   - name: riyic
     driver:
-      image: riyic_base:latest
+      image: 4eixos/base:latest
       platform: ubuntu
       require_chef_omnibus: false
       use_cache: false
