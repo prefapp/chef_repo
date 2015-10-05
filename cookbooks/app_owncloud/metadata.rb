@@ -54,7 +54,7 @@ attribute "app/owncloud/adminpass",
     :description => 'Owncloud admin user password',
     :required => true,
     :calculated => true,
-    :validations => {predefined: "username"}
+    :validations => {predefined: "password"}
 
 attribute "app/owncloud/smtp_server",
     :display_name => "Smtp host",
