@@ -72,6 +72,7 @@ action :pull do
       action      :sync
       user        owner
       group       group
+      timeout     1200
       depth       new_resource.depth if(new_resource.depth && new_resource.depth > 0)
     end
 
