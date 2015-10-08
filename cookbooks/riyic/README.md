@@ -14,7 +14,8 @@ To control the service with runit, the node must have some of the following para
 
 - **node['container_service'][@service_name]['command']** : Mandatory. Command to exec the service, must be defined. It is going to be wrapped in this run script:
 
-```#!/bin/sh
+```
+#!/bin/sh
 exec 2>&1
 exec #{@command} 2>&1
 ```
@@ -28,14 +29,16 @@ all the runit init script.
 Collection of popular init scripts:
 http://smarden.org/runit1/runscripts.html
 
-- **node['container_service'][@service_name]['check_script_content']**  If default runit check process status is not enought, you can provide a script to make the job   
+- **node['container_service'][@service_name]['check_script_content']**   
+If default runit check process status is not enought, you can provide a script to make the job   
 For example mysql:
 
-```#!/bin/sh
+```
+#!/bin/sh
 test -e /var/run/mysqld/mysqld.sock
 ```
 
-- node['container_service'][@service_name]['disable']: (true|false) . By default **false**, must be set a true to configure the service in runit but disabled
+- **node['container_service'][@service_name]['disable']** (true|false) . By default **false**, must be set a true to configure the service in runit but disabled
 
 
 To avoid a service to be configured with runit provider, the **service name** must start with '**no_runit**'.
