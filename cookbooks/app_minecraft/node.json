@@ -1,0 +1,35 @@
+{
+  "riyic": {
+      "virtualization": [
+        {
+	   "system" : "runit"
+	}
+      ]	
+   },
+
+  "lang" : {
+     "java" : {
+       "install_flavor": "oracle",
+       "jdk_version" : "7",
+       "java_home" : "/opt/java/",
+       "oracle" : {"accept_oracle_download_terms" : true}
+   }
+   },
+
+  "app" : {
+     "minecraft" : {
+       "opname" : "admin",
+       "online-mode" : "false",
+       "monsters" : "true",
+       "server-port" : "25565",
+       "max-players" : "20",
+       "level-name" : "world"
+   }
+   },
+
+  "run_list":[
+    "recipe[riyic::default]",
+    "recipe[app_minecraft::default]",
+    "recipe[riyic::test_helper]"
+ ]
+}
