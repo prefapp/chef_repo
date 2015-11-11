@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "Wordpress app" do
+describe "Moodle app" do
 
-    domain = $node["app"]["wordpress"]["installation"]["domain"]
+    domain = $node["app"]["moodle"]["domain"]
 
     describe "Send a http connection to domain #{domain} in localhost" do
     
@@ -12,19 +12,19 @@ describe "Wordpress app" do
             expect(c.exit_status) == 0
         end
 
-        it "should respond with wordpress message" do
+        it "should respond with moodle message" do
         
-            expect(c.stdout).to match /wordpress|database connection/
+            expect(c.stdout).to match /moodle|database connection/
         end
 
-        #its(:stdout) {should match /wordpress/}
+        #its(:stdout) {should match /moodle/}
 
         #its(:exit_status) {should eq 0 }
 
     end
 
-    user = $node["app"]["wordpress"]["installation"]["user"]
-    target_path = $node["app"]["wordpress"]["installation"]["target_path"]
+    user = $node["app"]["moodle"]["user"]
+    target_path = $node["app"]["moodle"]["installation"]["target_path"]
 
     describe file("#{target_path}/index.php") do
 
