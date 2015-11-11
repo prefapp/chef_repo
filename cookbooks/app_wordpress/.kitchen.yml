@@ -10,22 +10,24 @@ provisioner:
   #chef_omnibus_root: /opt/chef/
   solo_rb: {
       "ssl_verify_mode": "verify_peer",
-      "cookbook_path": ["/mnt/cookbooks/supermarket", "/mnt/riyic/cookbooks", "/mnt/others/cookbooks"],
-      "log_level": "debug"
+#"cookbook_path": ["/mnt/cookbooks/supermarket", "/mnt/riyic/cookbooks", "/mnt/others/cookbooks"],
+      "recipe_url": "https://s3-eu-west-1.amazonaws.com/riyic/cookbooks.tar.gz",
+      "cookbook_path": ["/var/chef/cookbooks", "/home/cookbooks_dev/"],
+      "log_level": "debug",
   }
 
 
 platforms:
   - name: riyic
     driver:
-      image: riyic_base:latest
+      #image: riyic_base:latest
+      image: 4eixos/base:latest
       platform: ubuntu
       require_chef_omnibus: false
       use_cache: false
       remove_images: false
       volume:
-          - /opt/chef:/opt/chef:ro
-          - /home/alambike/proxectos/chef:/mnt/:ro
+          - /home/alambike/proxectos/chef/riyic/cookbooks:/home/cookbooks_dev:ro
 
 
 
