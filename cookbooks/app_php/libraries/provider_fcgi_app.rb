@@ -30,6 +30,8 @@ class Chef
                     listen_port                 9000
                     pool_user                   new_resource.owner
                     pool_group                  new_resource.group
+                    pm                          'ondemand'
+                    
 
                     php_ini_admin_values        new_resource.php_ini_admin_values
                     php_ini_values              "max_execution_time" => new_resource.timeout
