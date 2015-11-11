@@ -2,7 +2,7 @@ include_recipe "app_wordpress::default"
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
 
-app = node['app']['wordpress']['installation']
+app = node['app']['wordpress']
 
 args = {}
 

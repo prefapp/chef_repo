@@ -15,8 +15,7 @@ end
 
 recipe "deploy",
     description: "Deploy a tasty wordpress application",
-    attributes: [/.+/],
-    stackable: true
+    attributes: [/.+/]
 
 
 attribute "app/wordpress/domain",
