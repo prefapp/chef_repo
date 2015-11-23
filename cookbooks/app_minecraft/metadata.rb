@@ -11,7 +11,7 @@ depends "lang_java"
   supports os
 end
 
-recipe "server:",
+recipe "server",
     description: "Install Minecraft Server",
     attributes: [/.+/]
 
@@ -20,6 +20,7 @@ attribute "app/minecraft/opname",
     :display_name => 'Admin Nickname',
     :description => 'Nickname to give initial operator status',
     :required => false,
+    :validations => {predefined: "word"},
     :default => 'admin'
 
 attribute "app/minecraft/online-mode",
@@ -51,6 +52,7 @@ attribute "app/minecraft/level-name",
     :description => 'Name for the level',
     :required => false,
     :default => 'levelname',
+    :validations => {predefined: "word"},
     :advanced => false
 
 attribute "app/minecraft/server-port",
@@ -58,6 +60,7 @@ attribute "app/minecraft/server-port",
     :description => 'Minecraft Server listen port',
     :required => false,
     :default => '20',
+    :validations => {predefined: "int"},
     :advanced => false
     
 
