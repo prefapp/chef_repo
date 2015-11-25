@@ -1,0 +1,56 @@
+server {
+    listen <%= @port%>;
+    server_name <%=@name%> <%=@alternate_names.join(' ') %>;
+
+    root <%=@document_root%>;
+
+    index index.php index.html index.htm;
+
+    access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
+    error_log <%= node["nginx"]["log_dir"]%>/<%=@name %>.error_log info;
+
+    rewrite ^/moodle/(.*\.php)(/)(.*)$ /moodle/$1?file=/$3 last;
+
+    <% if @max_upload_size -%>
+    client_max_body_size <%= @max_upload_size %>;
+    <% end -%>
+    fastcgi_buffers 64 4K;
+    fastcgi_connect_timeout 60;
+    fastcgi_send_timeout 180;
+    fastcgi_read_timeout 360;
+
+    # speed up static files transfer
+    sendfile 'on';
+
+
+
+    index index.php;
+    error_page 403 = /core/templates/403.php;
+    error_page 404 = /core/templates/404.php;
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+
+    location / {
+	
+	try_files $uri $uri/index.php;	
+
+    }
+
+   location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+ 
+		# With php5-fpm:
+		fastcgi_pass <%=@fpm_socket%>;
+		fastcgi_index index.php;
+		include fastcgi_params;
+    }
+
+
+
+}

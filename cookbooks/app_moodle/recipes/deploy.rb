@@ -16,6 +16,8 @@ args = {}
   db_user
   db_host
   db_password
+  db_type
+  datadir
 }.each do |attribute|
 
   args[attribute] = app[attribute] || node["app"]["moodle"]["default_#{attribute}"]
@@ -66,20 +68,20 @@ fcgi_app args["domain"] do
   extra_packages       extra_packages
   
   php_ini_admin_values (php_ini_config)
-  
+  cookbook	     'app_moodle'
+  frontend_template  'nginx_moodle.erb'  
   notifies             :restart, 'service[nginx]', :delayed
   notifies             :restart, 'service[php5-fpm]', :delayed
 
 end
 
 # creamos o directorio de datos do moodle
-directory args['datadir']
-  action create
+directory args['datadir'] do
+  action :create
   mode 0777
   user args['user']
   group args['group']
 end
-
 
 # creamos o ficheiro de configuracion
 template "#{args['target_path']}/config.php" do
