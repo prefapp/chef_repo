@@ -40,17 +40,17 @@ suites:
     attributes: {
   "app": {
     "moodle": {
-      "installation":{
-            "domain": "wp.riyic.com",
-            "environment": "production",
-            "target_path": "/home/riyic/",
-            "user": "wordpress",
-            "group": "wpgrp",
-            "db_name": "wpdb",
-            "db_user": "wpdbuser",
-            "db_host": "db",
-            "db_password": "wordpress"
-        }
-    }
+         "domain": "moodle.riyic.com",
+         "environment": "production",
+         "target_path": "/home/moodle/public",
+         "user": "moodle",
+         "group": "moodlegrp",
+         "db_name": "mddb",
+         "db_user": "mddbuser",
+         "db_host": "db",
+         "db_password": "moodle",
+	"db_type": "mysqli",
+	"datadir": "/home/moodle/moodledata"
+     }
   }
 }
