@@ -36,17 +36,17 @@ php_ini_config = {
 }
 ###
 
-extra_package = %w{
+extra_packages = %w{
   php5-curl
   php5-gd 
   php5-intl
-  php5-xmlrpc)
+  php5-xmlrpc
 }
 
 if args['db_type'] == 'mysqli'
-  extra_package << 'php5-mysqlnd'
+  extra_packages << 'php5-mysqlnd'
 elsif args['db_type'] == 'pgsql'
-  extra_package << 'php5-pgsql'
+  extra_packages << 'php5-pgsql'
 end
 
 # instalamos a aplicacion e configuramos os servicios necesarios
