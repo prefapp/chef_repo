@@ -12,7 +12,6 @@ action :pull do
       raise Chef::Exceptions::UnsupportedAction, "Target path can't be equal to user owner homedir (#{homedir})" 
     end
 
-    purgar_target_path if new_resource.purge_target_path && new_resource.purge_target_path == 'yes'
 
     # preparamos o entorno
     group group
@@ -62,6 +61,9 @@ action :pull do
       end
     end
 
+    # purgamos o target_path si e necesario
+    purgar_target_path if new_resource.purge_target_path && new_resource.purge_target_path == 'yes'
+    
     #
     # descargamos o codigo da app, ou actualizamos o existente
     #
