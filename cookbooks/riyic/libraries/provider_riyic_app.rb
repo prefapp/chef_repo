@@ -81,7 +81,9 @@ class Chef
                   url               new_resource.repo_url
                   revision          new_resource.revision
                   credential        new_resource.credential
-                  depth             new_resource.repo_depth
+
+                  depth             new_resource.repo_depth.to_i #forzamos int
+
                   purge_target_path new_resource.purge_target_path
                   notifies          :create, "directory[#{new_resource.target_path}/tmp]"
                 end
