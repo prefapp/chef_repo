@@ -24,7 +24,6 @@ server {
 
 
 
-    index index.php;
     error_page 403 = /core/templates/403.php;
     error_page 404 = /core/templates/404.php;
 
@@ -41,16 +40,14 @@ server {
 
     }
 
-   location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
- 
-		# With php5-fpm:
-		fastcgi_pass <%=@fpm_socket%>;
-		fastcgi_index index.php;
-		include fastcgi_params;
+    location ~ [^/]\.php(/|$) {
+ 	fastcgi_split_path_info  ^(.+\.php)(/.+)$;
+    	fastcgi_index            index.php;
+    	fastcgi_pass             127.0.0.1:9000 (or your php-fpm socket);
+    	include                  fastcgi_params;
+    	fastcgi_param   PATH_INFO       $fastcgi_path_info;
+    	fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
-
 
 
 }
