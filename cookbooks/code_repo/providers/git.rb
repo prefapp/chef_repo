@@ -12,15 +12,15 @@ action :pull do
       raise Chef::Exceptions::UnsupportedAction, "Target path can't be equal to user owner homedir (#{homedir})" 
     end
 
-    purgar_target_path if new_resource.purge_target_path && new_resource.purge_target_path == 'yes'
 
     # preparamos o entorno
-    group group
+    group group do
+    end.run_action(:create)
 
     user owner do
       group group
       home homedir
-    end
+    end.run_action(:create)
 
 
     directory target_path do
@@ -42,7 +42,7 @@ action :pull do
           group group
           mode "0600"
           content new_resource.credential
-      end
+      end.run_action(:create)
 
       template ssh_wrapper do
           cookbook "code_repo"
@@ -53,15 +53,16 @@ action :pull do
           variables(
             :keyfile => keyfile
           )
-      end
+      end.run_action(:create)
 
       ruby_block "before pull" do
         block do
           ENV["GIT_SSH"] = ssh_wrapper
         end
-      end
+      end.run_action(:run)
     end
 
+    purgar_target_path if new_resource.purge_target_path && new_resource.purge_target_path == 'yes'
     #
     # descargamos o codigo da app, ou actualizamos o existente
     #
