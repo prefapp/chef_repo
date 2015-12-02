@@ -25,10 +25,10 @@ recipe  "default",
 # atributos principales
 
 attribute "dbs/redis/version",
-    :display_name => 'Redis version (x.x.x or stable = actual stable release) ',
+    :display_name => 'Redis version (\'package\' or \'x.x.x\' or \'stable\' => actual stable release) ',
     :description => 'Redis version to install',
-    :default => '2.8.1',
-    :validations => {regex: /^(stable|\d+\.\d+\.\d+)$/},
+    :default => 'package',
+    :validations => {regex: /^(stable|package|\d+\.\d+\.\d+)$/},
     :advanced => false
 
 attribute "dbs/redis/force_recompile",
