@@ -5,7 +5,7 @@ else
 end
 
 node.set['container_service']['redis']['command'] = 
- '/usr/bin/redis-server /etc/redis/redis.conf' # >> /var/log/redis.log 2>&1'
+ 'redis-server /etc/redis/redis.conf' # >> /var/log/redis.log 2>&1'
 
 service 'redis' do
   action [:enable, :start]
