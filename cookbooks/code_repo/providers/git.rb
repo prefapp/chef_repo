@@ -62,7 +62,9 @@ action :pull do
       end.run_action(:run)
     end
 
+    # purgamos o target_path si e necesario
     purgar_target_path if new_resource.purge_target_path && new_resource.purge_target_path == 'yes'
+    
     #
     # descargamos o codigo da app, ou actualizamos o existente
     #
