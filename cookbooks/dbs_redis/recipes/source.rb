@@ -36,3 +36,6 @@ bash 'compile_redis' do
 
 end
 
+node.set['container_service']['redis']['command'] = 
+ '/usr/local/bin/redis-server' # >> /var/log/redis.log 2>&1'
+
