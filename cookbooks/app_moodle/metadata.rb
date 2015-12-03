@@ -120,3 +120,18 @@ attribute "app/moodle/smtp_server_secure",
     :default => 'yes',
     :required => false,
     :choice => %w{yes no}
+
+attribute "app/moodle/admin_user",
+    :display_name => "Admin user",
+    :description => 'Admin user name',
+    :required => true,
+    :default => 'admin',
+    :validations => {predefined: "username"}
+
+attribute "app/moodle/admin_password",
+    :display_name => "Admin user password",
+    :description => 'Admin user password',
+    :required => true,
+    :calculated => true,
+    :validations => {predefined: "password"}
+
