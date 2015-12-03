@@ -14,7 +14,6 @@ server {
     <% if @max_upload_size -%>
     client_max_body_size <%= @max_upload_size %>;
     <% end -%>
-    fastcgi_buffers 64 4K;
     fastcgi_connect_timeout 60;
     fastcgi_send_timeout 180;
     fastcgi_read_timeout 360;
