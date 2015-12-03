@@ -93,3 +93,18 @@ template "#{args['target_path']}/config.php" do
   variables   ({:app => args})
                 
 end
+
+# extra_tasks para o arranque do container
+if node["riyic"]["inside_container"]
+    
+    file "#{node['riyic']['extra_tasks_dir']}/moodle-#{app['domain']}.sh" do
+
+        mode '0700'
+        owner 'root'
+        group 'root'
+
+        content %{
+su -c 'cd #{app['target_path']} && /usr/bin/php admin/cli/install_database.php --lang=es --adminuser=#{app['admin_user']} --adminpass=#{app['admin_password']} --agree-license' #{app['user']}
+}
+    end
+end
