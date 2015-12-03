@@ -105,7 +105,7 @@ suites:
   "app": {
     "moodle": {
       "domain": "test.com",
-      "db_host": "localhost.localdomain",
+      "db_host": "localhost",
       "db_name": "moodledb",
       "db_user": "moodleuser",
       "db_password": "-eH8DlRxhOWBys39LWrr4Q",
@@ -114,7 +114,9 @@ suites:
       "datadir": "/home/moodle/moodledata",
       "user": "moodle",
       "group": "users",
-      "smtp_server_secure": "yes"
+      "smtp_server_secure": "yes",
+      "admin_user": "admin",
+      "admin_password": "123qwe//"
     }
   }
 }
