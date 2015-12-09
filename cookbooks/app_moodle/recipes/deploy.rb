@@ -104,7 +104,13 @@ if node["riyic"]["inside_container"]
         group 'root'
 
         content %{
-su -c 'cd #{app['target_path']} && /usr/bin/php admin/cli/install_database.php --lang=es --adminuser=#{app['admin_user']} --adminpass=#{app['admin_password']} --agree-license' #{app['user']}
+if [ ! -f /root/.actualizado ]
+then
+  su -c 'service mysql start'
+  su -c 'cd #{app['target_path']} && /usr/bin/php admin/cli/install_database.php --lang=es --adminuser=#{app['admin_user']} --adminpass=#{app['admin_password']} --agree-license' #{app['user']}
+  su -c 'service mysql stop'
+  su -c 'touch /root/.actualizado'
+fi
 }
     end
 end
