@@ -16,4 +16,4 @@ default['appserver']['nginx']['checksum'] = '23cca1239990c818d8f6da118320c4979aa
 default['appserver']['nginx']['install_dir'] = '/opt/nginx'
 
 # default passenger version
-default['appserver']['nginx']['passenger']['version'] = '5.0.18'
+default['appserver']['nginx']['passenger']['version'] = '5.0.21'
