@@ -23,6 +23,9 @@ Chef::Log.info("NGINX::PASSENGER_RUBY: #{node["nginx"]["passenger"]["ruby"]}")
 node.set["appserver"]["nginx"]["modules"] = 
     node["appserver"]["nginx"]["modules"] | ["passenger"]
 
+# forzamos a que se compile o passenger (por defecto no cookbook de nginx usa paqueteria)
+node.set['nginx']['passenger']['install_method'] = 'source'
+
 
 # finalmente incluimos a receta default que vai a compilar o nginx cos modulos agregados
 include_recipe "appserver_nginx::default"
