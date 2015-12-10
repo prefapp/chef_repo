@@ -18,6 +18,8 @@ args = {}
   db_password
   db_type
   datadir
+  admin_user
+  admin_password
 }.each do |attribute|
 
   args[attribute] = app[attribute] || node["app"]["moodle"]["default_#{attribute}"]
