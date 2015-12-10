@@ -18,3 +18,5 @@ default['app']['moodle']['default_datadir'] = lazy  {
   "#{node['app']['moodle']['target_path']}/../moodledata"
 }
 
+default['app']['moodle']['default_admin_user'] = 'admin'
+
