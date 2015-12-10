@@ -132,6 +132,7 @@ attribute "app/moodle/admin_password",
     :display_name => "Admin user password",
     :description => 'Admin user password',
     :required => true,
-    :calculated => true,
+    :default => '123qwe',
+#    :calculated => true,
     :validations => {predefined: "password"}
 
