@@ -76,7 +76,7 @@ attribute "app/owncloud/smtp_password",
     :validations => {predefined: "password"}
 
 
-attribute "app/owncloud/dbhost",
+attribute "app/owncloud/db_host",
     :display_name => "Database host",
     :description => "Database host",
     :default => "db",
@@ -84,28 +84,28 @@ attribute "app/owncloud/dbhost",
     :validations => {predefined: "server_name"}
 
 
-attribute "app/owncloud/dbname",
+attribute "app/owncloud/db_name",
     :display_name => "Database name",
     :description => "Database Name",
     :default => "owncloud_db",
     :required => true,
     :validations => {predefined: "mysql_dbname"}
 
-attribute "app/owncloud/dbuser",
+attribute "app/owncloud/db_user",
     :display_name => "Database username",
     :description => "Database related user",
     :default => "owncloud_user",
     :required => true,
     :validations => {predefined: "mysql_dbuser"}
 
-attribute "app/owncloud/dbpassword",
+attribute "app/owncloud/db_password",
     :display_name => "Database user password",
     :description => "Database user password",
     :required => true,
     :calculated => true,
     :validations => {predefined: "mysql_dbpassword"}
 
-attribute "app/owncloud/dbtype",
+attribute "app/owncloud/db_type",
     :display_name => "Database type",
     :description => "Database type valid values: sqlite, mysql or pgsql",
     :required => true,
@@ -118,10 +118,10 @@ attribute "app/owncloud/target_path",
     :default => '/home/owncloud',
     :validations => {predefined: "unix_path"}
 
-attribute "app/owncloud/data_dir",
+attribute "app/owncloud/datadir",
     :display_name => "Owncloud file storage path",
     :description => 'Owncloud will store files in this folder',
-    :default => '/opt/owncloud_data',
+    :default => '/home/owncloud/ownclouddata',
     :validations => {predefined: "unix_path"}
 
 attribute "app/owncloud/user",
