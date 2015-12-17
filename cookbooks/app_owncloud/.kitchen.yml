@@ -4,28 +4,28 @@ driver:
   use_sudo: false
   disable_upstart: false
   remove_images: true
+  socket: <%= ENV['DOCKER_HOST'] || 'tcp://172.17.0.1:4243' %>
 
 provisioner:
   name: chef_solo
-  #chef_omnibus_root: /opt/chef/
   solo_rb: {
       "ssl_verify_mode": "verify_peer",
-      "cookbook_path": ["/mnt/cookbooks/supermarket", "/mnt/riyic/cookbooks", "/mnt/others/cookbooks"],
-      "log_level": "debug"
+      "recipe_url": "https://s3-eu-west-1.amazonaws.com/riyic/cookbooks.tar.gz",
+      "cookbook_path": ["/var/chef/cookbooks", "/home/cookbooks"],
+      "log_level": "debug",
   }
 
 
 platforms:
-  - name: riyic
+  - name: prefapp
     driver:
-      image: riyic_base:latest
+      image: 4eixos/base:latest
       platform: ubuntu
       require_chef_omnibus: false
       use_cache: false
       remove_images: false
       volume:
-          - /opt/chef:/opt/chef:ro
-          - /home/alambike/proxectos/chef:/mnt/:ro
+          - <%= ENV['LOCAL_COOKBOOKS_PATH'] %>:/home/cookbooks:ro
 
 
 
@@ -40,15 +40,83 @@ suites:
     attributes: {
   "app": {
     "owncloud": {
-        "domain": "test.riyic.com",
-        "environment": "production",
-        "target_path": "/home/riyic/",
-        "user": "owncloud",
-        "group": "owngrp",
-        'dbname': 'owncloud',
-        'dbuser': 'owncloud',
-        'dbhost': 'db.local',
-        'dbpass': 'owncloud'
+         "domain": "owncloud.riyic.com",
+         "environment": "production",
+         "target_path": "/home/owncloud/public",
+         "user": "owncloud",
+         "group": "owncloudgrp",
+         "db_name": "mddb",
+         "db_user": "mddbuser",
+         "db_host": "db",
+         "db_password": "owncloud",
+	"db_type": "mysqli",
+        "datadir": "/homeowncloud/ownclouddata"
+     }
+  }
+}
+
+  - name: completa
+    run_list:
+        - [
+            "recipe[riyic::default]",
+	    "recipe[dbs_mysql::server]",
+            "recipe[dbs_mysql::create_db]",
+            "recipe[app_owncloud::deploy]",
+            "recipe[riyic::test_helper]"
+  ]
+    attributes: {
+  "riyic": {
+    "updates_check_interval": "never",
+    "system_locale": "en_US.UTF-8",
+    "enable_report": "no",
+    "server_id": 51,
+    "env": "production"
+  },
+  "dbs": {
+    "mysql": {
+      "server": {
+        "root_password": "3WBwg3Hsn0LZa_Wq8Yc4gQ",
+        "repl_password": "CPlWmnry8WIrtCJW8sW2IQ",
+        "debian_password": "o_z41F06AHL8eiIjdIrsdg",
+        "bind_address": "0.0.0.0"
+      },
+      "tunable": {
+        "key_buffer": "250M",
+        "max_connections": "500",
+        "wait_timeout": "180",
+        "net_read_timeout": "30",
+        "net_write_timeout": "30",
+        "back_log": "128",
+        "table_cache": "128",
+        "table_open_cache": "128",
+        "max_heap_table_size": "32M",
+        "expire_logs_days": "10",
+        "max_binlog_size": "100M"
+      },
+      "dbs": [
+        {
+          "name": "ownclouddb",
+          "user": "ownclouduser",
+          "password": "-eH8DlRxhOWBys39LWrr4Q"
+        }
+      ]
+    }
+  },
+  "app": {
+    "owncloud": {
+      "domain": "test.com",
+      "db_host": "localhost",
+      "db_name": "ownclouddb",
+      "db_user": "ownclouduser",
+      "db_password": "-eH8DlRxhOWBys39LWrr4Q",
+      "db_type": "mysqli",
+      "target_path": "/home/owncloud/public",
+      "datadir": "/home/owncloud/ownclouddata",
+      "user": "owncloud",
+      "group": "users",
+      "smtp_server_secure": "yes",
+      "admin_user": "admin",
+      "admin_password": "123qwe//"
     }
   }
 }
