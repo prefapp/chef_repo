@@ -69,7 +69,7 @@ fcgi_app args["domain"] do
   extra_packages       extra_packages
   
   php_ini_admin_values (php_ini_config)
-  cookbook_file        'app_phpback'
+  #cookbook            'app_phpback'
   #frontend_template    'nginx_phpback.erb'  
   notifies             :restart, 'service[nginx]', :delayed
   notifies             :restart, 'service[php5-fpm]', :delayed
@@ -103,7 +103,7 @@ if node["riyic"]["inside_container"]
       :db_user => args['db_user'],
       :db_pass => args['db_password'],
       :db_host => args['db_host'],
-      :task => "mysql -u #{args['db_user']} -p#{args['db_password']} -h #{args['db_host']} < #{args['target_path']}/install/database_tables.sql"
+      :task => "mysql -u #{args['db_user']} -p#{args['db_password']} -h #{args['db_host']} #{args['db_name']} < #{args['target_path']}/install/database_tables.sql"
     })
   end
 end

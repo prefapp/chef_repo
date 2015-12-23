@@ -1,9 +1,9 @@
 <?php $active_group = 'default';
 $active_record = TRUE;
-$db['default']['hostname'] = '<%=app['db_host']%>';
-$db['default']['username'] = '<%=app['db_user']%>';
-$db['default']['password'] = '<%=app['db_password']%>';
-$db['default']['database'] = '<%=app['db_name']%>';
+$db['default']['hostname'] = '<%=@app['db_host']%>';
+$db['default']['username'] = '<%=@app['db_user']%>';
+$db['default']['password'] = '<%=@app['db_password']%>';
+$db['default']['database'] = '<%=@app['db_name']%>';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
