@@ -37,6 +37,7 @@ php_ini_config = {
 }
 ###
 
+extra_packages = []
 #extra_packages = %w{
 #  php5-curl
 #  php5-gd 
@@ -44,11 +45,12 @@ php_ini_config = {
 #  php5-xmlrpc
 #}
 #
-#if args['db_type'] == 'mysqli'
-#  extra_packages << 'php5-mysqlnd'
-#elsif args['db_type'] == 'pgsql'
-#  extra_packages << 'php5-pgsql'
-#end
+
+if args['db_type'] == 'mysql'
+  extra_packages << 'php5-mysqlnd'
+elsif args['db_type'] == 'pgsql'
+  extra_packages << 'php5-pgsql'
+end
 
 # instalamos a aplicacion e configuramos os servicios necesarios
 fcgi_app args["domain"] do
