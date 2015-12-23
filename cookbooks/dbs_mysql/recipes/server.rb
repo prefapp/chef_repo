@@ -54,14 +54,15 @@ include_recipe "mysql::server"
 # extra_tasks para o arranque do container
 if node["riyic"]["inside_container"]
     
-    file "#{node['riyic']['extra_tasks_dir']}/dbs_mysql-server.sh" do
-        mode '0700'
-        owner 'root'
-        group 'root'
-        content "chown -R mysql:mysql /var/lib/mysql"
-    end    
+  file "#{node['riyic']['extra_tasks_dir']}/dbs_mysql-server.sh" do
+    mode '0700'
+    owner 'root'
+    group 'root'
+    content "chown -R mysql:mysql /var/lib/mysql"
+  end    
 
 end
+
 
 # deshabilitamos e paramos o servicio fake apparmor 
 #node.set['container_service']['apparmor-mysql2']['command'] = "sleep 100"
