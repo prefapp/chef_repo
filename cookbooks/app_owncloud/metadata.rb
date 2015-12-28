@@ -107,15 +107,15 @@ attribute "app/owncloud/db_password",
 
 attribute "app/owncloud/db_type",
     :display_name => "Database type",
-    :description => "Database type valid values: sqlite, mysql or pgsql",
+    :description => "Database type valid values: sqlite, mysqli or pgsql",
     :required => true,
-    :default => 'sqlite',
-    :choice => %w{sqlite mysql pgsql}
+    :default => 'mysqli',
+    :choice => %w{sqlite mysqli pgsql}
 
 attribute "app/owncloud/target_path",
     :display_name => "Application deployment folder",
     :description => 'The application will be deployed to this folder',
-    :default => '/home/owncloud',
+    :default => '/home/owncloud/public',
     :validations => {predefined: "unix_path"}
 
 attribute "app/owncloud/datadir",
