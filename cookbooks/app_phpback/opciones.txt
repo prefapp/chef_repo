@@ -1,0 +1,31 @@
+adminname
+adminemail
+adminpass
+adminrpass
+
+database
+hostname
+username
+password
+
+
+# as seguintes opcions podense configurar despois dende 
+# o panel de administracion
+
+rpublic
+rprivate   -> recaptcha public/private
+mainmail
+title
+smtp-host
+smtp-port
+smtp-user
+smtp-password
+
+max_votes (def: 20)
+max_results (def : 10)
+language (def: english)
+
+
+
+
+

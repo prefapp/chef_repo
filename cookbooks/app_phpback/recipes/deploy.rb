@@ -56,7 +56,7 @@ end
 fcgi_app args["domain"] do
 
   target_path          args['target_path']
-  document_root        args["target_path"]
+  document_root        "#{args["target_path"]}/public"
   server_alias         args['alias'] if args['alias']
   action               :deploy
   owner                args['user']
@@ -71,8 +71,8 @@ fcgi_app args["domain"] do
   extra_packages       extra_packages
   
   php_ini_admin_values (php_ini_config)
-  #cookbook            'app_phpback'
-  #frontend_template    'nginx_phpback.erb'  
+  cookbook            'app_phpback'
+  frontend_template    'nginx_phpback.erb'  
   notifies             :restart, 'service[nginx]', :delayed
   notifies             :restart, 'service[php5-fpm]', :delayed
 
@@ -91,21 +91,49 @@ template "#{args['target_path']}/application/config/database.php" do
 end
 
 # extra_tasks para o arranque do container
-if node["riyic"]["inside_container"]
-  
-  template "#{node['riyic']['extra_tasks_dir']}/phpback_load_db-#{app['domain']}.sh" do
+#if node["riyic"]["inside_container"]
+#  
+#  template "#{node['riyic']['extra_tasks_dir']}/phpback_load_db-#{app['domain']}.sh" do
+#
+#    source 'mysql_aware_tasks.sh.erb'
+#    mode '0700'
+#    owner 'root'
+#    group 'root'
+#    cookbook 'dbs_mysql'
+#    variables ({
+#      :control_file => '/root/.actualizado',
+#      :db_user => args['db_user'],
+#      :db_pass => args['db_password'],
+#      :db_host => args['db_host'],
+#      :task => "mysql -u #{args['db_user']} -p#{args['db_password']} -h #{args['db_host']} #{args['db_name']} < #{args['target_path']}/install/database_tables.sql"
+#    })
+#  end
+#end
 
-    source 'mysql_aware_tasks.sh.erb'
-    mode '0700'
-    owner 'root'
-    group 'root'
-    cookbook 'dbs_mysql'
-    variables ({
-      :control_file => '/root/.actualizado',
-      :db_user => args['db_user'],
-      :db_pass => args['db_password'],
-      :db_host => args['db_host'],
-      :task => "mysql -u #{args['db_user']} -p#{args['db_password']} -h #{args['db_host']} #{args['db_name']} < #{args['target_path']}/install/database_tables.sql"
-    })
-  end
+task = <<"EOF"
+php #{args['target_path']}/install/install1.php \
+'adminname=#{args['admin_name']}&adminemail=#{args['admin_email']}\
+&adminpass=#{args['admin_password']}&adminrpass=#{args['admin_password']}' && \
+php #{args['target_path']}/install/install2.php \
+'rpublic=#{args['rpublic']}&rprivate=#{args['rprivate']}&mainmail=#{args['mainmail']}\
+&title=#{args['title']}&smtp-host=#{args['smtp-host']}&smtp-port=#{args['smtp-port']}\
+&smtp-user=#{args['smtp-user']}&smtp-password=#{args['smtp-password']}\
+&maxvotes=#{args['max_votes']}&max_results=#{args['max_results']}&language=#{args['language']}'
+EOF
+
+
+# executamos a task ou creamos o ficheiro para executarse no arranque
+execute "installation_script" do
+  command task
+  only_if {node.recipe?('dbs_mysql::server')}
+end
+
+
+file "#{node['riyic']['extra_tasks_dir']}/phpback_installation-#{args['domain']}.sh" do
+  mode '0700'
+  owner 'root'
+  group 'root'
+  content task 
+   
+  not_if {node.recipe?('dbs_mysql::server')}
 end
