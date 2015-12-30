@@ -8,6 +8,7 @@ do
     bash $f
 done
 
+<% if node['riyic']['inside_container'] -%>
 
 # remove limitations to start services
 find -L /etc/service -maxdepth 2 -mindepth 2 -type f -name down -exec rm -f '{}' +
@@ -15,3 +16,4 @@ find -L /etc/service -maxdepth 2 -mindepth 2 -type f -name down -exec rm -f '{}'
 # start runit
 exec /usr/bin/runsvdir -P /etc/service 'log: #{ '.' * 395}'        
 
+<%end%>

@@ -57,27 +57,26 @@ if node['virtualization']['system'] =~ /^lxc|docker$/
         not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
     end
 
+end
 
-    # definimos os resources que representan ao ficheiros de extra-tasks para que
-    # nas demais recipes se poidan modificar
-    node.set['riyic']['extra_tasks_dir'] = '/root/extra_tasks/'
+# definimos os resources que representan ao ficheiros de extra-tasks para que
+# nas demais recipes se poidan modificar
+node.set['riyic']['extra_tasks_dir'] = '/root/extra_tasks/'
 
-    directory node['riyic']['extra_tasks_dir'] do
-        owner 'root'
-        group 'root'
-        mode '0700'
-    end
+directory node['riyic']['extra_tasks_dir'] do
+    owner 'root'
+    group 'root'
+    mode '0700'
+end
 
 
-    # por ultimo creamos o ficheiro que arrancara o runit dentro do container
-    # e executara todos os ficheiros de extra_tasks que vaian deixando as apps   
-    template '/root/start.sh' do
-        source 'start.sh.erb'
-        mode '0700'
-        owner 'root'
-        group 'root'
-    end
-
+# por ultimo creamos o ficheiro que arrancara o runit dentro do container
+# e executara todos os ficheiros de extra_tasks que vaian deixando as apps   
+template '/root/start.sh' do
+    source 'start.sh.erb'
+    mode '0700'
+    owner 'root'
+    group 'root'
 end
 
 
