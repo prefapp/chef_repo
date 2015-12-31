@@ -42,14 +42,14 @@ attribute "app/owncloud/alias",
     :type => "array",
     :validations => {predefined: "domain"}
 
-attribute "app/owncloud/adminlogin",
+attribute "app/owncloud/admin_user",
     :display_name => "Owncloud admin user",
     :description => 'Admin user in owncloud app',
     :required => true,
     :default => 'admin',
     :validations => {predefined: "username"}
 
-attribute "app/owncloud/adminpass",
+attribute "app/owncloud/admin_password",
     :display_name => "Owncloud admin user password",
     :description => 'Owncloud admin user password',
     :required => true,
@@ -107,10 +107,10 @@ attribute "app/owncloud/db_password",
 
 attribute "app/owncloud/db_type",
     :display_name => "Database type",
-    :description => "Database type valid values: sqlite, mysqli or pgsql",
+    :description => "Database type valid values: sqlite, mysql or pgsql",
     :required => true,
-    :default => 'mysqli',
-    :choice => %w{sqlite mysqli pgsql}
+    :default => 'mysql',
+    :choice => %w{sqlite mysql pgsql}
 
 attribute "app/owncloud/target_path",
     :display_name => "Application deployment folder",
