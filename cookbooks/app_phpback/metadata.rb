@@ -88,7 +88,7 @@ attribute "app/phpback/group",
   :default => 'users',
   :validations => {predefined: "username"}
 
-attribute "app/phpback/admin_email"
+attribute "app/phpback/admin_email",
   :required => true,
   :display_name => "Admin email address",
   :description => "Admin Email address",
@@ -109,54 +109,54 @@ attribute "app/phpback/admin_password",
   :calculated => true,
   :validations => {predefined: "password"}
 
-attribute "app/phpback/rpublic"
+attribute "app/phpback/rpublic",
   :display_name => "Recaptcha public key",
   :description => "Recaptcha public key",
   :validations => {predefined: 'word'}
 
-attribute "app/phpback/rprivate"
+attribute "app/phpback/rprivate",
   :display_name => "Recaptcha private key",
   :description => "Recaptcha private key",
   :validations => {predefined: 'word'}
 
-attribute "app/phpback/mainmail"
+attribute "app/phpback/mainmail",
   :display_name => "Main mail address",
   :description => "Site Email address",
   :validations => {predefined: "email"}
 
-attribute "app/phpback/title"
+attribute "app/phpback/title",
   :display_name => "Site title",
   :description => "Site title",
   :validations => {predefined: 'text'}
 
-attribute "app/phpback/max_votes"
+attribute "app/phpback/max_votes",
   :display_name => "Max votes",
   :description => 'Max votes per user',
   :required => true,
   :default => '20',
-  :validations => {predefined: 'int'},
+  :validations => {predefined: 'int'}
 
-attribute "app/phpback/max_results"
+attribute "app/phpback/max_results",
   :display_name => 'Max results',
   :description => 'Max results per page',
   :default => '10',
   :required => true,
   :validations => {predefined: 'int'}
 
-attribute "app/phpback/language"
+attribute "app/phpback/language",
   :display_name => 'Site language',
   :description => 'Site language',
   :default => 'english',
   :validations => {predefined: 'word'}
 
-attribute "app/phpback/smtp_host"
+attribute "app/phpback/smtp_host",
   :display_name => "Smtp host",
   :description => "Smtp server to use to send emails, empty to localhost",
   :default => '',
   :required => false,
   :validations => {predefined: "server_name"}
 
-attribute "app/phpback/smtp_port"
+attribute "app/phpback/smtp_port",
   :display_name => "Smtp server port",
   :description => "Smtp server port",
   :default => '25',
