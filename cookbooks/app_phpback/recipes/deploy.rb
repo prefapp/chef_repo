@@ -56,7 +56,7 @@ end
 fcgi_app args["domain"] do
 
   target_path          args['target_path']
-  document_root        "#{args["target_path"]}/public"
+  document_root        args["target_path"]
   server_alias         args['alias'] if args['alias']
   action               :deploy
   owner                args['user']
