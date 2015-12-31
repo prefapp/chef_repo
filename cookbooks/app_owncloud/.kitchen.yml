@@ -86,7 +86,7 @@ suites:
         "user": "owncloud",
         "group": "owngrp",
         'db_name': 'ownclouddb',
-        'dbuser': 'ownclouduser',
+        'db_user': 'ownclouduser',
         'db_host': 'localhost',
         'db_password': '-eH8DlRxhOWBys39LWrr4Q',
         "user": "owncloud",
