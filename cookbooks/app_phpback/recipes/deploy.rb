@@ -113,7 +113,8 @@ end
 task = <<"EOF"
 php #{args['target_path']}/install/install1.php \
 'adminname=#{args['admin_name']}&adminemail=#{args['admin_email']}\
-&adminpass=#{args['admin_password']}&adminrpass=#{args['admin_password']}' && \
+&adminpass=#{args['admin_password']}&adminrpass=#{args['admin_password']}\
+&hostname=#{args['db_host']}&username=#{args['db_user']}&password=#{args['db_pass']}&database=#{args['db_name']}' && \
 php #{args['target_path']}/install/install2.php \
 'rpublic=#{args['rpublic']}&rprivate=#{args['rprivate']}&mainmail=#{args['mainmail']}\
 &title=#{args['title']}&smtp-host=#{args['smtp-host']}&smtp-port=#{args['smtp-port']}\
