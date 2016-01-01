@@ -92,7 +92,8 @@ attribute "app/phpback/admin_email",
   :required => true,
   :display_name => "Admin email address",
   :description => "Admin Email address",
-  :validations => {predefined: "email"}
+  :validations => {predefined: "email"},
+  :default => 'test@test.com'
 
 # opcionales
 attribute "app/phpback/admin_name",
@@ -112,22 +113,26 @@ attribute "app/phpback/admin_password",
 attribute "app/phpback/rpublic",
   :display_name => "Recaptcha public key",
   :description => "Recaptcha public key",
-  :validations => {predefined: 'word'}
+  :validations => {predefined: 'word'},
+  :default => ''
 
 attribute "app/phpback/rprivate",
   :display_name => "Recaptcha private key",
   :description => "Recaptcha private key",
-  :validations => {predefined: 'word'}
+  :validations => {predefined: 'word'},
+  :default => ''
 
 attribute "app/phpback/mainmail",
   :display_name => "Main mail address",
   :description => "Site Email address",
-  :validations => {predefined: "email"}
+  :validations => {predefined: "email"},
+  :default => ''
 
 attribute "app/phpback/title",
   :display_name => "Site title",
   :description => "Site title",
-  :validations => {predefined: 'text'}
+  :validations => {predefined: 'text'},
+  :default => ''
 
 attribute "app/phpback/max_votes",
   :display_name => "Max votes",
