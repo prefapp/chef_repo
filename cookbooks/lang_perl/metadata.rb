@@ -26,8 +26,8 @@ attribute "lang/perl/version",
         system
         stable
         blead
-        perl-5.22.0
-        perl-5.20.2
+        perl-5.22.1
+        perl-5.20.3
         perl-5.18.4
         perl-5.16.3
         perl-5.14.4
