@@ -58,6 +58,14 @@ attribute "lang/perl/modules",
     :type => "array", # probablemente mellor hash
     :advanced => false,
     :validations => {:predefined => "perl_module"}
+
+attribute "lang/perl/darkpan_modules",
+    :display_name => "Own private modules to install",
+    :description => "Private modules to install (darkpan)",
+    :default => [],
+    :type => "array", # probablemente mellor hash
+    :advanced => false,
+    :validations => {:predefined => "url"}
 # attributes "lang/perl/perlbrew/install_options",
 #     :display_name => "Install options",
 #     :description => "Install options",
