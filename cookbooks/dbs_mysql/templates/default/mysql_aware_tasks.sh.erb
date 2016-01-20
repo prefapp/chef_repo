@@ -1,0 +1,39 @@
+#!/bin/bash
+if [ ! -f <%=@control_file%> ]; then
+
+    if [[ -z "<%=@db_host%>" || "<%=@db_host%>" == "localhost" ||  "<%=@db_host%>" == "127.0.0.1" ]]; then
+        echo "=> Starting MySQL Server"
+        /usr/bin/mysqld_safe > /dev/null 2>&1 &
+    
+        RET=1
+        while [[ RET -ne 0 ]]; do
+            echo "=> Waiting for confirmation of MySQL service startup"
+            sleep 5
+            mysql -u"<%=@db_user%>" -p"<%=@db_pass%>" -e "status" > /dev/null 2>&1
+            RET=$?
+        done
+        
+        PID=$(pidof mysqld)
+        echo "   Started with PID ${PID}"
+    fi
+    
+    echo "=> Executing tasks"
+    <%=@task%>
+    
+    if [[ -z "<%=@db_host%>" || "<%=@db_host%>" == "localhost" ||  "<%=@db_host%>" == "127.0.0.1" ]]; then
+    
+        echo "=> Stopping MySQL Server"
+        kill $PID
+
+        RET=0
+        while [[ RET -eq 0 ]]; do
+            echo "=> Waiting for confirmation of MySQL service stop"
+            sleep 5
+            mysql -u"<%=@db_user%>" -p"<%=@db_pass%>" -e "status" > /dev/null 2>&1
+            RET=$?
+        done
+    fi
+    
+    echo "=> Done!"
+    touch <%=@control_file%>
+fi
