@@ -1,0 +1,1 @@
+default['lang_php']['install_method'] = 'package'
