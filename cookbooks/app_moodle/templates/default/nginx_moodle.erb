@@ -1,0 +1,52 @@
+server {
+    listen <%= @port%>;
+    server_name <%=@name%> <%=@alternate_names.join(' ') %>;
+
+    root <%=@document_root%>;
+
+    index index.php index.html index.htm;
+
+    access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
+    error_log <%= node["nginx"]["log_dir"]%>/<%=@name %>.error_log info;
+
+    rewrite ^/moodle/(.*\.php)(/)(.*)$ /moodle/$1?file=/$3 last;
+
+    <% if @max_upload_size -%>
+    client_max_body_size <%= @max_upload_size %>;
+    <% end -%>
+    fastcgi_connect_timeout 60;
+    fastcgi_send_timeout 180;
+    fastcgi_read_timeout 360;
+
+    # speed up static files transfer
+    sendfile 'on';
+
+
+
+    error_page 403 = /core/templates/403.php;
+    error_page 404 = /core/templates/404.php;
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+
+    location / {
+	
+	try_files $uri $uri/index.php;	
+
+    }
+
+    location ~ [^/]\.php(/|$) {
+ 	fastcgi_split_path_info  ^(.+\.php)(/.+)$;
+    	fastcgi_index            index.php;
+    	fastcgi_pass             127.0.0.1:9000;
+    	include                  fastcgi_params;
+    	fastcgi_param   PATH_INFO       $fastcgi_path_info;
+    	fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+
+}
