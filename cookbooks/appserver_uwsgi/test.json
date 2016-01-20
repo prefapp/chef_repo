@@ -1,0 +1,15 @@
+{
+    "appserver": {
+        "uwsgi": {
+            "modules": ["psgi"],
+            "standalone": "yes",
+            "url": "http://projects.unbit.it/downloads/",
+            "version": "1.9.18.2",
+            "installation_path": "/opt/uwsgi",
+            "run_options": {
+                "--socket": "/tmp/uwsgi.sock"
+            }
+        }
+    },
+    "run_list": ["recipe[appserver_uwsgi::default]"]
+}
