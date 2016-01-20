@@ -11,7 +11,7 @@ end
 
 recipe "default",
     description: "Install system packages listed",
-    attributes: [%w(system/packages/list)],
+    attributes: [/^system\/packages\/list/],
     dependencies: []
 
 recipe "dist-upgrade",
