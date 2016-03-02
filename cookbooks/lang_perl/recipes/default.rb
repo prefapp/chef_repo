@@ -19,6 +19,7 @@ if node["lang"]["perl"]["modules"].length > 0
   
   perlenv_cpanm "#{node["lang"]["perl"]["version"]}-modules" do
     modules node["lang"]["perl"]["modules"]
+    options '-v --installdeps'
   end 
 
 end
@@ -30,6 +31,7 @@ if node['lang']['perl']['darkpan_modules'].length > 0
 
   perlenv_cpanm "darkpan-modules" do
     modules node['lang']['perl']['darkpan_modules']
+    options '-v --installdeps'
   end
 
 end
