@@ -15,23 +15,18 @@ end
 
 # instalamos os modulos solicitados
 
-if node["lang"]["perl"]["modules"].length > 0
-  
+modules = node['lang']['perl']['modules'] + node['lang']['perl']['darkpan_modules']
+
+if modules.length > 0
+  # instalar dependencias dende dentro do cpanfile
   perlenv_cpanm "#{node["lang"]["perl"]["version"]}-modules" do
-    modules node["lang"]["perl"]["modules"]
-    options '-v --installdeps'
-  end 
-
-end
-
-#
-# instalamos modulos privados (darkpan)
-#
-if node['lang']['perl']['darkpan_modules'].length > 0
-
-  perlenv_cpanm "darkpan-modules" do
-    modules node['lang']['perl']['darkpan_modules']
+    modules modules
     options '-v --installdeps'
   end
 
+  #instalar modulos
+  perlenv_cpanm "#{node["lang"]["perl"]["version"]}-modules" do
+    modules modules
+    #options '-v'
+  end
 end
