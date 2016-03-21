@@ -17,12 +17,13 @@
 # choose how install ruby (rvm or brightbox ruby-ng)
 default['lang']['ruby']['use_rvm'] = false
 
-node.default["lang"]["ruby"]["version"] = 'ruby-2.1' # ruby-1.9.3
+node.default["lang"]["ruby"]["version"] = 'ruby-2.2' # ruby-1.9.3
 node.default["lang"]["ruby"]["gemset"] = ''
 node.default['lang']['ruby']['rails']['sites'] = []
 
-ruby_versions = { 
-    'ruby-2.2' => 'ruby-2.2.0',
+ruby_versions = {
+    'ruby-2.3' => 'ruby-2.3.0',
+    'ruby-2.2' => 'ruby-2.2.4',
     'ruby-2.1' => 'ruby-2.1.5',
     'ruby-2.0.0' => "ruby-2.0.0-p598",#'ruby-2.0.0-p353',
     'ruby-1.9.3' => "ruby-1.9.3-p551",#'ruby-1.9.3-p484', #'ruby-1.9.3-p429',
