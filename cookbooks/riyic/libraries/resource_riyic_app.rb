@@ -200,7 +200,7 @@ class Chef
       def repo_depth(arg=nil)
           set_or_return(
               :repo_depth,
-              arg,
+              arg.to_i,
               :kind_of => Integer,
               :default => 0
           )
