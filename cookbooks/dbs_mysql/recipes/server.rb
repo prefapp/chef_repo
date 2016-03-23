@@ -37,6 +37,7 @@ EOF
 # mais un script para chequear que esta levantado
 node.set['container_service']['mysql']['check_script_content'] = <<EOF
 #!/bin/sh
+sleep 4
 test -e /var/run/mysqld/mysqld.sock
 EOF
 
