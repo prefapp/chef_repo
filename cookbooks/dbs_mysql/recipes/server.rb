@@ -13,7 +13,7 @@ end
 
     }).each do |attribute|
 
-    node.set["mysql"]["server_#{attribute}"] = node["dbs"]["mysql"]["server"][attribute]
+    node.set["mysql"]["server_#{attribute}"] = node["dbs"]["mysql"]["server"][attribute] || nil
 end
 
 node.set["mysql"]["bind_address"] = node["dbs"]["mysql"]["server"]["bind_address"]

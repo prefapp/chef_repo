@@ -45,7 +45,7 @@ attribute "dbs/mysql/server/repl_password",
   :display_name => "MySQL Server Replication Password",
   :description => "Password for the mysql replication",
   :advanced => false,
-  :required => true,
+  :required => false,
   :calculated => true,
   :validations => {predefined: "mysql_dbpassword"}
 
@@ -53,7 +53,7 @@ attribute "dbs/mysql/server/debian_password",
   :display_name => "MySQL Server Admin password for Debian",
   :description => "Password for the mysqld admin user in Debian",
   :advanced => false,
-  :required => true,
+  :required => false,
   :calculated => true,
   :validations => {predefined: "mysql_dbpassword"}
 
