@@ -9,7 +9,7 @@ upstream backend_<%= @domain %> {
 server {
     listen         80;
     server_name    <%= @domain%>;
-    return         301 https://$server_name$request_uri;
+    return         301 https://$host$request_uri;
 }
 <%end%>
     
@@ -21,8 +21,8 @@ server {
 
     <% if @ssl %>
     ssl on;
-    ssl_certificate <%=@domain%>.bundle.crt;
-    ssl_certificate_key <%=@domain%>.key;
+    ssl_certificate certs/<%=@domain%>.bundle.crt;
+    ssl_certificate_key certs/<%=@domain%>.key;
     ssl_session_timeout 5m;
     ssl_protocols   TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers     HIGH:!aNULL:!MD5;
