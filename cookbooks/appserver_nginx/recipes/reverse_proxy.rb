@@ -34,7 +34,7 @@ node['appserver']['nginx']['reverse_proxy_sites'].each do |site|
             :service_path => site['service_path'] || '/',
             :backends => site["backends"],
             :ssl => (site["ssl"] == 'yes')? true : false,
-            :rewrite_to_https => (site['ssl'] == 'yes' && site['redirect_to_https'] == 'yes')? true: false,
+            :redirect_to_https => (site['ssl'] == 'yes' && site['redirect_to_https'] == 'yes')? true: false,
         )
 
         #not_if { File.exists?("#{node['nginx']['dir']}/sites-available/#{site['domain']}") }
