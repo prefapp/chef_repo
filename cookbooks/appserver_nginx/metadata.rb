@@ -109,6 +109,13 @@ attribute "appserver/nginx/reverse_proxy_sites/@/ssl",
     :default => "no",
     :choice => ["yes","no"]
 
+attribute "appserver/nginx/reverse_proxy_sites/@/redirect_to_https",
+    :display_name => 'Redirect http request to https',
+    :description => 'if this site has ssl, redirect all request from http to https',
+    :advanced => true,
+    :default => "no",
+    :choice => ["yes","no"]
+
 attribute "appserver/nginx/reverse_proxy_sites/@/service_path",
     :display_name => 'Service path to map in backend',
     :description => 'Path expected for the service in the backend (primarly for websockets)',
