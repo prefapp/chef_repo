@@ -46,7 +46,7 @@ node['appserver']['nginx']['reverse_proxy_sites'].each do |site|
 end
 
 n = resources("service[nginx]")
-n.restart_command = '/bin/true'
+n.restart_command('/bin/true')
 
 
 
