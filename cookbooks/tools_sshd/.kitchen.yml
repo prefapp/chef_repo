@@ -38,7 +38,7 @@ suites:
     attributes: {
     "system": {
         "users": {
-          "default": [
+          "bash": [
             {
               "username": "root",
               "ssh_keys":[
