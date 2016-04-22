@@ -1,9 +1,4 @@
-#
-# Cookbook Default recipe:: system_user
-
-#creamos un usuario coa shell por defecto (bash)
-# receta apilable, usaremola asi
-node["system"]["users"]["bash"].each do |user|
+node["system"]["users"]["zsh"].each do |user|
 
   next if user['username'] == 'root'
 
@@ -11,6 +6,7 @@ node["system"]["users"]["bash"].each do |user|
 		action :create
 		group user['group'] if user.include?('group')
 		password user["password"]
+    shell "/usr/bin/zsh"
 	end
 
 end

@@ -1,11 +1,7 @@
 # default recipe
 # create system users with no shell
+include_recipe "system_user::with_bash"
+include_recipe "system_user::without_shell"
+include_recipe "system_user::with_lshell"
 
-node["system"]["users"]["default"].each do |user|
 
-    user user["username"] do
-        action :create
-        system true
-        shell "/bin/false"
-    end
-end

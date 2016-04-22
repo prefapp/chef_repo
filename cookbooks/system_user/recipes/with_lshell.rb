@@ -1,12 +1,17 @@
 #
 # Cookbook Name:: system_user
 
-include_recipe "shell_lshell"
+if node['system']['users']['lshell'].size == 0
+  return
+end
 
+
+include_recipe "shell_lshell"
 
 #creamos un usuario con ese shell
 # receta apilable, usaremola asi
 node["system"]["users"]["lshell"].each do |user|
+  next if user['username'] == 'root'
 
 	system_user user["username"] do
 		action :create

@@ -53,7 +53,7 @@ recipe "with_lshell",
 
 attribute "system/users/default/@/username",
     :display_name => 'System username',
-    :description => ' User name to add to the system',
+    :description => ' User name to add to the system without shell',
     :advanced => false,
     :default => "user",
     :required => true,
@@ -75,6 +75,16 @@ attribute "system/users/bash/@/password",
     :calculated => true,
     :required => true,
     :validations => {predefined: "password"}
+
+attribute "system/users/bash/@/ssh_keys",
+    :display_name => 'User ssh authorized keys',
+    :description => 'Ssh authorized keys for the user',
+    :advanced => false,
+    :calculated => true,
+    :required => false,
+    :type => 'array',
+    :default => [],
+    :validations => {predefined: "text"}
 
 attribute "system/users/bash/@/group",
     :display_name => 'User Group',
@@ -107,6 +117,16 @@ attribute "system/users/lshell/@/group",
     :advanced => false,
     :default => "users",
     :validations => {predefined: "username"}
+
+attribute "system/users/lshell/@/ssh_keys",
+    :display_name => 'User ssh authorized keys',
+    :description => 'Ssh authorized keys for the user',
+    :advanced => false,
+    :calculated => true,
+    :required => false,
+    :type => 'array',
+    :default => [],
+    :validations => {predefined: "text"}
 
 
 attribute "system/users/lshell/@/shell_options/allowed",
