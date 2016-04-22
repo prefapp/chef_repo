@@ -4,29 +4,26 @@ driver:
   use_sudo: false
   disable_upstart: false
   remove_images: true
+  socket: <%= ENV['DOCKER_HOST'] || 'tcp://172.17.42.1:4243' %>
 
 provisioner:
   name: chef_solo
-  #chef_omnibus_root: /opt/chef/
   solo_rb: {
-      "ssl_verify_mode": "verify_peer",
-      "cookbook_path": ["/mnt/cookbooks/supermarket", "/mnt/riyic/cookbooks", "/mnt/others/cookbooks"],
-      "log_level": "debug"
+    "ssl_verify_mode": "verify_peer",
+    "cookbook_path": ["/home/chef_repo/vendor_cookbooks", "/home/chef_repo/cookbooks/"],
+    "log_level": "debug",
   }
-
 
 platforms:
   - name: riyic
     driver:
-      image: riyic_base:latest
+      image: 4eixos/base
       platform: ubuntu
       require_chef_omnibus: false
       use_cache: false
       remove_images: false
       volume:
-          - /opt/chef:/opt/chef:ro
-          - /home/alambike/proxectos/chef:/mnt/:ro
-
+        <%= ENV['LOCAL_COOKBOOKS_PATH'] %>:/home/chef_repo:ro
 
 
 suites:
@@ -35,16 +32,18 @@ suites:
         - [
             "recipe[riyic::default]", 
             "recipe[tools_sshd::install]",
-            "recipe[system_user::with_bash",
+            "recipe[system_user::with_ssh_keys]",
             "recipe[riyic::test_helper]"
     ]
     attributes: {
     "system": {
-        "user": {
+        "users": {
           "default": [
             {
               "username": "root",
-              "password": "123qwe"
+              "ssh_keys":[
+                "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCgQRO0Oh1YU4osWLnAVcY+u17mC1jivpbfJMX3+eAg0zixNGp32kdTfKnNq9TKIDe70lyBQlIlduQ3m+4SJOm4yzKtP4DnwIZaNtk+GkFIkgy90aBcTMYJlLaVdBIjPgnjhatHqt5BzXke5NOQoHMZcUPrNVhZLZbEEpFaNhOm2/fSnd9uFQ1rV2eZ8ytDk0kB0PHNp5zvUAvjXTbrMCiLaPFP8jpLosRNr+lSMZ+QqoJSpGQ601vEyP8Gzx4z2OkBN5yZRKGJ02pZj2+mE8kN6rBxwBYu8tCqNbczgy8oW1hS0/RCfm5XEDN1KysoODDdyYJFXdU3lylS1D9T7cGb alambike@r2d2"
+              ]
             }
           ]
         }
