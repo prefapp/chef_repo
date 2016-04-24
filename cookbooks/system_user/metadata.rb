@@ -41,6 +41,11 @@ recipe "with_bash",
     :attributes => [/\/bash\//],
     :stackable => true
 
+recipe "with_ssh_keys",
+    :description => "Add a ssh key to the user",
+    :attributes => [/\/ssh_keys\//],
+    :stackable => true
+
 recipe "with_lshell",
     :description => "Add a user to the system with Limited shell (lshell)",
     :attributes => [/\/lshell\//],
@@ -72,19 +77,30 @@ attribute "system/users/bash/@/password",
     :display_name => 'User password',
     :description => 'Password to the system user',
     :advanced => false,
-    :calculated => true,
-    :required => true,
+    :calculated => false,
+    :required => false,
     :validations => {predefined: "password"}
+
+#attribute "system/users/bash/@/ssh_keys",
+#    :display_name => 'User ssh authorized keys',
+#    :description => 'Ssh authorized keys for the user',
+#    :advanced => false,
+#    :calculated => false,
+#    :required => false,
+#    :type => 'array',
+#    :default => [],
+#    :validations => {predefined: "ssh_public_key"}
 
 attribute "system/users/bash/@/ssh_keys",
     :display_name => 'User ssh authorized keys',
-    :description => 'Ssh authorized keys for the user',
+    :description => 'Ssh authorized key for the users',
     :advanced => false,
-    :calculated => true,
+    :calculated => false,
     :required => false,
-    :type => 'array',
-    :default => [],
-    :validations => {predefined: "text"}
+    :default => '',
+#    :type => 'array',   # arreglo para probas
+#    :default => [],
+    :validations => {predefined: "ssh_public_key"}
 
 attribute "system/users/bash/@/group",
     :display_name => 'User Group',
@@ -107,7 +123,7 @@ attribute "system/users/lshell/@/password",
     :display_name => 'User password',
     :description => 'Password to the system user',
     :advanced => false,
-    :required => true,
+    :required => false,
     :calculated => true,
     :validations => {predefined: "password"}
 
@@ -122,11 +138,11 @@ attribute "system/users/lshell/@/ssh_keys",
     :display_name => 'User ssh authorized keys',
     :description => 'Ssh authorized keys for the user',
     :advanced => false,
-    :calculated => true,
+    :calculated => false,
     :required => false,
     :type => 'array',
     :default => [],
-    :validations => {predefined: "text"}
+    :validations => {predefined: "ssh_public_key"}
 
 
 attribute "system/users/lshell/@/shell_options/allowed",

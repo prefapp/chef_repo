@@ -9,7 +9,15 @@ users.each do |user|
 
   content = ''
 
-  user['ssh_keys'].each do |key|
+  keys = user['ssh_keys']
+
+  unless keys.is_a?(Array)
+
+    keys = user['ssh_keys'].split(',')
+
+  end
+
+  keys.each do |key|
 
     content << key
     
