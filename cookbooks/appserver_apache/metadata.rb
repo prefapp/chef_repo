@@ -3,12 +3,10 @@ maintainer       "RIYIC"
 maintainer_email "info@riyic.com"
 license          "Apache 2.0"
 description      "Installs/Configures apache2"
-version          "0.0.1"
+version          "0.1.0"
 
 
 depends "apache2"
-depends "build-essential"
-depends "lang_ruby"
 
 %w{debian ubuntu}.each do |os|
   supports os
@@ -22,22 +20,22 @@ recipe  "default",
 
 recipe  "mod_ssl", 
     description: "Apache module 'ssl' with config file, adds port 443 to listen_ports",
-    dependencies: ["appserver_apache"]
+    dependencies: ["appserver_apache::default"]
 
 recipe  "mod_status", 
     description: "Apache module 'status' with config file",
     attributes: ['appserver/apache/ext_status'],
-    dependencies: ["appserver_apache"]
+    dependencies: ["appserver_apache::default"]
 
 recipe  "with_passenger", 
     description: "Install passenger for apache server",
     attributes: [/\/passenger\//],
     dependencies: ["lang_ruby::install"]
 
-#recipe "mod_auth_openids",
-#    description: "Apache module auth_openids",
-#    attributes: ["appserver/apache/allowed_openids"]
-    
+recipe "docker_registry_reverse_proxy",
+  description: "Apache as reverse proxy to other services",
+  attributes: ["appserver/apache/docker_registry_reverse_proxy"],
+  dependencies: []
 
 #recipe "logrotate",
 #    description: "Rotate apache logs. Requires logrotate cookbook",
@@ -70,27 +68,11 @@ attribute "appserver/apache/default_modules",
   :description => "Default modules to enable via recipes",
   :advanced => false,
   :type => "array",
-  # non funciona dende chef 11.12, porque ahora se chequea cada elemento do :choice sexa do tipo :type especificado
-  #:choice => [ 
-  #    "alias", "apreq2", "auth_basic", "auth_digest", "authn_file", "authnz_ldap", 
-  #    "auth_openid", "authz_default", "authz_groupfile", "authz_host", "authz_user", "autoindex", 
-  #    "cgi", "dav_fs", "dav", "dav_svn", "deflate", "dir", "env", "expires", "fcgid", "headers", "ldap", 
-  #    "log_config", "logio", "mime", "negotiation", "perl", "php5", "proxy_ajp", "proxy_balancer",
-  #    "proxy_connect", "proxy_http", "proxy", "python", "rewrite", "setenvif", "ssl", "status", "wsgi", 
-  #    "xsendfile" ],
   :validations => {predefined: "apache_module" },
   :default => %w(status alias auth_basic authn_file authz_default 
       authz_groupfile authz_host authz_user autoindex dir env mime 
       negotiation setenvif)
 
-## para a receta de mod_openid
-#attribute "appserver/apache/allowed_openids",
-#  :display_name => "Apache Allowed OpenIDs",
-#  :description => "Array of OpenIDs allowed to authenticate",
-#  :type => 'array',
-#  :advanced => false,
-#  :default => [],
-#  :validations => {predefined: "openid"}
 
 ## para a receta de mod_status
 attribute "appserver/apache/ext_status",
@@ -115,13 +97,6 @@ attribute "appserver/apache/default_site_enabled",
   :description => "Enable Default Site for Apache",
   :choice => ["true", "false"],
   :default => "false"
-
-## Non o vexo nos atributos de apache2 ¿?¿?¿
-#attribute "appserver/apache/server_name",
-#  :display_name => "Apache Server Name",
-#  :description => "Default Server Name for Apache",
-#  :default => "localhost",
-#  :validations => {regex: /\A[\w+\.\-]\z/}
 
 # keepalive
 attribute "appserver/apache/keepalive",
@@ -166,7 +141,7 @@ attribute "appserver/apache/traceenable",
 attribute "appserver/apache/mpm",
   :display_name => "Apache Single/Multi Threaded",
   :description => "Select worker for multithreaded or prefork for single threaded",
-  :choice => [ "prefork", "worker" ],
+  :choice => [ "prefork", "worker","event" ],
   :default => "prefork"
 
 attribute "appserver/apache/prefork/startservers",
@@ -207,11 +182,6 @@ attribute "appserver/apache/prefork/maxrequestsperchild",
   :default => "10000",
   :validations => {range: '0..100000'}
 
-#attribute "appserver/apache/worker",
-#  :display_name => "Apache Worker",
-#  :description => "Hash of Apache prefork tuning attributes.",
-#  :advanced => true,
-#  :type => "hash"
 
 attribute "appserver/apache/worker/startservers",
   :display_name => "Apache Worker MPM StartServers",
