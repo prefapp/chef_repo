@@ -26,7 +26,7 @@ template "#{server_root}/sites-available/default.conf" do
   group "root"
   mode 0644
   variables(
-    :server_name => "_default_",
+    :server_name => node['appserver']['apache']['server_name'],
     :redirect_http => true,
     :ssl => true,
     :server_root => server_root

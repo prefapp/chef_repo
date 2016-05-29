@@ -27,11 +27,11 @@ LogLevel warn
 
 ServerName localhost
 
-<% if @redirect_http %>
-<VirtualHost *:80>
-    Redirect permanent / https://localhost
-</VirtualHost>
-<% end %>
+#<% if @redirect_http %>
+#<VirtualHost *:80>
+#    Redirect permanent / https://localhost
+#</VirtualHost>
+#<% end %>
 
 <Directory />
     AllowOverride none
@@ -41,11 +41,12 @@ ServerName localhost
  
 <VirtualHost *:443>
 
-    #ServerName <%=@server_name%>
+    ServerName <%=@server_name%>
 
     <% if @ssl %>
     SSLEngine on
     SSLCertificateFile <%=@server_root%>/registry/<%=@server_name%>.crt
+    SSLCertificateChainFile <%=@server_root%>/registry/<%=@server_name%>.chain.pem
     SSLCertificateKeyFile <%=@server_root%>/registry/<%=@server_name%>.key
 
     ## SSL settings recommandation from: https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
@@ -79,7 +80,7 @@ ServerName localhost
       AuthName "Registry Authentication"
       AuthType basic
       AuthUserFile "<%=@server_root%>/registry/httpd.htpasswd"
-      AuthGroupFile "<%=@server_root%>/registry/httpd.groups"
+      #AuthGroupFile "<%=@server_root%>/registry/httpd.groups"
 
       # Read access to authentified users
       <Limit GET HEAD>
