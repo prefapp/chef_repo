@@ -1,7 +1,7 @@
 # recipe to install docker-engine
 
 download_url = "https://get.docker.com/builds/#{node['kernel']['name']}"+
-  "/#{node['kernel']['machine']}/docker-#{node['tools']['docker']['engine_version']}"
+  "/#{node['kernel']['machine']}/docker-#{node['tools']['docker']['engine_version']}.tgz"
 
 remote_file "/usr/bin/docker" do 
   source download_url
