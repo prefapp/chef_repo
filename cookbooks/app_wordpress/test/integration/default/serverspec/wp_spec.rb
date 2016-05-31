@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Wordpress app" do
 
-    domain = $node["app"]["wordpress"]["installation"]["domain"]
+    domain = $node["app"]["wordpress"]["domain"]
 
     describe "Send a http connection to domain #{domain} in localhost" do
     
@@ -23,8 +23,8 @@ describe "Wordpress app" do
 
     end
 
-    user = $node["app"]["wordpress"]["installation"]["user"]
-    target_path = $node["app"]["wordpress"]["installation"]["target_path"]
+    user = $node["app"]["wordpress"]["user"]
+    target_path = $node["app"]["wordpress"]["target_path"]
 
     describe file("#{target_path}/index.php") do
 

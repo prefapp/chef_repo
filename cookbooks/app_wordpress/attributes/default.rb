@@ -2,6 +2,8 @@ default['app']['wordpress']['version'] = 'latest'
 
 default['app']['wordpress']['default_domain'] = node['fqdn']
 
+default['app']['wordpress']['default_target_path'] = '/home/wordpress'
+
 default['app']['wordpress']['default_repo_url'] = 'https://wordpress.org/'
 
 default['app']['wordpress']['default_repo_type'] = 'remote_archive'
