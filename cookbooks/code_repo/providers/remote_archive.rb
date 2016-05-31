@@ -38,19 +38,22 @@ action :pull do
     # hai que descomprimilo
     # as novas versions de tar detectan o tipo de compresion
     #tmp_dir = "#{::File.dirname(tmp_file)}/tmpdir_#{Time.now.to_i}"
+    tmp_dir = "tmpdir_#{Time.now.to_i}"
 
     bash 'unarchive_source' do
       cwd  ::File.dirname(tmp_file)
-      #code <<-EOH
-      #  mkdir #{tmp_dir}
-      #  tar xf #{::File.basename(tmp_file)} -C #{tmp_dir}
-      #  mv -f #{tmp_dir}/* #{target_path}
-      #  rm -rf #{tmp_dir}
-      #EOH
+
       code <<-EOH
-        tar xC #{target_path} --strip-components=1 -f #{::File.basename(tmp_file)}
-        chown -R #{owner}:#{group} #{target_path}
-      EOH
+mkdir #{tmp_dir} && \
+tar xf #{::File.basename(tmp_file)} -C #{tmp_dir} --strip-components=1 && \
+chown -R #{owner}:#{group} #{tmp_dir} && \
+find #{tmp_dir} -mindepth 1 -maxdepth 1 -exec mv -t #{target_path} -- {} + && \
+rm -rf #{tmp_dir}
+EOH
+       #code <<-EOH
+       #  tar xC #{target_path} --strip-components=1 -f #{::File.basename(tmp_file)}
+       #  chown -R #{owner}:#{group} #{target_path}
+       #EOH
     end
 
     new_resource.updated_by_last_action(true)
