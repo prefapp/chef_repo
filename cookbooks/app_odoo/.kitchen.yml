@@ -4,14 +4,16 @@ driver:
   use_sudo: false
   disable_upstart: false
   remove_images: true
+  socket: <%= ENV['DOCKER_HOST'] || 'tcp://172.17.42.1:4243' %>
 
 provisioner:
   name: chef_solo
   #chef_omnibus_root: /opt/chef/
   solo_rb: {
-      "ssl_verify_mode": "verify_peer",
-      "cookbook_path": ["/mnt/cookbooks/supermarket", "/mnt/riyic/cookbooks", "/mnt/others/cookbooks"],
-      "log_level": "debug"
+    "ssl_verify_mode": "verify_peer",
+    #"cookbook_path": ["/mnt/cookbooks/supermarket", "/mnt/riyic/cookbooks", "/mnt/others/cookbooks"],
+    "cookbook_path": ["/home/chef_repo/vendor_cookbooks", "/home/chef_repo/cookbooks/"],
+    "log_level": "debug"
   }
 
 
@@ -24,9 +26,7 @@ platforms:
       use_cache: false
       remove_images: false
       volume:
-          - /opt/chef:/opt/chef:ro
-          - /home/alambike/proxectos/chef:/mnt/:ro
-
+        <%= ENV['LOCAL_COOKBOOKS_PATH'] %>:/home/chef_repo:ro
 
 
 suites:
@@ -45,8 +45,8 @@ suites:
           "domain": "odoo.riyic.com",
           "target_path": "/opt/odoo/",
           "entry_point": "openerp-wsgi.py",
-          "owner": "riyic",
-          "group": "riyicgrp",
+          "owner": "odoo",
+          "group": "odoogrp",
           "admin_password": "testing",
           "data_dir": "/opt/odoo/data",
           "db_user": "odoo_db",
@@ -55,5 +55,59 @@ suites:
         }
       ]
     }
+  }
+}
+  - name: completa
+    run_list:
+      - [
+        "recipe[riyic::default]",
+        "recipe[dbs_postgresql::server]",
+        "recipe[dbs_postgresql::create_db]",
+        "recipe[dbs_postgresql::user_extra_privileges]",
+        "recipe[app_odoo::deploy]",
+        "recipe[riyic::test_helper]"
+    ]
+    attributes: {
+  "app": {
+    "odoo": {
+      "installations": [
+        {
+          "domain": "odoo.riyic.com",
+          "target_path": "/opt/odoo/",
+          "entry_point": "openerp-wsgi.py",
+          "owner": "odoo",
+          "group": "odoogrp",
+          "admin_password": "testing",
+          "data_dir": "/opt/odoo/data",
+          "db_user": "odoo_db",
+          "db_name": "odoo_user",
+          "db_password": "odoo_pass"
+        }
+      ]
+    }
+  },
+  "dbs": {
+      "postgresql": {
+        "server": {
+          "postgres_password": "bcA3w",
+          "allow_remote_connections": "yes"
+        },
+        "dbs": [
+          {
+            "name": "odoo_db",
+            "user": "odoo_user",
+            "password": "odoo_pass"
+          }
+        ],
+        "user_extra_options": [
+          {
+            "user": "odoo_user",
+            "extra_privileges": [
+              "CREATEDB"
+            ],
+            "allow_remote_connections": "yes"
+          }
+        ]
+      }
   }
 }

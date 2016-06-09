@@ -49,8 +49,8 @@ suites:
          "db_user": "mgdbuser",
          "db_host": "db",
          "db_password": "magento",
-	"db_type": "mysqli",
-	"datadir": "/home/magento/magentodata"
+  "db_type": "mysqli",
+  "datadir": "/home/magento/magentodata"
      }
   }
 }
@@ -59,7 +59,7 @@ suites:
     run_list:
         - [
             "recipe[riyic::default]",
-	    "recipe[dbs_mysql::server]",
+            "recipe[dbs_mysql::server]",
             "recipe[dbs_mysql::create_db]",
             "recipe[app_magento::deploy]",
             "recipe[riyic::test_helper]"
