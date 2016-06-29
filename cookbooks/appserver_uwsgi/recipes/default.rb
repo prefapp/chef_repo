@@ -4,27 +4,30 @@ include_recipe "code_repo::default"
 include_recipe "build-essential::default"
 
 # download code
-code_repo node["appserver"]["uwsgi"]["installation_path"] do
+check_uwsgi =  File.exists?("#{node["appserver"]["uwsgi"]["installation_path"]}/uwsgi") &&
+    Mixlib::ShellOut.new("uwsgi --version").run_command.stdout.split("\n").include?(node["appserver"]["uwsgi"]["version"])
 
-  provider    Chef::Provider::CodeRepoRemoteArchive
-  url         node["appserver"]["uwsgi"]["url"]
-  revision    "uwsgi-#{node["appserver"]["uwsgi"]["version"]}.tar.gz"
-  owner       "root"
-  group       "root" 
-  action      "pull"
-
-end
-
-# compilamos o core, o resto vai como plugin
-bash 'compile uWSGI' do
+unless check_uwsgi
+  
+  code_repo node["appserver"]["uwsgi"]["installation_path"] do
+  
+    provider          Chef::Provider::CodeRepoRemoteArchive
+    url               node["appserver"]["uwsgi"]["url"]
+    revision          "uwsgi-#{node["appserver"]["uwsgi"]["version"]}.tar.gz"
+    owner             "root"
+    group             "root" 
+    action            "pull"
+    purge_target_path 'yes'
+  
+  end
+  
+  # compilamos o core, o resto vai como plugin
+  bash 'compile uWSGI' do
     cwd  node["appserver"]["uwsgi"]["installation_path"]
     code <<-EOH
     python uwsgiconfig.py --build core
     EOH
-    not_if do
-        File.exists?("#{node["appserver"]["uwsgi"]["installation_path"]}/uwsgi") &&
-        Mixlib::ShellOut.new("uwsgi --version").run_command.stdout.split("\n").include?(node["appserver"]["uwsgi"]["version"])
-    end
+  end
 end
 
 # compile
