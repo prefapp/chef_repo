@@ -24,7 +24,6 @@ extra_packages = %w{
     libpng-dev
     fontconfig-config
     fontconfig
-
 }
 
 # instalamos todos os paquetes do sistema necesarios
@@ -32,21 +31,8 @@ extra_packages.each do |p|
     package p
 end
 
-# instalamos a ultima version de wkhtmltox 
-# ollo que tenhen que estar instalados os paquetes necesarios no sistema, senon casca
-package_path = "/tmp/wkhtmltopdf.deb"
-
-remote_file package_path do
-    #source "#{node['app']['odoo']['wkhtmltopdf']['download_url']}/#{latest_version}/wkhtmltox-#{latest_version}_linux-trusty-amd64.deb"
-    source node['app']['odoo']['wkhtmltopdf']['download_url'].call
-    action :create_if_missing
-    backup false
-end
-
-dpkg_package "wkhtmltopdf.deb" do
-    source      package_path 
-    action      :install
-end
+include_recipe 'app_odoo::_wkhtmltopdf'
+include_recipe 'app_odoo::_nodejs'
 
 # facemos o deploy de todas as apps de odoo que nos pasen
 node["app"]["odoo"]["installations"].each do |app|
@@ -105,7 +91,7 @@ node["app"]["odoo"]["installations"].each do |app|
         owner               owner
         group               group
         url                 'https://github.com/OCA/l10n-spain.git'
-        revision            '8.0'
+        revision            app['version']
         depth               1
         purge_target_path   'yes'
     end
@@ -118,7 +104,7 @@ node["app"]["odoo"]["installations"].each do |app|
         owner               owner
         group               group
         url                 'https://github.com/OCA/reporting-engines'
-        revision            '8.0'
+        revision            app['version']
         depth               1
         purge_target_path   'yes'
     end
@@ -131,7 +117,7 @@ node["app"]["odoo"]["installations"].each do |app|
         owner               owner
         group               group
         url                 'https://github.com/OCA/account-financial-tools'
-        revision            '8.0'
+        revision            app['version']
         depth               1
         purge_target_path   'yes'
     end
@@ -144,7 +130,7 @@ node["app"]["odoo"]["installations"].each do |app|
         owner               owner
         group               group
         url                 'https://github.com/OCA/partner-contact'
-        revision            '8.0'
+        revision            app['version']
         depth               1
         purge_target_path   'yes'
     end

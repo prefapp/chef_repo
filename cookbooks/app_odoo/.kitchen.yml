@@ -79,9 +79,67 @@ suites:
           "group": "odoogrp",
           "admin_password": "testing",
           "data_dir": "/opt/odoo/data",
-          "db_user": "odoo_db",
-          "db_name": "odoo_user",
+          "db_host": "localhost",
+          "db_user": "odoo_user",
+          "db_name": "odoo_db",
           "db_password": "odoo_pass"
+        }
+      ]
+    }
+  },
+  "dbs": {
+      "postgresql": {
+        "server": {
+          "postgres_password": "bcA3w",
+          "allow_remote_connections": "yes"
+        },
+        "dbs": [
+          {
+            "name": "odoo_db",
+            "user": "odoo_user",
+            "password": "odoo_pass"
+          }
+        ],
+        "user_extra_options": [
+          {
+            "user": "odoo_user",
+            "extra_privileges": [
+              "CREATEDB"
+            ],
+            "allow_remote_connections": "yes"
+          }
+        ]
+      }
+  }
+}
+
+  - name: completa8
+    run_list:
+      - [
+        "recipe[riyic::default]",
+        "recipe[dbs_postgresql::server]",
+        "recipe[dbs_postgresql::create_db]",
+        "recipe[dbs_postgresql::user_extra_privileges]",
+        "recipe[app_odoo::deploy]",
+        "recipe[riyic::test_helper]"
+    ]
+    attributes: {
+  "app": {
+    "odoo": {
+      "installations": [
+        {
+          "domain": "odoo.riyic.com",
+          "target_path": "/opt/odoo/",
+          "entry_point": "openerp-wsgi.py",
+          "owner": "odoo",
+          "group": "odoogrp",
+          "admin_password": "testing",
+          "data_dir": "/opt/odoo/data",
+          "db_user": "odoo_user",
+          "db_host": "localhost",
+          "db_name": "odoo_db",
+          "db_password": "odoo_pass",
+          "version": "8.0"
         }
       ]
     }

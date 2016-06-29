@@ -1,8 +1,14 @@
-default["app"]["odoo"]["default_repo_url"] = 'https://nightly.odoo.com/8.0/nightly/src/'
+default['app']['odoo']['version'] = '9.0'
+
+default["app"]["odoo"]["default_repo_url"] = lazy do 
+  "https://nightly.odoo.com/#{node['app']['odoo']['version']}/nightly/src/"
+end
 
 default["app"]["odoo"]["default_repo_type"] = 'remote_archive'
 
-default["app"]["odoo"]["default_revision"] = 'odoo_8.0.latest.tar.gz'
+default["app"]["odoo"]["default_revision"] = lazy do 
+  "odoo_#{node['app']['odoo']['version']}.latest.tar.gz"
+end
 
 default["app"]["odoo"]["default_user"] = 'odoo'
 

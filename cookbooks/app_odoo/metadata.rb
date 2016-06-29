@@ -102,6 +102,13 @@ attribute "app/odoo/installations/@/entry_point",
     :default => 'openerp-wsgi.py',
     :validations => {predefined: "unix_path"}
 
+attribute "app/odoo/installations/@/version",
+    :display_name => 'Odoo version',
+    :description => 'Odoo version to install',
+    :required => false,
+    :default => '9.0',
+    :validations => {predefined: "revision"}
+
 #attribute "app/odoo/installations/@/repo_url",
 #    :display_name => 'Repository source code url',
 #    :description => 'Repository url from which to download source code',
