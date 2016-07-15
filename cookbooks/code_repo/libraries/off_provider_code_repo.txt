@@ -1,0 +1,6 @@
+class Chef
+  class Provider
+    class CodeRepo < Chef::Provider::CodeRepoGit
+    end
+  end
+end
