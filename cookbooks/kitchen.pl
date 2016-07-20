@@ -1,16 +1,15 @@
 #!/usr/bin/perl
 use strict;
+use Cwd qw(getcwd);
 
-my @PARAMS_NEEDED = qw(cookbook);
+my @PARAMS_NEEDED = qw();
 
 my $OPTIONS = {
-    cookbook => undef,
-    cookbook_path=> 'cookbooks',
     action => 'converge',
     suite => 'default'
 };
 
-my @VALID_CONFIGURABLE_OPTIONS = qw(cookbook action suite);
+my @VALID_CONFIGURABLE_OPTIONS = qw(action suite);
 
 my $DEFAULT_BASE_IMAGE = '4eixos/cookbooks_dev';
 
@@ -26,15 +25,16 @@ sub check_options {
         die("Param needed $p") unless($OPTIONS->{$p})
     }
 
-    die("Cookbook ".$OPTIONS->{cookbook}." not exists") unless(-d $OPTIONS->{cookbook_path}.'/'.$OPTIONS->{cookbook});
+    die("Cookbook hasn't metadata, are you inside a cookbook?") unless(-f 'metadata.rb');
+
+    die(".kitchen.yml not exists") unless(-f '.kitchen.yml');
 
     return 1;
 }
 
 sub run_kitchen{
 
-    my $cmd = 'cd '.$OPTIONS->{cookbook_path}.'/'. $OPTIONS->{cookbook}.' && '.
-'docker run -ti --rm \
+    my $cmd = 'docker run -ti --rm \
 -v ${PWD}/../..:/home/chef_repo \
 -v ${PWD}:/home/kitchen \
 -e LOCAL_COOKBOOKS_PATH=${PWD}/../.. \
@@ -68,7 +68,7 @@ sub help{
 
         next unless(grep {$_ eq $key} @VALID_CONFIGURABLE_OPTIONS);
 
-        $usage .= "$key=$key";
+        $usage .= "$key=<$key>";
         $usage .= " (default:$value)" if($value);
         $usage .= " ";
     }
