@@ -20,3 +20,19 @@ node.set["container_service"]["nginx"]["command"] = "/usr/sbin/nginx -c /etc/ngi
 node.set['nginx']['repo_source'] = 'nginx'
 
 include_recipe "nginx::default"
+
+
+# 
+# delete conf.d/default.conf
+#
+
+nginx_default_conf_file = "#{node['nginx']['dir']}/conf.d/default.conf"
+
+file nginx_default_conf_file do
+
+  action :delete
+  only_if {
+    File.exists?(nginx_default_conf_file)
+  }
+
+end
