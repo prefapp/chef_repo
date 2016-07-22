@@ -20,4 +20,4 @@ default["app"]["psgi"]["default_repo_depth"] = nil
 default["app"]["psgi"]["default_processes"] = 2
 default["app"]["psgi"]["default_threads"] = 0
 default["app"]["psgi"]["default_coroae"] = 100
-
+default["app"]["psgi"]["env"] = {}

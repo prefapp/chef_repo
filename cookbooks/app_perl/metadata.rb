@@ -141,3 +141,10 @@ attribute "app/perl/psgi_apps/@/purge_target_path",
     :description => "The number of past revisions that will be included in the git shallow clone. The default behavior will do a full clone.",
     :default => "0",
     :validations => {predefined: "int"}
+
+attribute "appserver/perl/psgi_apps/@/env",
+    :display_name => 'Environment vars',
+    :description => 'Env vars to run app with ',
+    :type => "hash",
+    :default => nil,
+    :validations => {predefined: "text"}
