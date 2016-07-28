@@ -20,6 +20,7 @@ Array(node["app"]["php"]["fcgi_apps"]).each do |app|
       timeout
       extra_modules
       extra_packages
+      postdeploy_script
 
       php_ini_admin_values
 
