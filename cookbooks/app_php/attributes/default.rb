@@ -22,3 +22,4 @@ default["app"]["php"]["default_extra_packages"] = []
 default["app"]["php"]["default_purge_target_path"] = 'no'
 default["app"]["php"]["default_purge_repo_depth"] = nil
 default["app"]["php"]["default_extra_modules"] = []
+default["app"]["php"]["default_php_ini_admin_values"] = {}

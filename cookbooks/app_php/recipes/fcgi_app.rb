@@ -2,39 +2,41 @@ include_recipe "app_php::default"
 
 Array(node["app"]["php"]["fcgi_apps"]).each do |app|
 
-	fcgi_app app["domain"] do 
+	fcgi_app app["domain"] do
 
-                %W(
-                        server_alias 
-                        target_path
-                        entry_point
-                        owner
-                        group
-                        repo_url
-                        repo_type
-                        revision
-                        credential
-                        environment 
-                        static_files_path 
-                        migration_command
-                        timeout
-                        extra_modules
-                        extra_packages
+    %W(
+      server_alias
+      target_path
+      entry_point
+      owner
+      group
+      repo_url
+      repo_type
+      revision
+      credential
+      environment
+      static_files_path
+      migration_command
+      timeout
+      extra_modules
+      extra_packages
 
-                        purge_target_path
-                        repo_depth
+      php_ini_admin_values
+
+      purge_target_path
+      repo_depth
 
 
-                ).each do |m|
+    ).each do |m|
 
-                        v = app[m] || node["app"]["php"]["default_#{m}"]
+      v = app[m] || node["app"]["php"]["default_#{m}"]
 
-                        self.send(m,v)
+      self.send(m,v)
 
-                end
+    end
 
-                notifies   :restart, 'service[nginx]'
-                notifies   :restart, 'service[php5-fpm]'
+    notifies   :restart, 'service[nginx]'
+    notifies   :restart, 'service[php5-fpm]'
 
 
 	end

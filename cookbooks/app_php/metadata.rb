@@ -138,6 +138,13 @@ attribute "app/php/fcgi_apps/@/postdeploy_script",
     :default => "",
     :validations => {predefined: "unix_path"}
 
+attribute "app/php/fcgi_apps/@/php_ini_admin_values",
+    :display_name => 'php.ini values',
+    :description => 'Hash of php ini values needed by application',
+    :default => {},
+    :type => "hash",
+    :validations => {predefined: "word"}
+
 attribute "app/php/fcgi_apps/@/static_files_path",
     :display_name => 'Path to static files',
     :description => 'Path to static files (relative from target_path). Can be empty',
