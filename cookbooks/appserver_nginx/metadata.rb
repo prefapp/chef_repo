@@ -52,14 +52,14 @@ attribute "appserver/nginx/install_dir",
 attribute "appserver/nginx/version",
     :display_name => 'Nginx version to install',
     :description => 'Nginx version to compile and install',
-    :default => '1.6.2', #1.2.9
+    :default => '1.10.1', #1.2.9
     :advanced => false,
     :validations => {predefined: "version"}
 
 attribute "appserver/nginx/checksum",
     :display_name => 'Nginx source tarball checksum',
     :description => 'Nginx source tarbal sha256 checksum',
-    :default => "b5608c2959d3e7ad09b20fc8f9e5bd4bc87b3bc8ba5936a513c04ed8f1391a18",
+    :default => "1fd35846566485e03c0e318989561c135c598323ff349c503a6c14826487a801",
     :validations => {predefined: "checksum"}
 
 
@@ -73,7 +73,7 @@ attribute "appserver/nginx/modules",
 attribute "appserver/nginx/passenger/version",
     :display_name => 'Passenger version',
     :description => 'Passenger version to compile and install with nginx',
-    :default => '4.0.57', 
+    :default => '5.0.30',
     :advanced => false,
     :validations => {predefined: "version"}
 
@@ -122,4 +122,3 @@ attribute "appserver/nginx/reverse_proxy_sites/@/service_path",
     :default => '/',
     :advanced => true,
     :validations => {predefined: "unix_path"}
-
