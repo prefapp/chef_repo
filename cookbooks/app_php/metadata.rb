@@ -63,7 +63,7 @@ attribute "app/php/fcgi_apps/@/target_path",
 attribute "app/php/fcgi_apps/@/entry_point",
     :display_name => "Application entry point script",
     :description => 'Script to start the application',
-    :default => 'app.wsgi',
+    :default => '',
     :advanced => false,
     :validations => {predefined: "unix_path"}
 
