@@ -2,13 +2,13 @@
 # instala a version de perl requerida con perlbrew, ou ben a version do sistema
 #
 
-if node["lang"]["perl"]["version"] == "system"  
+if node["lang"]["perl"]["version"] == "system"
 
-  include_recipe "lang_perl::package"
+  include_recipe "lang_perl::_package"
 
 else
 
-  include_recipe "lang_perl::perlbrew"
+  include_recipe "lang_perl::_perlbrew"
 
 end
 
