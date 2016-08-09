@@ -6,13 +6,13 @@ if node['riyic']['enable_report'] == 'yes'
 
     chef_handler "Riyic::Report" do
       source "#{node["chef_handler"]["handler_path"]}/riyic_report.rb"
-    
-      arguments :auth_token => node['riyic']['key'], 
+
+      arguments :auth_token => node['riyic']['key'],
                 :server_id => node['riyic']['server_id'],
                 :env => node['riyic']['env']
-    
+
       action :nothing
-      
+
     end.run_action(:enable)
 
 end
@@ -43,8 +43,10 @@ include_recipe "system_package::update_cache"
 # para usalo como init
 if node['virtualization']['system'] =~ /^lxc|docker$/
 
-    # flag para outros cookbooks
-    node.set["riyic"]["inside_container"] = true
+  # flag para outros cookbooks
+  node.set["riyic"]["inside_container"] = true
+
+  if node['riyic']['install_runit_inside_container'] == 'yes'
 
     # instalamos runit que vai a ser o gestor de procesos
     include_recipe "runit::default"
@@ -52,10 +54,12 @@ if node['virtualization']['system'] =~ /^lxc|docker$/
     # arrancamos o servicio de runit en segundo plano
     # para conseguir executar a converxencia do nodo
     execute 'start-runsvdir' do
-        command "/usr/bin/runsvdir -P /etc/service 'log: #{ '.' * 395}' &"
-        action  :run
-        not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
+      command "/usr/bin/runsvdir -P /etc/service 'log: #{ '.' * 395}' &"
+      action  :run
+      not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
     end
+
+  end
 
 end
 
@@ -64,14 +68,14 @@ end
 node.set['riyic']['extra_tasks_dir'] = '/root/extra_tasks/'
 
 directory node['riyic']['extra_tasks_dir'] do
-    owner 'root'
-    group 'root'
-    mode '0700'
+  owner 'root'
+  group 'root'
+  mode '0700'
 end
 
 
 # por ultimo creamos o ficheiro que arrancara o runit dentro do container
-# e executara todos os ficheiros de extra_tasks que vaian deixando as apps   
+# e executara todos os ficheiros de extra_tasks que vaian deixando as apps
 template '/root/start.sh' do
     source 'start.sh.erb'
     mode '0700'
@@ -109,5 +113,5 @@ end
 #        command "/usr/sbin/ryc -A #{node['riyic']['key']} -S #{node['riyic']['server_id']} -E #{node['riyic']['env']} 2>&1 >/dev/null"
 #        user    "root"
 #    end
-#  
+#
 #end
