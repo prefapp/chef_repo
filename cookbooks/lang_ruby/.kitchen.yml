@@ -34,21 +34,41 @@ suites:
     run_list:
         - [
             "recipe[riyic::default]", 
-            "recipe[dbs_mongodb::default]", 
+            "recipe[system_package::default]",
+            "recipe[lang_ruby::install]",
+            "recipe[riyic::clean_container]",
             "recipe[riyic::test_helper]"
     ]
     attributes: {
-    "dbs": {
-        "mongodb": {
-          "server": {
-          },
-          "dbs": [
-            {
-              "name": "test_db",
-              "user": "test_user",
-              "password": "b4uNGag"
-            }
-          ],
+    "riyic": {
+      "install_runit_inside_container": "no"
+    },
+    "system": {
+      "packages": {
+        "list": [
+          "zlib1g-dev", 
+          "liblzma-dev",
+          "mysql-client",
+          "mongodb-clients",
+          "redis-tools",
+          "postgresql-client",
+          "coreutils",
+          "openssl",
+          "openssh-client",
+          "rsync",
+          "gnupg",
+          "gzip",
+          "bzip2",
+          "tar"
+        ]
+      }
+    },
+    "lang": {
+        "ruby": {
+          "version": "ruby-2.2",
+          "gems": [
+            "backup"
+          ]
         }
     }
 }

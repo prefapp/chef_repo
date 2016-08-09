@@ -9,19 +9,20 @@ node.set['rvm']['user_default_ruby'] = str
 
 # construimos o atributo que instale as gemas no sistema
 gems = []
-ruby["gems"].each do |gem|
+
+ruby['gems'].each do |gema|
     g = {}
-    (gem_name, gem_version) = gem.split('#')
+    (gem_name, gem_version) = gema.split('#')
     g["name"] = gem_name
     g["version"] = gem_version unless gem_version.nil?
 
     gems.push(g)
 end
 
-node.set['rvm']['global_gems'] = (gems.empty?)? nil: gems 
+node.set['rvm']['global_gems'] = (gems.empty?)? nil: gems
 node.set['rvm']['user_global_gems'] = node.set['rvm']['global_gems']
 
-#instalamos ruby 
+#instalamos ruby
 node.set['rvm']['install_rubies'] = true
 include_recipe "rvm::system"
 
@@ -35,7 +36,7 @@ include_recipe "rvm::system"
 #end
 #
 #ruby_block 'reload_attributes' do
-#	block do 
+#	block do
 #        node.load_attribute_by_short_filename('default', 'lang_ruby')
 #        Chef::Log.info("RUTA RUBY: #{node["lang"]["ruby"]["binary_path"]}")
 #    end

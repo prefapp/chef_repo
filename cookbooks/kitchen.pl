@@ -75,4 +75,6 @@ sub help{
 
     print $usage."\n";
 
+    exit(0);
+
 }

@@ -24,14 +24,13 @@ recipe "default",
     dependencies: []
 
 ## Atributos
-#attribute "riyic/dockerized",
-#    :display_name => 'Dockerized',
-#    :description => 'Is going to be this server dockerized?',
-#    :required => true,
-#    :default => "no",
-#    :choice => ["yes","no"],    
-#    :validations => {regex: /^(never)|\d+(min|h|d)?/},
-#    :advanced => false
+attribute "riyic/install_runit_inside_container",
+   :display_name => 'Installs runit inside container',
+   :description => 'Installs runit if chef is running inside container?',
+   :required => true,
+   :default => "yes",
+   :choice => ["yes","no"],
+   :advanced => false
 
 ## Atributos
 attribute "riyic/system_locale",

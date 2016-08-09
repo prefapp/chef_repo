@@ -1,11 +1,12 @@
 require 'spec_helper'
 
 port = $node['mongodb']['config']['port']
+interface = $node['dbs']['mongodb']['bind_address']
 
 describe "mongodb" do
 
-    it "is listening on port tcp/#{port} of 0.0.0.0" do
-        expect(port(3306)).to be_listening.on('0.0.0.0').with('tcp')
+    it "is listening on port tcp/#{port} of #{interface}" do
+        expect(port(port)).to be_listening.on(interface).with('tcp')
     end
 
     it "has a running service 'mongodb'" do
