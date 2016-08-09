@@ -4,7 +4,7 @@ if node['platform_family'] == "debian"
 
   execute "clean" do
 	  environment    env_hash
-	  command        "apt-get -y clean && apt-get -y autoclean && rm -rf /var/lib/apt/lists/*"
+	  command        "apt-get -y clean && apt-get -y autoclean && rm -rf /var/lib/apt/lists/* && rm -f /var/lib/apt/periodic/update-success-stamp"
 	end
 
 end
