@@ -37,8 +37,8 @@ ServerName localhost
     AllowOverride none
     Require all denied
 </Directory>
-   
- 
+
+
 <VirtualHost *:443>
 
     ServerName <%=@server_name%>
@@ -80,12 +80,17 @@ ServerName localhost
       AuthName "Registry Authentication"
       AuthType basic
       AuthUserFile "<%=@server_root%>/registry/httpd.htpasswd"
-      #AuthGroupFile "<%=@server_root%>/registry/httpd.groups"
 
       # Read access to authentified users
       <Limit GET HEAD>
         Require valid-user
       </Limit>
+
+      # Any other explicit blocked
+      <Limit POST PUT DELETE PATCH>
+        Require all denied
+      </Limit>
+
 
     </Location>
 
