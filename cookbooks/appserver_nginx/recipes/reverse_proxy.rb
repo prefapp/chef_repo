@@ -2,7 +2,8 @@
 # http://nginx.org/en/docs/configure.html
 
 # incluimos a receta default que vai a compilar o nginx cos modulos agregados
-include_recipe "appserver_nginx::default"
+#include_recipe "appserver_nginx::default"
+include_recipe "appserver_nginx::package"
 
 
 # agregamos a configuracion a seccion http, recomendada para soportar websocket 
