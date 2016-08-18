@@ -28,6 +28,9 @@ end
 # configuramos as locales (senon vai a dar problemas a execucion de algunha receta de chef)
 include_recipe "riyic::_configure_locale"
 
+# configuramos a timezone
+include_recipe "riyic::_configure_timezone"
+
 # - Se algunha receta usa build_essential, que se instale o principio da fase de compilacion
 # para que outra receta que use a fase de compilacion que xa disponha das ferramentas
 

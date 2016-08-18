@@ -41,6 +41,15 @@ attribute "riyic/system_locale",
     :validations => {regex: /^(C|POSIX|[a-z]{2,3}\_[a-z]{2})\.?[a-z0-9\-]{0,10}$/i },
     :advanced => false
 
+## Atributos
+attribute "riyic/system_timezone",
+    :display_name => 'System timezone settings',
+    :description => 'Default system locale for this system',
+    :required => true,
+    :default => "Europe/Madrid",
+    :validations => {regex: /^\w+\/\w+$/i },
+    :advanced => false
+
 attribute 'riyic/enable_report',
     :display_name => 'Enable chef convergence report',
     :description => 'Enable delivery of chef convergence report to riyic',
