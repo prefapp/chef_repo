@@ -59,7 +59,7 @@ if node['virtualization']['system'] =~ /^lxc|docker$/
     execute 'start-runsvdir' do
       command "/usr/bin/runsvdir -P /etc/service 'log: #{ '.' * 395}' &"
       action  :run
-      not_if  "ps -auxwwwf| fgrep -v fgrep | fgrep runsvdir"
+      not_if  "ps -auxwwwf| fgrep -v grep | fgrep runsvdir"
     end
 
   end
@@ -75,6 +75,23 @@ directory node['riyic']['extra_tasks_dir'] do
   group 'root'
   mode '0700'
 end
+
+
+# exportamos as variables correctas de idioma e charset
+# para o arranque do container
+if node["riyic"]["inside_container"]
+
+  lang = node['riyic']['system_locale']
+
+  file "#{node['riyic']['extra_tasks_dir']}/00_lang_env.sh" do
+    mode '0700'
+    owner 'root'
+    group 'root'
+    content "export LANG=#{lang} LC_ALL=#{lang}"
+  end
+
+end
+
 
 
 # por ultimo creamos o ficheiro que arrancara o runit dentro do container
