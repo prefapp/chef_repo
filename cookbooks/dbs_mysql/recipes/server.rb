@@ -7,9 +7,9 @@ Hash(node["dbs"]["mysql"]["tunable"]).each do |attribute, value|
 end
 
 (%w{
-    root_password 
-    repl_password 
-    debian_password 
+    root_password
+    repl_password
+    debian_password
 
     }).each do |attribute|
 
@@ -54,18 +54,18 @@ include_recipe "mysql::server"
 
 # extra_tasks para o arranque do container
 if node["riyic"]["inside_container"]
-    
+
   file "#{node['riyic']['extra_tasks_dir']}/dbs_mysql-server.sh" do
     mode '0700'
     owner 'root'
     group 'root'
     content "chown -R mysql:mysql /var/lib/mysql"
-  end    
+  end
 
 end
 
 
-# deshabilitamos e paramos o servicio fake apparmor 
+# deshabilitamos e paramos o servicio fake apparmor
 #node.set['container_service']['apparmor-mysql2']['command'] = "sleep 100"
 #
 #service 'apparmor-mysql2' do
@@ -82,4 +82,3 @@ end
 #    action                  [:create, :start]
 #    bind_address            node['dbs']['mysql']['server']['bind_address']
 #end
-
