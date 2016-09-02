@@ -9,7 +9,9 @@ GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' identified by '<%= @config.server_r
 GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '<%= @config.server_root_password %>' WITH GRANT OPTION;
 <% else %>
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+  <% unless @config.parsed_version == '5.7' %>
 UPDATE mysql.user SET Password=PASSWORD('<%= @config.server_root_password %>') WHERE User='root';
+  <%end%>
 <% end %>
 <% if @config.remove_anonymous_users -%>
 DELETE FROM mysql.user WHERE User='';
@@ -19,7 +21,9 @@ DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
 <% end %>
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= @config.server_root_password %>');
+<% unless @config.parsed_version == '5.7' %>
 SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('<%= @config.server_root_password %>');
+<% end %>
 <% if @config.root_network_acl.each -%>
 <%   @config.root_network_acl.each do |acl| -%>
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'<%= acl %>' IDENTIFIED BY '<%= @config.server_root_password %>' WITH GRANT OPTION;

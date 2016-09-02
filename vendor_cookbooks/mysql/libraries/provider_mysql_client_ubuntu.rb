@@ -5,7 +5,11 @@ class Chef
     class MysqlClient
       class Ubuntu < Chef::Provider::MysqlClient
         def packages
-          %w(mysql-client-5.5 libmysqlclient-dev)
+          if node['platform_version'] == '16.04'
+            %w(mysql-client-5.7 libmysqlclient-dev)
+          else
+            %w(mysql-client-5.5 libmysqlclient-dev)
+          end
         end
       end
     end
