@@ -31,6 +31,9 @@ class Chef
         attr_reader :command
         attr_reader :log_type # stdout, file
 
+        TIMEOUT = 10
+        VERBOSE = false
+
         def initialize(name, run_context=nil)
           super
           @new_resource.supports[:status] = true
@@ -112,31 +115,37 @@ class Chef
         def disable_service
           return if @disable
           down_file.run_action(:create)
-          shell_out("#{sv_bin} down #{service_dir_name}")
+          shell_out("#{sv_bin} #{sv_args} down #{service_dir_name}")
           Chef::Log.debug("#{new_resource} down")
         end
 
         def start_service
           return if @disable
           wait_for_service_enable
-          shell_out!("#{sv_bin} start #{service_dir_name}")
+          shell_out!("#{sv_bin} #{sv_args} start #{service_dir_name}")
         end
 
         def stop_service
           return if @disable
-          shell_out!("#{sv_bin} stop #{service_dir_name}")
+          shell_out!("#{sv_bin} #{sv_args} stop #{service_dir_name}")
         end
 
         def restart_service
           return if @disable
-          shell_out!("#{sv_bin} restart #{service_dir_name}")
+          shell_out!("#{sv_bin} #{sv_args} restart #{service_dir_name}")
         end
 
         def reload_service
           return if @disable
-          shell_out!("#{sv_bin} force-reload #{service_dir_name}")
+          shell_out!("#{sv_bin} #{sv_args} force-reload #{service_dir_name}")
         end
 
+        def sv_args
+          sv_args = ''
+          sv_args += "-w #{TIMEOUT} " if TIMEOUT
+          sv_args += '-v ' if VERBOSE
+          sv_args
+        end
         ##
         # Helper Methods for Service Override
         #
@@ -183,7 +192,7 @@ class Chef
         #
         def run_script_content
 
-            (@run_script_content)? 
+            (@run_script_content)?
 
                 @run_script_content :
 
@@ -281,4 +290,3 @@ exec #{@command} 2>&1"
     end
   end
 end
-
