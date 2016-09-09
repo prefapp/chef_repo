@@ -3,7 +3,7 @@ default['appserver']['nginx']['modules'] = [
     'http_gzip_static_module'
 ]
 
-default['appserver']['nginx']['version'] = '1.10.2'
+default['appserver']['nginx']['version'] = '1.10.1'
 default['appserver']['nginx']['checksum'] = '1fd35846566485e03c0e318989561c135c598323ff349c503a6c14826487a801'
 # directorio de instalacion (por defecto)
 default['appserver']['nginx']['install_dir'] = '/opt/nginx'
