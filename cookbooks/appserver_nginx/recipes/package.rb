@@ -15,14 +15,15 @@ node.set["nginx"]["source"]["modules"] = node["appserver"]["nginx"]["modules"].m
 ##################################################################################
 node.set["container_service"]["nginx"]["command"] = "/usr/sbin/nginx -c /etc/nginx/nginx.conf"
 
-# queremos usar o repo de nginx para instalar a ultima version estable 
+# queremos usar o repo de nginx para instalar a ultima version estable
 # por paqueteria, sen usar a dos repos de ubuntu
 node.set['nginx']['repo_source'] = 'nginx'
+node.set['nginx']['install_method'] = 'package'
 
 include_recipe "nginx::default"
 
 
-# 
+#
 # delete conf.d/default.conf
 #
 
