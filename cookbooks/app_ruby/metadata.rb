@@ -24,7 +24,7 @@ end
 recipe "rack_app",
     description: "Deploy a rack-enabled app from remote repository with nginx&passenger facing",
     attributes: [/^app\/ruby\/rack_apps\//],
-    dependencies: ["lang_ruby::install", "appserver_nginx::with_passenger"],
+    # dependencies: ["lang_ruby::install", "appserver_nginx::with_passenger"],
     stackable: true
 
 # atributos
