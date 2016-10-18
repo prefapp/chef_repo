@@ -42,6 +42,10 @@ node.set['build-essential']['compile_time'] = true
 
 include_recipe "system_package::update_cache"
 
+# actualizamos cacerts do sistema, para evitar problemas como o das gemas de ruby que non se instalan
+# porque non se reconhece a CA que generou os novos certificados que usa rubygems
+include_recipe "riyic::_update_cacerts"
+
 # Se estamos en docker instalamos runit
 # para usalo como init
 if node['virtualization']['system'] =~ /^lxc|docker$/
