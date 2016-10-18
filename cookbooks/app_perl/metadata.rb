@@ -19,7 +19,7 @@ end
 recipe "psgi_app",
     description: "Deploy a psgi app from remote repository served with nginx & uwsgi taste",
     attributes: [/^app\/perl\/psgi_apps\//],
-    dependencies: ["lang_perl::default", "appserver_nginx::default", "appserver_uwsgi::psgi"],
+    # dependencies: ["lang_perl::default", "appserver_nginx::default", "appserver_uwsgi::psgi"],
     stackable: true
 
 

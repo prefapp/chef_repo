@@ -20,7 +20,7 @@ end
 recipe "wsgi_app",
     description: "Deploy a wsgi app from remote repository served with nginx & uwsgi dressing",
     attributes: [/^app\/python\/wsgi_apps\//],
-    dependencies: ["lang_python::default", "appserver_nginx::default", "appserver_uwsgi::python"],
+    # dependencies: ["lang_python::default", "appserver_nginx::default", "appserver_uwsgi::python"],
     stackable: true
 
 #

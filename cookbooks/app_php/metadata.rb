@@ -23,7 +23,7 @@ end
 recipe "fcgi_app",
     description: "Deploy a php app from remote repository (served with nginx & php-fpm)",
     attributes: [/^app\/php\/fcgi_apps\//],
-    dependencies: ["lang_php::default", "appserver_nginx::default", "appserver_fpm::default"],
+    # dependencies: ["lang_php::default", "appserver_nginx::default", "appserver_fpm::default"],
     stackable: true
 
 #

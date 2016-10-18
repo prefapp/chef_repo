@@ -9,7 +9,8 @@ description      "Install/Configures nginx httpd server"
   supports os
 end
 
-depends "nginx", "= 2.7.4"
+# depends "nginx", "= 2.7.4"
+depends "nginx"
 depends "lang_ruby"
 
 recipe "default",
