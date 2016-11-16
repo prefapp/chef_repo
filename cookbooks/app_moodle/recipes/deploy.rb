@@ -70,8 +70,8 @@ fcgi_app args["domain"] do
   extra_packages       extra_packages
   
   php_ini_admin_values (php_ini_config)
-  cookbook	     'app_moodle'
-  frontend_template  'nginx_moodle.erb'  
+  cookbook	           'app_moodle'
+  frontend_template    'nginx_moodle.erb'  
   notifies             :restart, 'service[nginx]', :delayed
   notifies             :restart, 'service[php5-fpm]', :delayed
 
