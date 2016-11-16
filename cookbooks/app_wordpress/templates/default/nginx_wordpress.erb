@@ -1,0 +1,53 @@
+server {
+    listen <%= @port%>;
+    server_name <%=@name%> <%=@alternate_names.join(' ') %>;
+
+    root <%=@document_root%>;
+    
+    index index.php index.html index.htm;
+
+    # include /etc/nginx/security;
+
+
+    access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
+    error_log <%= node["nginx"]["log_dir"]%>/<%=@name %>.error_log info;
+
+
+    location / {
+        index index.php index.html index.htm;
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+
+    <% if @max_upload_size -%>
+    client_max_body_size <%= @max_upload_size %>;
+    <% end -%>
+
+    location ~ \.php$ {
+
+        # try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_pass <%=@fpm_socket%>;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_read_timeout    <%=@fastcgi_timeout%>;
+            
+    }   
+
+
+    # serve static files directly
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
+        access_log        off;
+        expires           max;
+    }
+
+    <%if @static_files_path %>
+    location ~* /(images|css|js|files)/ { # static files in public/<folders>
+        root <%=@static_files_path%>; 
+        # A request for "/images/foo.png" will return the file "/home/<user>/service1/public/images/foo.png"
+        access_log off;
+        expires 30d; # max
+    }
+    <%end%>
+
+}
