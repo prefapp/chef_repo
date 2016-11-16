@@ -23,7 +23,7 @@ args = {}
   system_lang
 
 }.each do |attribute|
-  
+
   args[attribute] = app[attribute] || node["app"]["wordpress"]["default_#{attribute}"]
 
 end
@@ -31,7 +31,7 @@ end
 php_ini_config = {
   'upload_max_filesize' => '50M',
   'post_max_size' => '55M',
-  
+
   'opcache.enable' => 1,
   'opcache.memory_consumption' => 128,
   'opcache.max_accelerated_files' =>  4000,
@@ -49,17 +49,17 @@ fcgi_app args["domain"] do
   owner                args['user']
   group                args['group']
   timeout              "600"
-  
+
   repo_url             args["repo_url"]
   repo_type            args["repo_type"]
   revision             args["revision"]
   purge_target_path    'yes'
   extra_packages       ["php5-curl", "php5-mysqlnd"]
-  
+
   php_ini_admin_values (php_ini_config)
-  
-  cookbook	           'app_moodle'
-  frontend_template    'nginx_moodle.erb'  
+
+  cookbook	           'app_wordpress'
+  frontend_template    'nginx_wordpress.erb'
   notifies             :restart, 'service[nginx]', :delayed
   notifies             :restart, 'service[php5-fpm]', :delayed
 
@@ -84,9 +84,9 @@ args['debug_log'] = (app['enable_debug_log'] =~ /^y|s/i)? true : false
 template "#{args['target_path']}/wp-config.php" do
 
   source      'wp-config.php.erb'
-  cookbook    "app_wordpress" 
+  cookbook    "app_wordpress"
   user        args["user"]
   group       args["group"]
   variables   ({:app => args})
-                  
+
 end
