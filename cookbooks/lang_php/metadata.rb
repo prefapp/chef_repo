@@ -16,3 +16,9 @@ recipe "default",
     attributes: [/.+/],
     dependencies: []
 
+attribute "lang/php/version",
+   :display_name => "php version to install ",
+   :description => 'PHP version to install',
+   :default => '5.5',
+   :choice => %w{5.5 5.6 7.0 7.1},
+   :advanced => false
