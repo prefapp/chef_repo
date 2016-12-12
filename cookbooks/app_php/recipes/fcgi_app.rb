@@ -27,6 +27,9 @@ Array(node["app"]["php"]["fcgi_apps"]).each do |app|
       purge_target_path
       repo_depth
 
+      cookbook
+      frontend_template
+
 
     ).each do |m|
 

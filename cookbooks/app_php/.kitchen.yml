@@ -55,3 +55,32 @@ suites:
     }
   }
 }
+  - name: php7
+    run_list:
+        - ["recipe[riyic::default]", "recipe[app_php::fcgi_app]","recipe[riyic::test_helper]"]
+    attributes: {
+  "app": {
+    "php": {
+      "fcgi_apps": [
+        {
+          "domain": "default",
+          "environment": "production",
+          "target_path": "/home/riyic/",
+          "owner": "riyic",
+          "repo_url": "https://github.com/WordPress/WordPress.git",
+          "repo_type": "git",
+          "migrate": "no",
+          "group": "riyicgrp",
+          "revision": "4.0.1",
+          "repo_depth": 1,
+          "purge_target_path": "yes"
+        }
+      ]
+    }
+  },
+  "lang":{
+    "php":{
+      "version": "7.1"
+    }
+  }
+}
