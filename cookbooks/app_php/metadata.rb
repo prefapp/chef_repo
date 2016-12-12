@@ -133,7 +133,7 @@ attribute "app/php/fcgi_apps/@/extra_packages",
 
 
 attribute "app/php/fcgi_apps/@/postdeploy_script",
-    :display_name => 'Bash script with extra tasks to run',
+    :display_name => 'Bash script with extra tasks to run after deploy',
     :description => 'Script with extra tasks to run after deploy (relative path from target_path)',
     :default => "",
     :validations => {predefined: "unix_path"}
