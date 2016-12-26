@@ -45,13 +45,13 @@ attribute "app/php/fcgi_apps/@/server_alias",
     :default => [],
     :validations => {predefined: "domain"}
 
-attribute "app/python/fcgi_apps/@/environment",
-    :display_name => 'Application environment',
-    :description => 'Application Environment vars',
-    :default => 'production',
-    :advanced => false,
-    :required => true,
-    :validations => {predefined: "word"}
+#attribute "app/php/fcgi_apps/@/environment",
+#    :display_name => 'environment',
+#    :description => 'Environment',
+#    :default => 'production',
+#    :advanced => false,
+#    :required => true,
+#    :validations => {predefined: "word"}
 
 attribute "app/php/fcgi_apps/@/env_vars",
     :display_name => 'Application config vars from environment',
