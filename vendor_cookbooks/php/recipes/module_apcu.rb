@@ -2,7 +2,7 @@
 # Author::  Joshua Timberman (<joshua@chef.io>)
 # Author::  Seth Chisamore (<schisamo@chef.io>)
 # Cookbook:: php
-# Recipe:: module_memcache
+# Recipe:: module_apc
 #
 # Copyright:: 2009-2016, Chef Software, Inc.
 #
@@ -21,11 +21,12 @@
 
 case node['platform_family']
 when 'rhel', 'fedora'
-  package 'zlib-devel'
+  package %w(httpd-devel pcre pcre-devel)
 
-  php_pear 'memcache' do
+  php_pear 'APCu' do
     action :install
+    directives(shm_size: '128M', enable_cli: 0)
   end
 when 'debian'
-  package 'php5-memcache'
+  package node['php']['apcu']['package']
 end

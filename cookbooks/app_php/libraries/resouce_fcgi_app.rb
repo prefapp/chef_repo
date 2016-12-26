@@ -9,7 +9,8 @@ class Chef
         super(name, run_context)
         @resource_name = :fcgi_app
         @provider = Chef::Provider::FcgiApp
-
+        @php_ini_admin_values = {}
+ 
       end
 
 

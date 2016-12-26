@@ -1,9 +1,7 @@
 #
-# Author::  Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: php-fpm
-# Recipe:: default
-#
-# Copyright 2011, Opscode, Inc.
+# Author:: Artur Melo (<artur.melo@beubi.com>)
+# Cookbook:: php
+# Recipe:: module_imap
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,5 +16,14 @@
 # limitations under the License.
 #
 
-include_recipe 'php-fpm::install'
-include_recipe 'php-fpm::configure'
+pkg = value_for_platform(
+  %w(centos redhat scientific fedora amazon oracle) => {
+    el5_range => 'php53-imap',
+    'default' => 'php-imap'
+  },
+  'default' => 'php5-imap'
+)
+
+package pkg do
+  action :install
+end

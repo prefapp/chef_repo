@@ -43,13 +43,18 @@ suites:
           "environment": "production",
           "target_path": "/home/riyic/",
           "owner": "riyic",
-          "repo_url": "https://github.com/WordPress/WordPress.git",
+          "repo_url": "https://github.com/prefapp/doppleman.git",
           "repo_type": "git",
           "migrate": "no",
           "group": "riyicgrp",
-          "revision": "4.0.1",
+          "revision": "master",
           "repo_depth": 1,
-          "purge_target_path": "yes"
+          "purge_target_path": "yes",
+          "env_vars": {"A": 1, "B": 2},
+          "php_ini_admin_values": {
+            "upload_max_filesize": "100M",
+            "opcache.enable": 1
+          }
         }
       ]
     }
@@ -67,12 +72,17 @@ suites:
           "environment": "production",
           "target_path": "/home/riyic/",
           "owner": "riyic",
-          "repo_url": "https://github.com/WordPress/WordPress.git",
+          "repo_url": "https://github.com/prefapp/doppleman.git",
           "repo_type": "git",
           "migrate": "no",
           "group": "riyicgrp",
-          "revision": "4.0.1",
+          "revision": "master",
           "repo_depth": 1,
+          "env_vars": {"A": 1, "B": 2},
+          "php_ini_admin_values": {
+            "upload_max_filesize": "100M",
+            "opcache.enable": 1
+          },
           "purge_target_path": "yes"
         }
       ]

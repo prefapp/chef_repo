@@ -52,5 +52,10 @@ suites:
       "db_host": "db",
       "db_password": "wordpress"
     }
+  },
+  "lang":{
+    "php":{
+      "version": "7.1"
+    }
   }
 }

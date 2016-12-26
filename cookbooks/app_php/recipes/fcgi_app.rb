@@ -1,5 +1,11 @@
 include_recipe "app_php::default"
 
+php_version = node['lang']['php']['version']
+
+if php_version =~ /^5\./
+  php_version = '5'
+end
+
 Array(node["app"]["php"]["fcgi_apps"]).each do |app|
 
 	fcgi_app app["domain"] do
@@ -15,6 +21,7 @@ Array(node["app"]["php"]["fcgi_apps"]).each do |app|
       revision
       credential
       environment
+      env_vars
       static_files_path
       migration_command
       timeout
@@ -40,7 +47,7 @@ Array(node["app"]["php"]["fcgi_apps"]).each do |app|
     end
 
     notifies   :restart, 'service[nginx]'
-    notifies   :restart, 'service[php5-fpm]'
+    #notifies   :restart, "service[php#{php_version}-fpm]"
 
 
 	end

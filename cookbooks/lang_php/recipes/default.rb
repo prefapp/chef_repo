@@ -1,13 +1,13 @@
 # aseguramos que o metodo de instalacion sexa por paqueteria
 # de momento (ubuntu14 ten no repo php 5.5.9)
-node.override["php"]["install_method"] = node['lang_php']['install_method']
+node.override["php"]["install_method"] = node['lang']['php']['install_method']
 
-if node["lang"]["php"]["version"] >= '5.6'
+if node["lang"]["php"]["version"].to_f >= 5.6
 
   apt_repository 'ondrej-php' do
     uri          'ppa:ondrej/php'
     distribution node['lsb']['codename']
-    only_if { node['lang']['php']['version'] >= '5.6' }
+    only_if { node['lang']['php']['version'].to_f >= 5.6 }
   end
 
   version_corta = node["lang"]["php"]["version"]
@@ -36,7 +36,7 @@ if node["lang"]["php"]["version"] >= '5.6'
   node.override["php"]["fpm_service"] = "php#{version_corta}-fpm"
   node.override["php"]["fpm_default_conf"] = "/etc/php/#{version_corta}/fpm/pool.d/www.conf"
 
-
 end
+
 
 include_recipe "php::default"

@@ -19,21 +19,44 @@ class Chef
 
 
       def configure_backend
+        #php5_fpm_pool new_resource.domain do
 
-        php5_fpm_pool new_resource.domain do
+        #  # php5_fpm_pool actualmente solo soporta tcp/ip sockets
+        #  listen_address        '127.0.0.1'
+        #  listen_port           9000
+        #  pool_user             new_resource.owner
+        #  pool_group            new_resource.group
+        #  pm                    'ondemand'
 
-          # php5_fpm_pool actualmente solo soporta tcp/ip sockets
-          listen_address        '127.0.0.1'
-          listen_port           9000
-          pool_user             new_resource.owner
-          pool_group            new_resource.group
-          pm                    'ondemand'
+        #  php_ini_admin_values    new_resource.php_ini_admin_values
+        #  php_ini_values          "max_execution_time" => new_resource.timeout
 
-          php_ini_admin_values    new_resource.php_ini_admin_values
-          php_ini_values          "max_execution_time" => new_resource.timeout
+        #  request_terminate_timeout   new_resource.timeout.to_i
+        #  overwrite                   true
+  
+        #end
 
-          request_terminate_timeout   new_resource.timeout.to_i
-          overwrite                   true
+        additional_config = {
+
+          "php_value[max_execution_time]" => new_resource.timeout,
+
+          "request_terminate_timeout" =>  new_resource.timeout.to_i,
+        
+        }.merge(
+          
+          Hash[new_resource.php_ini_admin_values.map{|k,v| ["php_admin_value[#{k}]", v]}]
+          
+          ).merge(
+
+          Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", v]}]
+        )
+
+        php_fpm_pool new_resource.domain do
+          listen            '127.0.0.1:9000'
+          user              new_resource.owner
+          group             new_resource.group
+          process_manager   'ondemand'
+          additional_config additional_config
 
         end
 

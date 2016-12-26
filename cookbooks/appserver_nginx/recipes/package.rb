@@ -19,6 +19,7 @@ node.set["container_service"]["nginx"]["command"] = "/usr/sbin/nginx -c /etc/ngi
 # por paqueteria, sen usar a dos repos de ubuntu
 node.set['nginx']['repo_source'] = 'nginx'
 node.set['nginx']['install_method'] = 'package'
+node.set['nginx']['log_dir'] = "#{Chef::Provider::ContainerService::Runit.logs_base_dir}/nginx"
 
 include_recipe "nginx::default"
 

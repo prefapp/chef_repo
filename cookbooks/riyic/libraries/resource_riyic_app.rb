@@ -23,6 +23,7 @@ class Chef
 
         @credential = nil
         @environment = 'production'
+        @env_vars = {}
         @static_files_path = nil
         @migration_command = nil
         @internal_socket = nil
@@ -139,6 +140,17 @@ class Chef
               :default => 'production'
           )
       end
+
+      def env_vars(arg=nil)
+          set_or_return(
+              :env_vars,
+              arg,
+              :kind_of => Hash,
+              :default => {}
+          )
+      end
+
+
 
       def static_files_path(arg=nil)
           set_or_return(

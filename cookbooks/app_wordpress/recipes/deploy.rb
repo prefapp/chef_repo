@@ -39,6 +39,16 @@ php_ini_config = {
 }
 
 
+# seteamos os paquetes necesarios de php segun a version 
+# que se vai a instalar
+php_version = node["lang"]["php"]["version"]
+
+if php_version == "5.5"
+  php_version = "5"
+end
+
+extra_packages = ["php#{php_version}-curl","php#{php_version}-mysqlnd"]
+
 # instalamos a aplicacion e configuramos os servicios necesarios
 fcgi_app args["domain"] do
 
@@ -54,14 +64,14 @@ fcgi_app args["domain"] do
   repo_type            args["repo_type"]
   revision             args["revision"]
   purge_target_path    'yes'
-  extra_packages       ["php5-curl", "php5-mysqlnd"]
-
+  extra_packages       extra_packages
   php_ini_admin_values (php_ini_config)
 
   cookbook	           'app_wordpress'
   frontend_template    'nginx_wordpress.erb'
   notifies             :restart, 'service[nginx]', :delayed
-  notifies             :restart, 'service[php5-fpm]', :delayed
+  #notifies             :restart, 'service[php5-fpm]', :delayed
+  #notifies             :restart, "service[#{node['php']['fpm_service']}]"
 
 end
 

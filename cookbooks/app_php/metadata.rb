@@ -47,11 +47,19 @@ attribute "app/php/fcgi_apps/@/server_alias",
 
 attribute "app/python/fcgi_apps/@/environment",
     :display_name => 'Application environment',
-    :description => 'Application Environment',
+    :description => 'Application Environment vars',
     :default => 'production',
     :advanced => false,
     :required => true,
     :validations => {predefined: "word"}
+
+attribute "app/php/fcgi_apps/@/env_vars",
+    :display_name => 'Application config vars from environment',
+    :description => 'Application configuration variables passed through environment',
+    :default => {},
+    :type => "hash",
+    :validations => {predefined: "text"}
+
 
 attribute "app/php/fcgi_apps/@/target_path",
     :display_name => "Application deployment folder",

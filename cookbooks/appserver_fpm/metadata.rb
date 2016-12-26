@@ -6,7 +6,9 @@ description      "Cookbook to install and configure php-fpm service"
 version          "0.2.2"
 
 #depends "php-fpm"
-depends "php5-fpm", '~> 0.4'
+#depends "php5-fpm", '~> 0.4'
+
+depends "lang_php"
 
 %w{debian ubuntu}.each do |os|
   supports os

@@ -33,6 +33,11 @@ class Chef
 
         TIMEOUT = 10
         VERBOSE = false
+        LOGS_BASE_DIR = '/opt/logs'
+
+        def self.logs_base_dir
+          LOGS_BASE_DIR
+        end
 
         def initialize(name, run_context=nil)
           super
@@ -184,7 +189,7 @@ class Chef
         end
 
         def sv_bin
-          ::File.join(omnibus_embedded_bin_dir, 'sv')
+          "sleep 5 && #{::File.join(omnibus_embedded_bin_dir, 'sv')}"
         end
 
         ##
@@ -208,7 +213,7 @@ exec #{@command} 2>&1"
           when :stdout
             content += "exec chef-init-logger --service-name #{new_resource.service_name} --log-destination stdout"
           when :file
-            content += "exec svlogd -tt /var/log/#{new_resource.service_name}"
+            content += "exec svlogd -tt #{LOGS_BASE_DIR}/#{new_resource.service_name}"
           end
           content
         end
@@ -251,7 +256,7 @@ exec #{@command} 2>&1"
 
         def log_dir
           return @log_dir unless @log_dir.nil?
-          @log_dir = Chef::Resource::Directory.new("/var/log/#{new_resource.service_name}", run_context)
+          @log_dir = Chef::Resource::Directory.new("#{LOGS_BASE_DIR}/#{new_resource.service_name}", run_context)
           @log_dir.recursive(true)
           @log_dir.mode(00755)
           @log_dir
