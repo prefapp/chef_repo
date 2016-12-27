@@ -12,12 +12,10 @@ server {
     access_log  <%= node['nginx']['log_dir']%>/<%=@name %>.access.log;
     error_log <%= node["nginx"]["log_dir"]%>/<%=@name %>.error_log info;
 
-
     location / {
         index index.php index.html index.htm;
         try_files $uri $uri/ /index.php?$args;
     }
-
 
     <% if @max_upload_size -%>
     client_max_body_size <%= @max_upload_size %>;
@@ -36,7 +34,7 @@ server {
 
 
     # serve static files directly
-    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico)$ {
         access_log        off;
         expires           max;
     }
