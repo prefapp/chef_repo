@@ -33,7 +33,7 @@ class Chef
 
         #  request_terminate_timeout   new_resource.timeout.to_i
         #  overwrite                   true
-  
+
         #end
 
         additional_config = {
@@ -41,14 +41,14 @@ class Chef
           "php_value[max_execution_time]" => new_resource.timeout,
 
           "request_terminate_timeout" =>  new_resource.timeout.to_i,
-        
+
         }.merge(
-          
+
           Hash[new_resource.php_ini_admin_values.map{|k,v| ["php_admin_value[#{k}]", v]}]
-          
+
           ).merge(
 
-          Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", v]}]
+          Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", "'#{v}'"]}]
         )
 
         php_fpm_pool new_resource.domain do
