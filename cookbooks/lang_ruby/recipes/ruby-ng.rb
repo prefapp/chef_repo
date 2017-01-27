@@ -1,5 +1,6 @@
 #recalculamos o gemdir segun a version de ruby
 gems_dir = {
+  'ruby-2.4' => '2.4.0',
   'ruby-2.3' => '2.3.0',
   'ruby-2.2' => '2.2.0',
   'ruby-2.1' => '2.1.0',
