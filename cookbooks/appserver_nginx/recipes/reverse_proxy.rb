@@ -16,6 +16,12 @@ template "ws.conf" do
     mode 00644
 end
 
+## We need generate a stronger DHE parameter
+# https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+execute 'DHE param' do
+  command 'openssl dhparam 4096 -out /etc/ssl/dhparam.pem'
+  creates '/etc/ssl/dhparam.pem'
+end
 
 # creamos os sites, cos backends (upstream servers) que se especifiquen
 # e con soporte ssl se se pide (os certificados e a key estar en ficheiros con nome do dominio)

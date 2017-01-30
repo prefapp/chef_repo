@@ -46,7 +46,13 @@ suites:
           "recipe[appserver_nginx::package]",
           "recipe[riyic::test_helper]"
       ]
-    attributes: {
+    attributes: {}
 
-  
-}
+  - name: proxy
+    run_list:
+      - [
+          "recipe[riyic::default]",
+          "recipe[appserver_nginx::reverse_proxy]",
+          "recipe[riyic::test_helper]"
+    ]
+    attributes: {}
