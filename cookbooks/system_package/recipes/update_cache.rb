@@ -16,6 +16,9 @@ if node['platform_family'] == "debian"
     # o cal provee varias configuracions para apt, unha delas se encarga de actualizar
     # /var/lib/apt/periodic/update-success-stamp cada vez que corre apt
 
+    p = package "apt-transport-https"
+    p.run_action(:install)
+
     p = package "update-notifier-common"
     p.run_action(:install)
 end
