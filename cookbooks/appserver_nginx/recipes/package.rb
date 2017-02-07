@@ -26,12 +26,12 @@ node.set['nginx']['install_method'] = 'package'
 #
 node.set['nginx']['log_dir'] = "#{Chef::Provider::ContainerService::Runit.logs_base_dir}/nginx"
 
-directory node['nginx']['log_dir'] do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  action :create
-end
+#directory node['nginx']['log_dir'] do
+#  owner 'root'
+#  group 'root'
+#  mode '0755'
+#  action :create
+#end
 
 include_recipe "nginx::default"
 
