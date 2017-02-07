@@ -6,15 +6,15 @@
 
 php_version = node['lang']['php']['version']
 
-if  php_version[0] == '5'
-
-  node.set["container_service"]["php5-fpm"]["command"] = 
-    "/usr/sbin/php5-fpm -F --fpm-config /etc/php5/fpm/php-fpm.conf"
-
-elsif php_version[0] == '7'
+if php_version.to_f >= 5.6
 
   node.set["container_service"]["php#{php_version}-fpm"]["command"] = 
     "/usr/sbin/php-fpm#{php_version} -F --fpm-config /etc/php/#{php_version}/fpm/php-fpm.conf"
+
+else
+
+  node.set["container_service"]["php5-fpm"]["command"] = 
+    "/usr/sbin/php5-fpm -F --fpm-config /etc/php5/fpm/php-fpm.conf"
 
 end
 
