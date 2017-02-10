@@ -93,10 +93,10 @@ class Chef
             check_script.run_action(:create)
           end
 
-          if @log_type.eql?(:file)
-            Chef::Log.debug("Creating /var/log directory for #{new_resource.service_name}")
+          #if @log_type.eql?(:file)
+            Chef::Log.debug("Creating '#{log_dir}' directory for #{new_resource.service_name}")
             log_dir.run_action(:create)
-          end
+          #end
 
           Chef::Log.debug("Creating log dir for #{new_resource.service_name}")
           log_main_dir.run_action(:create)

@@ -54,5 +54,19 @@ suites:
           "recipe[riyic::default]",
           "recipe[appserver_nginx::reverse_proxy]",
           "recipe[riyic::test_helper]"
-    ]
-    attributes: {}
+      ]
+    attributes: {
+      "appserver": {
+        "nginx": {
+          "reverse_proxy_sites": [
+					{
+          	"domain": "default",
+          	"public_port": "443",
+          	"backends": [
+            	"site0:80"
+          	]
+        	}
+        ]
+      }
+    }
+  }
