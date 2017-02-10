@@ -1,12 +1,12 @@
-default['app']['odoo']['version'] = '10.0'
+default['app']['odoo']['version'] = '9.0'
 
-default["app"]["odoo"]["default_repo_url"] = lazy do
+default["app"]["odoo"]["default_repo_url"] = lazy do 
   "https://nightly.odoo.com/#{node['app']['odoo']['version']}/nightly/src/"
 end
 
 default["app"]["odoo"]["default_repo_type"] = 'remote_archive'
 
-default["app"]["odoo"]["default_revision"] = lazy do
+default["app"]["odoo"]["default_revision"] = lazy do 
   "odoo_#{node['app']['odoo']['version']}.latest.tar.gz"
 end
 
@@ -27,3 +27,5 @@ default["app"]["odoo"]["wkhtmltopdf"]["download_url"] = lazy do
     "wkhtmltox-#{version}_linux-trusty-amd64.deb"
 
 end
+
+
