@@ -7,33 +7,38 @@ module NodeJs
 
         require 'open-uri'
         require 'json'
-        result = JSON.parse(URI.parse("https://registry.npmjs.org/npm/#{node['nodejs']['npm']['version']}").read, :max_nesting => false)
+        result = JSON.parse(URI.parse("https://registry.npmjs.org/npm/#{node['nodejs']['npm']['version']}").read, max_nesting: false)
         ret = { 'url' => result['dist']['tarball'], 'version' => result['_npmVersion'], 'shasum' => result['dist']['shasum'] }
         Chef::Log.debug("Npm dist #{ret}")
         return ret
       end
     end
 
-    def install_not_needed?
-      cmd = Mixlib::ShellOut.new("#{node['nodejs']['node_bin']} --version")
-      version = cmd.run_command.stdout.chomp
-      ::File.exist?("#{node['nodejs']['dir']}/bin/node") && version == "v#{node['nodejs']['version']}"
-    end
-
-    def npm_list(path = nil)
+    def npm_list(path = nil, environment = {})
       require 'json'
-      if path
-        cmd = Mixlib::ShellOut.new('npm list -json', :cwd => path)
-      else
-        cmd = Mixlib::ShellOut.new('npm list -global -json')
-      end
-      JSON.parse(cmd.run_command.stdout, :max_nesting => false)
+      cmd = if path
+              Mixlib::ShellOut.new('npm list -json', cwd: path, environment: environment)
+            else
+              Mixlib::ShellOut.new('npm list -global -json', environment: environment)
+            end
+
+      JSON.parse(cmd.run_command.stdout, max_nesting: false)
     end
 
-    def npm_package_installed?(package, version = nil, path = nil)
-      list = npm_list(path)['dependencies']
+    def url_valid?(list, package)
+      list.fetch(package, {}).fetch('resolved', '').include?('url')
+    end
+
+    def version_valid?(list, package, version)
+      (version ? list[package]['version'] == version : true)
+    end
+
+    def npm_package_installed?(package, version = nil, path = nil, npm_token = nil)
+      environment = { 'NPM_TOKEN' => npm_token } if npm_token
+
+      list = npm_list(path, environment)['dependencies']
       # Return true if package installed and installed to good version
-      (!list.nil?) && list.key?(package) && (version ? list[package]['version'] == version : true)
+      !list.nil? && list.key?(package) && version_valid?(list, package, version) && url_valid?(list, package)
     end
   end
 end
