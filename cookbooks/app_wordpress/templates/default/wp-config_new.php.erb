@@ -1,0 +1,167 @@
+<?php
+/** 
+ * Configuración básica de WordPress.
+ *
+ * Este archivo contiene las siguientes configuraciones: ajustes de MySQL, prefijo de tablas,
+ * claves secretas, idioma de WordPress y ABSPATH. Para obtener más información,
+ * visita la página del Codex{@link http://codex.wordpress.org/Editing_wp-config.php Editing
+ * wp-config.php} . Los ajustes de MySQL te los proporcionará tu proveedor de alojamiento web.
+ *
+ * This file is used by the wp-config.php creation script during the
+ * installation. You don't have to use the web site, you can just copy this file
+ * to "wp-config.php" and fill in the values.
+ *
+ * @package WordPress
+ */
+
+// ** Ajustes de MySQL. Solicita estos datos a tu proveedor de alojamiento web. ** //
+/** El nombre de tu base de datos de WordPress */
+define('DB_NAME', getenv('WP_DB_NAME'));
+
+/** Tu nombre de usuario de MySQL */
+define('DB_USER', getenv('WP_DB_USER'));
+
+/** Tu contraseña de MySQL */
+define('DB_PASSWORD', getenv('WP_DB_PASSWORD'));
+
+/** Host de MySQL (es muy probable que no necesites cambiarlo) */
+define('DB_HOST', getenv('WP_DB_HOST'));
+
+/** Codificación de caracteres para la base de datos. */
+define('DB_CHARSET', 'utf8mb4');
+
+if(getenv('WP_DB_CHARSET') !== false){
+    define('DB_CHARSET', getenv('WP_DB_CHARSET'));
+}
+
+/** Cotejamiento de la base de datos. No lo modifiques si tienes dudas. */
+define('DB_COLLATE', '');
+
+/** Enable W3 Total Cache */
+define('WP_CACHE', getenv('WP_CACHE')); // Added by W3 Total Cache
+
+/**#@+
+ * Claves únicas de autentificación.
+ *
+ * Define cada clave secreta con una frase aleatoria distinta.
+ * Puedes generarlas usando el {@link https://api.wordpress.org/secret-key/1.1/salt/ servicio de claves secretas de WordPress}
+ * Puedes cambiar las claves en cualquier momento para invalidar todas las cookies existentes. Esto forzará a todos los usuarios a volver a hacer login.
+ *
+ * @since 2.6.0
+ */
+define('AUTH_KEY',getenv('WP_AUTH_KEY'));
+define('SECURE_AUTH_KEY',getenv('WP_SECURE_AUTH_KEY'));
+define('LOGGED_IN_KEY', getenv('WP_LOGGED_IN_KEY'));
+define('NONCE_KEY', getenv('WP_NONCE_KEY'));
+define('AUTH_SALT', getenv('WP_AUTH_SALT'));
+define('SECURE_AUTH_SALT', getenv('WP_SECURE_AUTH_SALT'));
+define('LOGGED_IN_SALT', getenv('WP_LOGGED_IN_SALT'));
+define('NONCE_SALT', getenv('WP_NONCE_SALT'));
+
+/**#@-*/
+
+/**
+ * Prefijo de la base de datos de WordPress.
+ *
+ * Cambia el prefijo si deseas instalar multiples blogs en una sola base de datos.
+ * Emplea solo números, letras y guión bajo.
+ */
+$table_prefix  = 'wp_';
+
+if(getenv('WP_TABLE_PREFIX') !== false){
+    $table_prefix = getenv('WP_TABLE_PREFIX');
+}
+
+
+/**
+ * Para desarrolladores: modo debug de WordPress.
+ *
+ * Cambia esto a true para activar la muestra de avisos durante el desarrollo.
+ * Se recomienda encarecidamente a los desarrolladores de temas y plugins que usen WP_DEBUG
+ * en sus entornos de desarrollo.
+ */
+define('WP_DEBUG', false);
+define('WP_DEBUG_LOG', false);
+
+// 
+// Disable cron with an env var
+// ENV['DISABLE_WP_CRON'] must be 0, or '' to eval to false
+//
+if(getenv("DISABLE_WP_CRON") !== false){
+    define("DISABLE_WP_CRON", getenv("DISABLE_WP_CRON"));
+}
+
+
+define('WP_MEMORY_LIMIT', '128M');
+
+if(getenv("WP_MEMORY_LIMIT") !== false){
+    define( 'WP_MEMORY_LIMIT', getenv('WP_MEMORY_LIMIT'));
+} 
+
+/* ¡Eso es todo, deja de editar! Feliz blogging */
+if(getenv('WP_LANG') !== false){
+    define ('WPLANG', getenv('WP_LANG'));
+}
+
+/** WordPress absolute path to the Wordpress directory. */
+if ( !defined('ABSPATH') )
+	define('ABSPATH', dirname(__FILE__) . '/');
+
+/* seteo de host e url */
+// Define site host
+if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+    $hostname = $_SERVER['HTTP_X_FORWARDED_HOST'];
+} else {
+    $hostname = $_SERVER['HTTP_HOST'];
+}
+
+
+// Filter
+$hostname = filter_var($hostname, FILTER_SANITIZE_STRING);
+
+// Are we in SSL mode?
+if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ||
+    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+    $protocol = 'https://';
+    $_SERVER['HTTPS']='on';
+} else {
+    $protocol = 'http://';
+}
+
+// Define WordPress Site URLs if not already set in config files or in env
+if (getenv("WP_SITEURL")){
+    define('WP_SITEURL', getenv("WP_SITEURL"));
+}
+
+
+if (!defined('WP_SITEURL')) {
+    define('WP_SITEURL', $protocol . rtrim($hostname, '/'));
+}
+else{
+// if site URL is defined and hostname not match to site url
+// redirect with 301 to siteurl
+    $request_url = $protocol.rtrim($hostname,'/');
+    $regexp = '/^'.preg_quote($request_url,'/').'/';
+
+    if(!preg_match($regexp, WP_SITEURL)){
+         // 301 Moved Permanently
+         header("Location: ".WP_SITEURL.$_SERVER["REQUEST_URI"],TRUE,301);
+         exit();
+    }
+}
+
+if (!defined('WP_HOME')) {
+    define('WP_HOME', $protocol . rtrim($hostname, '/'));
+}
+// Define W3 Total Cache hostname
+if (defined('WP_CACHE')) {
+    define('COOKIE_DOMAIN', $hostname);
+}
+// Clean up
+unset($hostname, $protocol);
+
+
+/** Sets up WordPress vars and included files. */
+require_once(ABSPATH . 'wp-settings.php');
+
+
