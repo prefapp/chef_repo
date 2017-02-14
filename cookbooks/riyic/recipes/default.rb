@@ -3,17 +3,17 @@ include_recipe "riyic::_riyic_handlers"
 
 ## habilitamos o handler de riyic::report para que comunique a webapp o estado de convergencia do nodo
 if node['riyic']['enable_report'] == 'yes'
+  
+  chef_handler "Riyic::Report" do
+    source "#{node["chef_handler"]["handler_path"]}/riyic_report.rb"
 
-    chef_handler "Riyic::Report" do
-      source "#{node["chef_handler"]["handler_path"]}/riyic_report.rb"
+    arguments :auth_token => node['riyic']['key'],
+              :server_id => node['riyic']['server_id'],
+              :env => node['riyic']['env']
 
-      arguments :auth_token => node['riyic']['key'],
-                :server_id => node['riyic']['server_id'],
-                :env => node['riyic']['env']
+    action :nothing
 
-      action :nothing
-
-    end.run_action(:enable)
+  end.run_action(:enable)
 
 end
 
@@ -45,6 +45,9 @@ include_recipe "system_package::update_cache"
 # actualizamos cacerts do sistema, para evitar problemas como o das gemas de ruby que non se instalan
 # porque non se reconhece a CA que generou os novos certificados que usa rubygems
 include_recipe "riyic::_update_cacerts"
+
+# fnmt cacerts. spain is different!
+include_recipe "riyic::install_fnmt_cacerts"
 
 # Se estamos en docker instalamos runit
 # para usalo como init
