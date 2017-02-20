@@ -1,3 +1,8 @@
+#
+## receta deprecated
+#  ahora tiramos de package
+#
+
 ## seteamos atributos para o cookbook base (appserver)
 node.default["appserver"]["id"] = "nginx_default"
 node.default["appserver"]["version"] = node["appserver"]["nginx"]["version"]
