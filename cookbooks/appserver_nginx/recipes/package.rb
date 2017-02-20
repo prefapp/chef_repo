@@ -26,12 +26,9 @@ node.set['nginx']['install_method'] = 'package'
 #
 node.set['nginx']['log_dir'] = "#{Chef::Provider::ContainerService::Runit.logs_base_dir}/nginx"
 
-#directory node['nginx']['log_dir'] do
-#  owner 'root'
-#  group 'root'
-#  mode '0755'
-#  action :create
-#end
+# desactivamos o limite de client_body_size
+# senon por defecto vai a 1Mb
+node.set['nginx']['client_max_body_size'] = "0"
 
 include_recipe "nginx::default"
 
