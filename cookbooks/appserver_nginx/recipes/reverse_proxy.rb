@@ -51,7 +51,6 @@ node['appserver']['nginx']['reverse_proxy_sites'].each do |site|
       :dhe_param_file => DHE_PARAM_FILE,
     )
 
-    #not_if { File.exists?("#{node['nginx']['dir']}/sites-available/#{site['domain']}") }
   end
 
   ##habilitamos o site
