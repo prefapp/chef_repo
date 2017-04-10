@@ -98,8 +98,8 @@ attribute "system/users/bash/@/ssh_keys",
     :calculated => false,
     :required => false,
     :default => '',
-#    :type => 'array',   # arreglo para probas
-#    :default => [],
+    :type => 'array',
+    :default => [],
     :validations => {predefined: "ssh_public_key"}
 
 attribute "system/users/bash/@/group",
