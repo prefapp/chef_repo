@@ -18,9 +18,15 @@ end
 
 ## We need generate a stronger DHE parameter
 # https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+DHE_PARAM_FILE='/etc/ssl/dhparam.pem'
+
 execute 'DHE param' do
   command 'openssl dhparam -dsaparam -out /etc/ssl/dhparam.pem 4096'
-  creates '/etc/ssl/dhparam.pem'
+  creates DHE_PARAM_FILE
+  not_if {
+    File.exists?(DHE_PARAM_FILE) &&
+    File.mtime(DHE_PARAM_FILE) < Time.now - 5000000 #60dias
+  }
 end
 
 # creamos os sites, cos backends (upstream servers) que se especifiquen
@@ -41,7 +47,8 @@ node['appserver']['nginx']['reverse_proxy_sites'].each do |site|
       :service_path => site['service_path'] || '/',
       :backends => site["backends"],
       :ssl => (site["ssl"] == 'yes')? true : false,
-      :redirect_to_https => (site['ssl'] == 'yes' && site['redirect_to_https'] == 'yes')? true: false,
+      :letsencrypt => (site['letsencrypt'] == 'yes')? true : false,
+      :dhe_param_file => DHE_PARAM_FILE,
     )
 
     #not_if { File.exists?("#{node['nginx']['dir']}/sites-available/#{site['domain']}") }

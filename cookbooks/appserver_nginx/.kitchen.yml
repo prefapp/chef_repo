@@ -62,6 +62,8 @@ suites:
 					{
           	"domain": "default",
           	"public_port": "443",
+            "letsencrypt": 'yes',
+            "ssl": "yes",
           	"backends": [
             	"site0:80"
           	]
