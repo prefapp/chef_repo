@@ -39,7 +39,7 @@ suites:
     "php": {
       "fcgi_apps": [
         {
-          "domain": "default",
+          "domain": "test.com",
           "environment": "production",
           "target_path": "/home/riyic/",
           "owner": "riyic",

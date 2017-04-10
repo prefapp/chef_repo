@@ -2,16 +2,20 @@ require 'spec_helper'
 
 describe "php-fpm" do
 
-  describe port(9000) do
-    it "expects not to be listening on all interfaces" do
-      is_expected.not_to be_listening.on('0.0.0.0')
-    end
+  # 
+  # now uses unix socket instead tcp port
+  #
 
-    it "expects to be listening with tcp on localhost" do
-      is_expected.to be_listening.on('127.0.0.1').with('tcp')
-    end
+  #describe port(9000) do
+  #  it "expects not to be listening on all interfaces" do
+  #    is_expected.not_to be_listening.on('0.0.0.0')
+  #  end
 
-  end
+  #  it "expects to be listening with tcp on localhost" do
+  #    is_expected.to be_listening.on('127.0.0.1').with('tcp')
+  #  end
+
+  #end
 
   it "has a running service '#{$node['php']['fpm_service']}'" do
     expect(service($node['php']['fpm_service'])).to be_running

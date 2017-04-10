@@ -36,10 +36,11 @@ class Chef
           Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", "'#{v}'"]}]
         )
 
+        socket = "/var/run/php-fpm_#{new_resource.domain}.sock"
 
         php_fpm_pool new_resource.domain do
-
-          listen            '127.0.0.1:9000'
+          #listen            '127.0.0.1:9000'
+          listen            socket
           user              new_resource.owner
           group             new_resource.group
           process_manager   'ondemand'
@@ -47,7 +48,8 @@ class Chef
 
         end
 
-        new_resource.internal_socket('127.0.0.1:9000')
+        #new_resource.internal_socket('127.0.0.1:9000')
+        new_resource.internal_socket("unix:#{socket}")
 
       end
 
