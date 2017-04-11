@@ -12,12 +12,28 @@ upstream letsencrypt{
 <%end%>
 
 
-<%if @redirect_to_https %>
+<%if @redirect_to_https || @letsencrypt %>
 server {
-    listen         80;
-    server_name    <%= @domain%>;
-    return         301 https://$host$request_uri;
+    listen 80;
+    server_name <%= @domain %>;
+
+    <% if @letsencrypt %>
+    location /.well-known/acme-challenge {
+        proxy_pass http://letsencrypt;
+        proxy_set_header Host            $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+    <%end%>
+
+    <% if @redirect_to_https %>
+    location / {
+        return         301 https://$host$request_uri;
+    }
+    <% end %>
+
 }
+
 <%end%>
     
 server {
