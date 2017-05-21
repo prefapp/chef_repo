@@ -15,7 +15,7 @@ class Chef
 
       attribute :max_upload_size,
         :kind_of => [String, NilClass],
-        :default => nil
+        :default => "0"
 
     end
   end
