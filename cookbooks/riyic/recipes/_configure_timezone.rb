@@ -8,7 +8,7 @@ file "/etc/timezone" do
   group "root"
   mode "00644"
   content node['riyic']['system_timezone']
-  notifies :run, "execute[update-tzdata]"
+  notifies :run, "execute[update-tzdata]", :immediately
 end
 
 package "tzdata" do
