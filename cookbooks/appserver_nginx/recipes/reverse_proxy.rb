@@ -48,6 +48,7 @@ node['appserver']['nginx']['reverse_proxy_sites'].each do |site|
       :backends => site["backends"],
       :ssl => (site["ssl"] == 'yes')? true : false,
       :letsencrypt => (site['letsencrypt'] == 'yes')? true : false,
+      :redirect_to_https => (site['redirect_to_https'] == 'yes')? true : false,
       :dhe_param_file => DHE_PARAM_FILE,
     )
 
