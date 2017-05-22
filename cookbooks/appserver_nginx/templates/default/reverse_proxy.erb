@@ -12,7 +12,6 @@ upstream letsencrypt{
 <%end%>
 
 
-<%if @redirect_to_https || @letsencrypt %>
 server {
     listen 80;
     server_name <%= @domain %>;
@@ -56,8 +55,7 @@ server {
     <%end%>
 }
 
-<%end%>
-    
+
 server {
     listen       <%= @public_port %>;
     server_name  <%= @domain %>;
