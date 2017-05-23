@@ -11,7 +11,6 @@ end
 
 depends "code_repo"
 
-
 recipe "compose",
     :description => "Install and manage docker-compose",
     :attributes => [/\/compose\//]

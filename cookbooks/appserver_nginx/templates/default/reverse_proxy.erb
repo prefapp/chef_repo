@@ -5,12 +5,6 @@ upstream backend_<%= @domain %> {
     <% end %>
 }
 
-<%if @letsencrypt %>
-upstream letsencrypt{
-    server letsencrypt;
-}
-<%end%>
-
 
 server {
     listen 80;
@@ -18,10 +12,7 @@ server {
 
     <% if @letsencrypt %>
     location /.well-known/acme-challenge {
-        proxy_pass http://letsencrypt;
-        proxy_set_header Host            $host;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header X-Forwarded-Proto https;
+        root /usr/share/nginx/html;
     }
     <%end%>
 
@@ -81,12 +72,8 @@ server {
     add_header Strict-Transport-Security 'max-age=31536000; includeSubDomains';
 
     <% if @letsencrypt %>
-    
     location /.well-known/acme-challenge {
-        proxy_pass http://letsencrypt;
-        proxy_set_header Host   $host;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header X-Forwarded-Proto https;
+        root /usr/share/nginx/html;
     }
 
     ssl_certificate /etc/letsencrypt/live/<%=@domain%>/fullchain.pem;
