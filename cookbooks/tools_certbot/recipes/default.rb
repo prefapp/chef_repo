@@ -27,7 +27,7 @@ certbot certonly --webroot --webroot-path /usr/share/nginx/html \
 --standalone-supported-challenges http-01 && \
 rm -rf /etc/letsencrypt/live/default && \
 ln -sf /etc/letsencrypt/live/$LETSENCRYPT_PRINCIPAL /etc/letsencrypt/live/default && \
-sv nginx restart
+sv restart nginx
   EOF
 
   mode '0755'
