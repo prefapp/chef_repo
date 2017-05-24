@@ -1,3 +1,6 @@
+# 
+# agregamos o ppa de certbot
+#
 apt_repository 'certbot' do
   uri          'ppa:certbot/certbot'
   distribution node['lsb']['codename']
@@ -5,6 +8,11 @@ end
 
 package 'certbot'
 
+
+#
+# creamos o script que vamos a usar para alta/renovacion 
+# de certificados
+#
 file '/root/renovar_cert.sh' do
   content <<-'EOF'
 #!/bin/bash
@@ -27,3 +35,29 @@ sv nginx restart
   group 'root'
 
 end
+
+
+# nos aseguramos que exista /etc/letsencrypt/live/default
+# en que teña uns certificados generados
+# de esta forma o nginx cando tire deles non casca
+
+default_certs_path = '/etc/letsencrypt/live/default'
+
+directory default_certs_path do
+  recursive true
+end
+
+
+%w(fullchain.pem privkey.pem).each do |cert_file|
+
+  cookbook_file "#{default_certs_path}/#{cert_file}" do
+    source cert_file
+    owner 'root'
+    group 'root'
+    mode '0600'
+    action :create_if_missing
+  end
+
+end
+
+
