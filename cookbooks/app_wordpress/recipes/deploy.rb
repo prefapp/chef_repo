@@ -29,8 +29,8 @@ args = {}
 end
 
 php_ini_config = {
-  'upload_max_filesize' => '50M',
-  'post_max_size' => '55M',
+  'upload_max_filesize' => '150M',
+  'post_max_size' => '155M',
 
   'opcache.enable' => 1,
   'opcache.memory_consumption' => 128,
