@@ -13,12 +13,7 @@ package 'certbot'
 # creamos o script que vamos a usar para alta/renovacion 
 # de certificados
 #
-script_renovar_certs = '/root/renovar_cert.sh'
-
-file script_renovar_certs do
-  content <<-'EOF'
-#!/bin/bash
-
+renovar_cert_script = <<-'EOF'.gsub(/\n$/,'')
 sleep 6 && \
 certbot certonly -n --webroot --webroot-path /usr/share/nginx/html \
 --cert-name ${LETSENCRYPT_PRINCIPAL//\"/} \
@@ -28,9 +23,16 @@ certbot certonly -n --webroot --webroot-path /usr/share/nginx/html \
 --rsa-key-size 4096 --verbose --keep \
 --standalone-supported-challenges http-01 && \
 rm -rf /etc/letsencrypt/live/default && \
-ln -sf /etc/letsencrypt/live/${LETSENCRYPT_PRINCIPAL//\"/} /etc/letsencrypt/live/default && \
+ln -sf /etc/letsencrypt/live/${LETSENCRYPT_PRINCIPAL//\"/} /etc/letsencrypt/live/default
+EOF
+
+file '/root/renovar_cert.sh' do
+  content <<"EOF"
+#!/bin/bash
+
+#{renovar_cert_script} && \\
 sv restart nginx
-  EOF
+EOF
 
   mode '0755'
   owner 'root'
@@ -38,6 +40,31 @@ sv restart nginx
 
 end
 
+
+#
+# script para crear o certificado no arranque do container
+# se parece ao de renovacion, pero necesita arrancar por separado o nginx
+#
+
+if node["riyic"]["inside_container"]
+
+  file "#{node['riyic']['extra_tasks_dir']}/99_generate_certs.sh" do
+  
+    content <<"EOF"
+cp /etc/nginx/nginx.conf /tmp && \\
+sed -i 's/daemon\soff/daemon on/' /tmp/nginx.conf && \\
+nginx -c /tmp/nginx.conf && \\
+#{renovar_cert_script} && \\
+nginx -s stop && \\
+rm -f /tmp/nginx.conf
+EOF
+  
+    mode '0755'
+    owner 'root'
+    group 'root'
+  
+  end
+end
 
 # nos aseguramos que exista /etc/letsencrypt/live/default
 # en que teña uns certificados generados
@@ -61,19 +88,4 @@ end
   end
 
 end
-
-
-
-# exportamos as variables correctas de idioma e charset
-# para o arranque do container
-if node["riyic"]["inside_container"]
-
-  link "#{node['riyic']['extra_tasks_dir']}/99_generate_certs.sh" do
-		to 	 script_renovar_certs
-  end
-
-end
-
-
-
 
