@@ -13,7 +13,9 @@ package 'certbot'
 # creamos o script que vamos a usar para alta/renovacion 
 # de certificados
 #
-file '/root/renovar_cert.sh' do
+script_renovar_certs = '/root/renovar_cert.sh'
+
+file script_renovar_certs do
   content <<-'EOF'
 #!/bin/bash
 
@@ -59,5 +61,19 @@ end
   end
 
 end
+
+
+
+# exportamos as variables correctas de idioma e charset
+# para o arranque do container
+if node["riyic"]["inside_container"]
+
+  link "#{node['riyic']['extra_tasks_dir']}/99_generate_certs.sh" do
+		to 	 script_renovar_certs
+  end
+
+end
+
+
 
 
