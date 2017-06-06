@@ -12,7 +12,8 @@ class Chef
         owner = new_resource.owner
         group = new_resource.group
 
-        homedir = "/home/#{owner}"
+        homedir = (owner == 'root')? '/root': "/home/#{owner}"
+
         # Validamos que target_path sexa distinto do home do usuario
         if target_path == homedir
           raise Chef::Exceptions::UnsupportedAction, "Target path can't be equal to user owner homedir (#{homedir})"
