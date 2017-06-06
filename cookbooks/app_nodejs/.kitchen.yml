@@ -33,25 +33,22 @@ platforms:
 suites:
   - name: default
     run_list:
-        - ["recipe[riyic::default]", "recipe[app_php::fcgi_app]","recipe[riyic::test_helper]"]
+        - ["recipe[riyic::default]", "recipe[app_nodejs::app]","recipe[riyic::test_helper]"]
     attributes: {
   "app": {
-    "php": {
-      "fcgi_apps": [
-        {
-          "domain": "default",
-          "environment": "production",
-          "target_path": "/home/riyic/",
-          "owner": "riyic",
-          "repo_url": "https://github.com/WordPress/WordPress.git",
-          "repo_type": "git",
-          "migrate": "no",
-          "group": "riyicgrp",
-          "revision": "4.0.1",
-          "repo_depth": 1,
-          "purge_target_path": "yes"
-        }
-      ]
+    "nodejs": {
+      "domain": "default",
+      "environment": "production",
+      "target_path": "/app",
+      "entry_point": "app.js",
+      "owner": "root",
+      "repo_url": "https://github.com/prefapp/express-hello-world.git",
+      "repo_type": "git",
+      "migrate": "no",
+      "group": "root",
+      "revision": "master",
+      "repo_depth": 1,
+      "purge_target_path": "yes"
     }
   }
 }

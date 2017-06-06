@@ -5,7 +5,8 @@ license          "Apache 2.0"
 description      "Cookbook to install nodejs language from package or sources"
 version          "0.1.0"
 
-depends "nodejs"
+#depends "nodejs"
+depends "apt"
 
 %w{debian ubuntu}.each do |os|
   supports os
