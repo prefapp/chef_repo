@@ -27,13 +27,20 @@ recipe "node_app",
 # atributos
 #
 
-attribute "app/nodejs/environment",
-    :display_name => 'Application environment',
-    :description => 'Application Environment',
-    :default => 'production',
-    :advanced => false,
-    :required => true,
-    :validations => {predefined: "word"}
+#attribute "app/nodejs/environment",
+#    :display_name => 'Application environment',
+#    :description => 'Application Environment',
+#    :default => 'production',
+#    :advanced => false,
+#    :required => true,
+#    :validations => {predefined: "word"}
+
+attribute "app/nodejs/env_vars",
+    :display_name => 'Application config vars from environment',
+    :description => 'Application configuration variables passed through environment',
+    :default => {},
+    :type => "hash",
+    :validations => {predefined: "text"}
 
 attribute "app/nodejs/target_path",
     :display_name => "Application deployment folder",

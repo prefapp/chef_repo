@@ -48,7 +48,8 @@ suites:
       "group": "root",
       "revision": "master",
       "repo_depth": 1,
-      "purge_target_path": "yes"
+      "purge_target_path": "yes",
+      "env_vars": {"A":"1"}
     }
   }
 }

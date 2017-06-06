@@ -38,8 +38,16 @@ class Chef
         # para arrancar o servicio co runit dentro dun container
         dirname = new_resource.target_path.split('/').last
 
-        node.set['container_service']["nodejs_#{dirname}"]['command'] = 
-          "bash -c 'cd #{new_resource.target_path} && node #{new_resource.entry_point}'"
+        environment = new_resource.env_vars.map{|k,v| "#{k}=#{v}"}.join(' ')
+
+        node.set['container_service']["nodejs_#{dirname}"]['run_script_content'] = <<"EOF"
+#!/bin/sh
+exec 2>&1
+
+cd #{new_resource.target_path} && \
+#{environment} exec node #{new_resource.entry_point} 2>&1
+
+EOF
         
         service "nodejs_#{dirname}" do
           action :enable
