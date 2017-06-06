@@ -1,9 +1,8 @@
 #
-# Author:: Marius Ducea (marius@promethost.com)
-# Cookbook Name:: nodejs
-# Recipe:: default
+# Cookbook:: homebrew
+# Recipes:: cask
 #
-# Copyright 2010-2012, Promet Solutions
+# Copyright:: 2014-2016, Chef Software, Inc <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,16 +17,10 @@
 # limitations under the License.
 #
 
-include_recipe 'nodejs::nodejs'
-include_recipe 'nodejs::npm'
+homebrew_tap 'caskroom/cask'
 
-node['nodejs']['npm_packages'].each do |pkg|
-  f = nodejs_npm pkg['name'] do
-    action :nothing
-  end
-  pkg.each do |key, value|
-    f.send(key, value) unless key == 'name' || key == 'action'
-  end
-  action = pkg.key?('action') ? pkg['action'] : :install
-  f.action(action)
-end if node['nodejs'].key?('npm_packages')
+directory '/Library/Caches/Homebrew/Casks' do
+  owner homebrew_owner
+  mode '775'
+  only_if { ::Dir.exist?('/Library/Caches/Homebrew') }
+end

@@ -1,9 +1,8 @@
 #
-# Author:: Marius Ducea (marius@promethost.com)
-# Cookbook Name:: nodejs
-# Recipe:: default
+# Cookbook:: homebrew
+# Recipe:: install_casks
 #
-# Copyright 2010-2012, Promet Solutions
+# Copyright:: 2014-2016, Chef Software, Inc <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,4 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe "nodejs::nodejs_from_#{node['nodejs']['install_method']}"
+include_recipe 'homebrew::cask'
+
+node['homebrew']['casks'].each do |cask|
+  homebrew_cask cask
+end

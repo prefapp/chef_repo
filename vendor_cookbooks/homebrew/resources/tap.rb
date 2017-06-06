@@ -1,9 +1,10 @@
 #
-# Author:: Marius Ducea (marius@promethost.com)
-# Cookbook Name:: nodejs
-# Recipe:: npm
+# Author:: Joshua Timberman (<jtimberman@chef.io>)
+# Author:: Graeme Mathieson (<mathie@woss.name>)
+# Cookbook:: homebrew
+# Resources:: tap
 #
-# Copyright 2010-2012, Promet Solutions
+# Copyright:: 2011-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,11 +19,13 @@
 # limitations under the License.
 #
 
-case node['nodejs']['npm']['install_method']
-when 'embedded'
-  include_recipe 'nodejs::nodejs'
-when 'source'
-  include_recipe 'nodejs::npm_from_source'
-else
-  Chef::Log.error('No install method found for npm')
-end
+actions :tap, :untap
+default_action :tap
+
+attribute :name,
+          name_attribute: true,
+          kind_of: String,
+          regex: %r{^[\w-]+(?:\/[\w-]+)+$}
+
+attribute :tapped,
+          kind_of: [TrueClass, FalseClass]

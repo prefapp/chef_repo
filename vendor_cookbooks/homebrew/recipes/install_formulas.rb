@@ -1,9 +1,8 @@
 #
-# Author:: Marius Ducea (marius@promethost.com)
-# Cookbook Name:: nodejs
-# Recipe:: npm
+# Cookbook:: homebrew
+# Recipes:: install_casks
 #
-# Copyright 2010-2012, Promet Solutions
+# Copyright:: 2014-2016, Chef Software, Inc <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,15 +17,17 @@
 # limitations under the License.
 #
 
-Chef::Recipe.send(:include, NodeJs::Helper)
+include_recipe 'homebrew'
 
-include_recipe 'nodejs::nodejs'
-
-dist = npm_dist
-
-ark 'npm' do
-  url dist['url']
-  checksum dist['checksum']
-  version dist['version']
-  action :install_with_make
+node['homebrew']['formulas'].each do |formula|
+  if formula.class == Chef::Node::ImmutableMash
+    formula_options = formula.fetch(:options, '')
+    formula_options += ' --HEAD' if formula.fetch(:head, false)
+    package formula.fetch(:name) do
+      options formula_options.strip
+      version formula['version'] if formula.fetch(:version, false)
+    end
+  else
+    package formula
+  end
 end
