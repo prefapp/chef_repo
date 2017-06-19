@@ -18,7 +18,7 @@ end
 #recetas
 #
 
-recipe "node_app",
+recipe "app",
     description: "Deploy a node app from remote repository",
     attributes: [/^app\/nodejs\//],
     stackable: false
