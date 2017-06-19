@@ -16,7 +16,8 @@ end
 
 recipe "deploy",
     description: "Deploy a tasty moodle application",
-    attributes: [/.+/]
+    attributes: [/.+/],
+    dependencies: %w{lang_php::default}
 
 
 attribute "app/moodle/domain",

@@ -38,17 +38,33 @@ php_ini_config = {
 }
 ###
 
-extra_packages = %w{
-  php5-curl
-  php5-gd 
-  php5-intl
-  php5-xmlrpc
+# seteamos os paquetes necesarios de php segun a version 
+# que se vai a instalar
+php_version = node["lang"]["php"]["version"]
+
+if php_version == "5.5"
+  php_version = "5"
+end
+
+
+
+extra_packages = %W{
+  graphviz
+  aspell
+  php#{php_version}-curl
+  php#{php_version}-gd 
+  php#{php-version}-intl
+  php#{php-version}-xml
+  php#{php-version}-xmlrpc
+  php#{php-version}-ldap
+  php#{php-version}-zip
+  php#{php-version}-pspell
 }
 
 if args['db_type'] == 'mysqli'
-  extra_packages << 'php5-mysqlnd'
+  extra_packages << "php#{php_version}-mysql"
 elsif args['db_type'] == 'pgsql'
-  extra_packages << 'php5-pgsql'
+  extra_packages << "php#{php_version}-pgsql"
 end
 
 # instalamos a aplicacion e configuramos os servicios necesarios

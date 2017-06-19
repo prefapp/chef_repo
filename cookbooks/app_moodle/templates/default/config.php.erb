@@ -12,7 +12,7 @@ $CFG->dbuser    = '<%=@app['db_user']%>';
 $CFG->dbpass    = '<%=@app['db_password']%>';
 $CFG->prefix    = 'mdl_';
 $CFG->dboptions = array (
-  'dbpersist' => 0,
+  'dbpersist' => false,
   'dbport' => '', #default port
   'dbsocket' => false
 );
@@ -21,7 +21,7 @@ $CFG->wwwroot   = 'http://<%=@app['domain']%>';
 $CFG->dataroot  = '<%=@app['datadir']%>';
 $CFG->admin     = 'admin';
 
-$CFG->directorypermissions = 0777;
+$CFG->directorypermissions = 02777;
 
 require_once(dirname(__FILE__) . '/lib/setup.php');
 

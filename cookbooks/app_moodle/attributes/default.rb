@@ -1,4 +1,4 @@
-default['app']['moodle']['version'] = 'MOODLE_29_STABLE'
+default['app']['moodle']['version'] = 'MOODLE_33_STABLE'
 
 default['app']['moodle']['default_domain'] = node['fqdn']
 
