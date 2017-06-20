@@ -2,6 +2,8 @@
 
 version = node['tools']['docker']['engine_version']
 
+version.gsub!(/\-(ce|ee)/,'')
+
 download_url = "https://get.docker.com/builds/#{node['kernel']['name']}"+
   "/#{node['kernel']['machine']}"
 
