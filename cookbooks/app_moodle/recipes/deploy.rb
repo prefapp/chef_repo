@@ -46,19 +46,19 @@ if php_version == "5.5"
   php_version = "5"
 end
 
-
+#php#{php_version}-xml
+#php#{php_version}-zip
 
 extra_packages = %W{
   graphviz
   aspell
   php#{php_version}-curl
   php#{php_version}-gd 
-  php#{php-version}-intl
-  php#{php-version}-xml
-  php#{php-version}-xmlrpc
-  php#{php-version}-ldap
-  php#{php-version}-zip
-  php#{php-version}-pspell
+  php#{php_version}-intl
+  php#{php_version}-xmlrpc
+  php#{php_version}-ldap
+  php#{php_version}-pspell
+  php#{php_version}-soap
 }
 
 if args['db_type'] == 'mysqli'
@@ -89,7 +89,6 @@ fcgi_app args["domain"] do
   cookbook	           'app_moodle'
   frontend_template    'nginx_moodle.erb'  
   notifies             :restart, 'service[nginx]', :delayed
-  notifies             :restart, 'service[php5-fpm]', :delayed
 
 end
 

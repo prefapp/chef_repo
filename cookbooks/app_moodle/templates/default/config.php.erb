@@ -4,12 +4,12 @@ unset($CFG);
 global $CFG;
 $CFG = new stdClass();
 
-$CFG->dbtype    = '<%=@app['db_type']%>';
+$CFG->dbtype    = '<%=@app["db_type"]%>';
 $CFG->dblibrary = 'native';
-$CFG->dbhost    = '<%=@app['db_host']%>';
-$CFG->dbname    = '<%=@app['db_name']%>';
-$CFG->dbuser    = '<%=@app['db_user']%>';
-$CFG->dbpass    = '<%=@app['db_password']%>';
+$CFG->dbhost    = '<%=@app["db_host"]%>';
+$CFG->dbname    = '<%=@app["db_name"]%>';
+$CFG->dbuser    = '<%=@app["db_user"]%>';
+$CFG->dbpass    = '<%=@app["db_password"]%>';
 $CFG->prefix    = 'mdl_';
 $CFG->dboptions = array (
   'dbpersist' => false,
@@ -17,8 +17,9 @@ $CFG->dboptions = array (
   'dbsocket' => false
 );
 
-$CFG->wwwroot   = 'http://<%=@app['domain']%>';
-$CFG->dataroot  = '<%=@app['datadir']%>';
+#$CFG->wwwroot   = 'http://<%#@app['domain']%>';
+$CFG->wwwroot   = (getenv('MOODLE_BASE_URL') !== false)? getenv('MOODLE_BASE_URL') : 'http://<%=@app["domain"]%>';
+$CFG->dataroot  = '<%=@app["datadir"]%>';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 02777;

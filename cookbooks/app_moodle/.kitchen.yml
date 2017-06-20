@@ -59,7 +59,7 @@ suites:
     run_list:
         - [
             "recipe[riyic::default]",
-	    "recipe[dbs_mysql::server]",
+            "recipe[dbs_mysql::server]",
             "recipe[dbs_mysql::create_db]",
             "recipe[app_moodle::deploy]",
             "recipe[riyic::test_helper]"
@@ -104,7 +104,7 @@ suites:
   },
   "app": {
     "moodle": {
-      "domain": "test.com",
+      "domain": "default",
       "db_host": "localhost",
       "db_name": "moodledb",
       "db_user": "moodleuser",
@@ -117,6 +117,11 @@ suites:
       "smtp_server_secure": "yes",
       "admin_user": "admin",
       "admin_password": "123qwe//"
+    }
+  },
+  "lang": {
+    "php": {
+      "version": "7.1"
     }
   }
 }
