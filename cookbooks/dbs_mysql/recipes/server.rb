@@ -38,6 +38,18 @@ EOF
 # nos aseguramos que exista o directorio
 #/var/run/mysqld
 #
+group 'mysql' do
+  system    true
+end
+
+user 'mysql' do
+  comment   'MySQL Server,,,'
+  home      '/nonexistent'
+  shell     '/bin/false'
+  system    true
+  group     'mysql'
+end
+
 directory '/var/run/mysqld' do
   owner   'mysql'
   group   'mysql'
