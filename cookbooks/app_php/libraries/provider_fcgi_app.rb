@@ -26,6 +26,8 @@ class Chef
 
           "request_terminate_timeout" =>  new_resource.timeout.to_i,
 
+          "clear_env" => 'no', # para ter acceso a todo o entorno
+
         }.merge(
 
           Hash[new_resource.php_ini_admin_values.map{|k,v| ["php_admin_value[#{k}]", v]}]
