@@ -138,7 +138,7 @@ attribute "app/moodle/admin_password",
 
 
 attribute "app/moodle/max_upload_size",
-    :display_name => 'Maximum upload size',
+    :display_name => 'Maximum upload size in MB',
     :description => 'Max size of uploadable file in MB',
     :default => '120',
     :validations => {predefined: "int"},
