@@ -140,6 +140,7 @@ attribute "app/moodle/admin_email",
     :display_name => "Admin user email",
     :description => 'Admin user email',
     :required => true,
+    :default => 'change@me.com',
     :validations => {predefined: "email"}
 
 attribute "app/moodle/max_upload_size",
