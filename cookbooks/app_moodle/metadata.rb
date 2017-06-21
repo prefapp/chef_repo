@@ -136,6 +136,11 @@ attribute "app/moodle/admin_password",
     :calculated => true,
     :validations => {predefined: "password"}
 
+attribute "app/moodle/admin_email",
+    :display_name => "Admin user email",
+    :description => 'Admin user email',
+    :required => true,
+    :validations => {predefined: "email"}
 
 attribute "app/moodle/max_upload_size",
     :display_name => 'Maximum upload size in MB',
