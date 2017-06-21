@@ -28,7 +28,7 @@ end
 
 # npi se fai falta
 php_ini_config = {
-  'upload_max_filesize' => "#{node['app']['moodle']['max_uload_size']}M"
+  'upload_max_filesize' => "#{node['app']['moodle']['max_uload_size']}M",
   'post_max_size' => "#{node['app']['moodle']['max_uload_size']}M",
   
   'opcache.enable' => 1,
@@ -82,7 +82,7 @@ fcgi_app args["domain"] do
   repo_type            args["repo_type"]
   revision             args["revision"]
   purge_target_path    'yes'
-  depth                2
+  repo_depth                2
   
   extra_packages       extra_packages
   
