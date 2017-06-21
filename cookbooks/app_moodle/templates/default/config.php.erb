@@ -16,6 +16,7 @@ $CFG->dboptions = array (
   'dbport' => '', #default port
   'dbsocket' => false
 );
+$CFG->sslproxy    = 1;
 
 #$CFG->wwwroot   = 'http://<%#@app['domain']%>';
 $CFG->wwwroot   = (getenv('MOODLE_BASE_URL') !== false)? getenv('MOODLE_BASE_URL') : 'http://<%=@app["domain"]%>';
