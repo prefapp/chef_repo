@@ -28,8 +28,8 @@ end
 
 # npi se fai falta
 php_ini_config = {
-  'upload_max_filesize' => '50M',
-  'post_max_size' => '55M',
+  'upload_max_filesize' => "#{node['app']['moodle']['max_uload_size']}M"
+  'post_max_size' => "#{node['app']['moodle']['max_uload_size']}M",
   
   'opcache.enable' => 1,
   'opcache.memory_consumption' => 128,
