@@ -2,12 +2,12 @@
 
 version = node['tools']['docker']['engine_version']
 
-version.gsub!(/\-(ce|ee)/,'')
+version_corregida = version.gsub(/\-(ce|ee)/,'')
 
 download_url = "https://get.docker.com/builds/#{node['kernel']['name']}"+
   "/#{node['kernel']['machine']}"
 
-if Chef::VersionConstraint.new(">= 1.11.0").include?(version)
+if Chef::VersionConstraint.new(">= 1.11.0").include?(version_corregida)
 
   code_repo "/usr/bin/" do
     provider  Chef::Provider::CodeRepoRemoteArchive
