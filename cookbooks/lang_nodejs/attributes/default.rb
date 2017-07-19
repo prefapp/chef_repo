@@ -4,7 +4,23 @@ default["lang"]["nodejs"]["packages"] = []
 
 case node['platform_family']
 when 'debian'
-  default['lang']['nodejs']['repo']         = 'https://deb.nodesource.com/node_6.x'
+  default['lang']['nodejs']['repo']         = lazy {
+
+    required_version = node['lang']['nodejs']['version']
+    
+    debian_repo_string = ''
+    
+    if required_version == 'latest'
+      debian_repo_string = 'node_8.x'
+    elsif version == 'legacy'
+      debian_repo_string = 'node_4.x'
+    else 
+      debian_repo_string = 'node_6.x'
+    end
+
+
+    "https://deb.nodesource.com/#{debian_repo_string}"
+  }
   default['lang']['nodejs']['keyserver']    = 'keyserver.ubuntu.com'
   default['lang']['nodejs']['key']          = '1655a0ab68576280'
 when 'rhel', 'amazon'
