@@ -52,9 +52,16 @@ class Chef
       mkdir #{tmp_dir} && \
       tar xf #{::File.basename(tmp_file)} -C #{tmp_dir} --strip-components=1 && \
       chown -R #{owner}:#{group} #{tmp_dir} && \
-      find #{tmp_dir} -mindepth 1 -maxdepth 1 -exec mv -t #{target_path} -- {} + && \
+      find #{tmp_dir} -mindepth 1 -maxdepth 1 -exec cp -a -- {} #{target_path} \; && \
       rm -rf #{tmp_dir}
       EOH
+#            code <<-EOH
+#      mkdir #{tmp_dir} && \
+#      tar xf #{::File.basename(tmp_file)} -C #{tmp_dir} --strip-components=1 && \
+#      chown -R #{owner}:#{group} #{tmp_dir} && \
+#      find #{tmp_dir} -mindepth 1 -maxdepth 1 -exec mv -t #{target_path} -- {} + && \
+#      rm -rf #{tmp_dir}
+#      EOH
              #code <<-EOH
              #  tar xC #{target_path} --strip-components=1 -f #{::File.basename(tmp_file)}
              #  chown -R #{owner}:#{group} #{target_path}

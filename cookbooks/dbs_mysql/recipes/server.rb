@@ -34,6 +34,28 @@ trap 'exit 2' 1 2 3 15
 
 EOF
 
+# 
+# nos aseguramos que exista o directorio
+#/var/run/mysqld
+#
+group 'mysql' do
+  system    true
+end
+
+user 'mysql' do
+  comment   'MySQL Server,,,'
+  home      '/nonexistent'
+  shell     '/bin/false'
+  system    true
+  group     'mysql'
+end
+
+directory '/var/run/mysqld' do
+  owner   'mysql'
+  group   'mysql'
+  mode    0755
+end
+
 # mais un script para chequear que esta levantado
 node.set['container_service']['mysql']['check_script_content'] = <<EOF
 #!/bin/sh

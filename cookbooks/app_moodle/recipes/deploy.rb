@@ -28,8 +28,8 @@ end
 
 # npi se fai falta
 php_ini_config = {
-  'upload_max_filesize' => '50M',
-  'post_max_size' => '55M',
+  'upload_max_filesize' => "#{node['app']['moodle']['max_uload_size']}M",
+  'post_max_size' => "#{node['app']['moodle']['max_uload_size']}M",
   
   'opcache.enable' => 1,
   'opcache.memory_consumption' => 128,
@@ -82,6 +82,7 @@ fcgi_app args["domain"] do
   repo_type            args["repo_type"]
   revision             args["revision"]
   purge_target_path    'yes'
+  repo_depth                2
   
   extra_packages       extra_packages
   
@@ -124,7 +125,7 @@ if node["riyic"]["inside_container"]
 if [ ! -f /root/.actualizado ]
 then
   su -c 'service mysql start'
-  su -c 'cd #{app['target_path']} && /usr/bin/php admin/cli/install_database.php --lang=es --adminuser=#{app['admin_user']} --adminpass=#{app['admin_password']} --agree-license' #{app['user']}
+  su -c 'cd #{app['target_path']} && /usr/bin/php admin/cli/install_database.php --lang=es --adminuser=#{app['admin_user']} --adminpass=#{app['admin_password']} --adminemail=#{app['admin_email']} --agree-license' #{app['user']}
   su -c 'service mysql stop'
   su -c 'touch /root/.actualizado'
 fi

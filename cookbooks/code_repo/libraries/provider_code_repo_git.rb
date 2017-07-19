@@ -51,6 +51,25 @@ class Chef
             content new_resource.credential
           end.run_action(:create)
 
+          # APANHO, PARA PODER CLONAR OUTROS REPOS
+          # p.ex: instalar modulos de npm que estan nun repo privado
+          # metemolo tamen no home
+          #
+          directory "#{homedir}/.ssh" do
+            owner owner
+            group group
+            mode '0700'
+          end.run_action(:create)
+
+          file "#{homedir}/.ssh/id_rsa" do
+            backup false
+            owner owner
+            group group
+            mode "0600"
+            content new_resource.credential
+          end.run_action(:create)
+
+
           template ssh_wrapper do
             cookbook "code_repo"
             source "ssh_wrapper.sh.erb"
