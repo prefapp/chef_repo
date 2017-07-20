@@ -55,6 +55,8 @@ EOF
       end
 
 
+      # de momento para as apps node non hai frontend!
+      #
       def configure_frontend
       end
     end

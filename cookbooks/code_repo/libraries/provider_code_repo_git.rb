@@ -69,6 +69,18 @@ class Chef
             content new_resource.credential
           end.run_action(:create)
 
+          file "#{homedir}/.ssh/config" do
+            backup false
+            owner owner
+            group group
+            mode "0600"
+            content <<EOF
+Host *
+    UserKnownHostsFile /dev/null
+    StrictHostKeyChecking no
+EOF
+          end.run_action(:create)
+
 
           template ssh_wrapper do
             cookbook "code_repo"
