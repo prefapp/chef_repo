@@ -59,6 +59,7 @@ class Chef
             owner owner
             group group
             mode '0700'
+            recursive true
           end.run_action(:create)
 
           file "#{homedir}/.ssh/id_rsa" do
