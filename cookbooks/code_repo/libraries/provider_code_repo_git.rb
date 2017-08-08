@@ -27,6 +27,7 @@ class Chef
         user owner do
           group group
           home homedir
+          manage_home true
         end.run_action(:create)
 
 
