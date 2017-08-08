@@ -82,7 +82,7 @@ fcgi_app args["domain"] do
   repo_type            args["repo_type"]
   revision             args["revision"]
   purge_target_path    'yes'
-  repo_depth                2
+  repo_depth            1
   
   extra_packages       extra_packages
   
