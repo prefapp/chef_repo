@@ -5,16 +5,23 @@ class Chef
       def install_dependencies
 
         # 
-        # dependicias do package.json
+        # instalar dependencias dende package.json
         # 
         command = 'npm install'
+
+        user = new_resource.owner
+
+        env_hash = {
+          'HOME'=> (user == 'root')? '/root' : "/home/#{user}" ,
+          'USER'=> user
+        }
 
         bash "npm install" do
           user        new_resource.owner
           group       new_resource.group
           cwd         new_resource.target_path
 
-          #environment env_hash
+          environment env_hash
           code        command
         end
 
