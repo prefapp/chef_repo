@@ -25,10 +25,18 @@ class Chef
           "php_value[max_execution_time]" => new_resource.timeout,
 
           "request_terminate_timeout" =>  new_resource.timeout.to_i,
+        }
 
-          "clear_env" => 'no', # para ter acceso a todo o entorno
+        if (node['lang']['php']['version']).to_f >= 5.6
 
-        }.merge(
+          additional_config.merge({ 
+
+            "clear_env" => 'no', # para ter acceso a todo o entorno
+          })
+
+        end
+
+        additional_config.merge(
 
           Hash[new_resource.php_ini_admin_values.map{|k,v| ["php_admin_value[#{k}]", v]}]
 
