@@ -93,7 +93,7 @@ args['debug_log'] = (app['enable_debug_log'] =~ /^y|s/i)? true : false
 # creamos o ficheiro de configuracion
 template "#{args['target_path']}/wp-config.php" do
 
-  source      'wp-config.php.erb'
+  source      'wp-config_new.php.erb'
   cookbook    "app_wordpress"
   user        args["user"]
   group       args["group"]
