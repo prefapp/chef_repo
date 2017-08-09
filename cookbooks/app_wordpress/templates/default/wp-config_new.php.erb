@@ -37,8 +37,13 @@ if(getenv('WP_DB_CHARSET') !== false){
 /** Cotejamiento de la base de datos. No lo modifiques si tienes dudas. */
 define('DB_COLLATE', '');
 
-/** Enable W3 Total Cache */
-define('WP_CACHE', getenv('WP_CACHE')); // Added by W3 Total Cache
+if(getenv("DISABLE_WP_CACHE") !== false){
+    define("WP_CACHE", (preg_match('/^(1|y|s)/i', getenv("DISABLE_WP_CACHE")) == 0));
+}
+else{
+    /** Safest setting */
+    define('WP_CACHE', true); 
+}
 
 /**#@+
  * Claves únicas de autentificación.
@@ -100,16 +105,17 @@ define('WP_DEBUG_LOG', false);
 // ENV['DISABLE_WP_CRON'] must be 0, or '' to eval to false
 //
 if(getenv("DISABLE_WP_CRON") !== false){
-    define("DISABLE_WP_CRON", getenv("DISABLE_WP_CRON"));
+    define("DISABLE_WP_CRON", (preg_match('/^(1|y|s)/i', getenv("DISABLE_WP_CRON")) > 0));
 }
 
 
-define('WP_MEMORY_LIMIT', '128M');
-
 if(getenv("WP_MEMORY_LIMIT") !== false){
     define( 'WP_MEMORY_LIMIT', getenv('WP_MEMORY_LIMIT'));
-} 
+}
+else{
+    define('WP_MEMORY_LIMIT', '128M');
 
+}
 /* ¡Eso es todo, deja de editar! Feliz blogging */
 if(getenv('WP_LANG') !== false){
     define ('WPLANG', getenv('WP_LANG'));
