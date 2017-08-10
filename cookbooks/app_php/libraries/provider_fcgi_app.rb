@@ -27,23 +27,25 @@ class Chef
           "request_terminate_timeout" =>  new_resource.timeout.to_i,
         }
 
-        if (node['lang']['php']['version']).to_f >= 5.6
+        if node['lang']['php']['version'].to_f >= 5.6
 
-          additional_config.merge({ 
+          additional_config.merge!({ 
 
             "clear_env" => 'no', # para ter acceso a todo o entorno
           })
 
         end
 
-        additional_config.merge(
+        additional_config.merge!(
 
           Hash[new_resource.php_ini_admin_values.map{|k,v| ["php_admin_value[#{k}]", v]}]
 
-          ).merge(
-            # mergeamos as variables de entorno, para que vaian dentro da config do pool
+          ).merge!(
 
-          Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", "'#{v}'"]}]
+            # mergeamos as variables de entorno extra,
+            # definidas en env_vars, para que vaian dentro da config do pool
+
+            Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", "'#{v}'"]}]
         )
 
 
