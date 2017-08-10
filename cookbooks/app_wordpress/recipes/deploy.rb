@@ -70,10 +70,11 @@ fcgi_app args["domain"] do
   cookbook	           'app_wordpress'
   frontend_template    'nginx_wordpress.erb'
   notifies             :restart, 'service[nginx]', :delayed
-  #notifies             :restart, 'service[php5-fpm]', :delayed
-  #notifies             :restart, "service[#{node['php']['fpm_service']}]"
 
 end
+
+=begin
+Desactivado ca nova version do archivo de config
 
 # generamos as keys para as cookies se non nolas pasan
 args['auth_key'] = app['auth_key'] || secure_password
@@ -90,6 +91,8 @@ args['nonce_salt'] = app['nonce_salt'] || secure_password
 args['debug'] = (app['enable_debug'] =~ /^y|s/i)? true : false
 args['debug_log'] = (app['enable_debug_log'] =~ /^y|s/i)? true : false
 
+=end
+
 # creamos o ficheiro de configuracion
 template "#{args['target_path']}/wp-config.php" do
 
@@ -98,5 +101,19 @@ template "#{args['target_path']}/wp-config.php" do
   user        args["user"]
   group       args["group"]
   variables   ({:app => args})
+
+end
+
+# extra_tasks para o arranque do container
+# que setee o propietario correcto no volumen de uploads
+#
+if node["riyic"]["inside_container"]
+
+  file "#{node['riyic']['extra_tasks_dir']}/wordpress_correct_uploads_owner.sh" do
+    mode '0700'
+    owner 'root'
+    group 'root'
+    content "chown -R #{args['user']}:#{args['group']} #{args['target_path']}/wp-content/uploads"
+  end
 
 end
