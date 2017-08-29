@@ -62,6 +62,42 @@ EOF
       end
 
 
+      def migrate_db
+
+        return unless (new_resource.migration_command || new_resource.postdeploy_script)
+
+        if node['riyic']['inside_container']
+          template "#{node['riyic']['extra_tasks_dir']}/#{new_resource.domain}-nodejs_app.sh" do
+
+            source "extra_tasks_node_app.sh.erb"
+            cookbook  new_resource.cookbook || "app_nodejs"
+
+            mode 0700
+            owner 'root'
+            group 'root'
+            variables({
+              :app => new_resource,
+              :env => {}, #env_hash,
+            })
+
+          end
+
+        else
+          # aplicamos a migracion
+          #rvm_shell "exec_db_migration" do    
+          bash "exec_db_migration" do
+            user        new_resource.owner
+            group       new_resource.group
+            cwd         new_resource.target_path
+            environment env_hash
+            code        new_resource.migration_command
+          end
+
+        end
+
+      end
+
+
       # de momento para as apps node non hai frontend!
       #
       def configure_frontend

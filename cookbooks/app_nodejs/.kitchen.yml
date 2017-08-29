@@ -44,7 +44,7 @@ suites:
       "owner": "root",
       "repo_url": "https://github.com/prefapp/express-hello-world.git",
       "repo_type": "git",
-      "migrate": "no",
+      "migration_command": "node_modules/.bin/sequelize db:migrate",
       "group": "root",
       "revision": "master",
       "repo_depth": 1,
