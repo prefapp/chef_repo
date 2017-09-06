@@ -9,6 +9,8 @@ apt_repository 'nodejs' do
   key           node['lang']['nodejs']['key']
 end
 
-package 'nodejs'
+package 'nodejs' do
+  action :upgrade
+end
 
 
