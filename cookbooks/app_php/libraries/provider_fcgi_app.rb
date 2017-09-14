@@ -34,18 +34,21 @@ class Chef
             "clear_env" => 'no', # para ter acceso a todo o entorno
           })
 
+        else
+
+          additional_config.merge!( 
+            Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", "'#{v}'"]}]
+
+          )
         end
 
+
+        # php admin values
+        #
         additional_config.merge!(
 
           Hash[new_resource.php_ini_admin_values.map{|k,v| ["php_admin_value[#{k}]", v]}]
 
-          ).merge!(
-
-            # mergeamos as variables de entorno extra,
-            # definidas en env_vars, para que vaian dentro da config do pool
-
-            Hash[new_resource.env_vars.map{|k,v| ["env[#{k}]", "'#{v}'"]}]
         )
 
 
