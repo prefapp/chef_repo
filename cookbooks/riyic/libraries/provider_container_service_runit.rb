@@ -46,6 +46,7 @@ class Chef
           @down_file = nil
           @run_script = nil
           @log_dir = nil
+          @log_config = nil
           @log_main_dir = nil
           @log_run_script = nil
           @service_dir_link = nil
@@ -96,6 +97,7 @@ class Chef
           #if @log_type.eql?(:file)
             Chef::Log.debug("Creating '#{log_dir}' directory for #{new_resource.service_name}")
             log_dir.run_action(:create)
+            log_config.run_action(:create)
           #end
 
           Chef::Log.debug("Creating log dir for #{new_resource.service_name}")
@@ -213,9 +215,13 @@ exec #{@command} 2>&1"
           when :stdout
             content += "exec chef-init-logger --service-name #{new_resource.service_name} --log-destination stdout"
           when :file
-            content += "exec svlogd -tt #{LOGS_BASE_DIR}/#{new_resource.service_name}"
+            content += "exec svlogd -tt #{service_log_dir_path}"
           end
           content
+        end
+
+        def service_log_dir_path 
+          return "#{LOGS_BASE_DIR}/#{new_resource.service_name}"
         end
 
         ##
@@ -256,11 +262,12 @@ exec #{@command} 2>&1"
 
         def log_dir
           return @log_dir unless @log_dir.nil?
-          @log_dir = Chef::Resource::Directory.new("#{LOGS_BASE_DIR}/#{new_resource.service_name}", run_context)
+          @log_dir = Chef::Resource::Directory.new(service_log_dir_path, run_context)
           @log_dir.recursive(true)
           @log_dir.mode(00755)
           @log_dir
         end
+
 
         def log_main_dir
           return @log_main_dir unless @log_main_dir.nil?
@@ -276,6 +283,26 @@ exec #{@command} 2>&1"
           @log_run_script.content(log_run_script_content)
           @log_run_script.mode(00755)
           @log_run_script
+        end
+
+        def log_config
+          return @log_config unless @log_config.nil?
+          @log_config = Chef::Resource::File.new("#{service_log_dir_path}/config", run_context)
+          @log_config.content("
+# ver http://smarden.org/runit/svlogd.8.html
+#
+
+# tamanho maximo de current (300MB)
+s300000000
+
+# ficheiros rotados  a manter antes de purgar
+n15
+
+# se non hai espacio cantos ficheiros rotados minimos debemos manter
+N3
+")
+          @log_config.mode(00755)
+          @log_config
         end
 
         def service_dir_link
