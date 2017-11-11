@@ -12,7 +12,7 @@ when 'debian'
     
     if required_version == 'latest'
       debian_repo_string = 'node_8.x'
-    elsif version == 'legacy'
+    elsif required_version == 'legacy'
       debian_repo_string = 'node_4.x'
     else 
       debian_repo_string = 'node_6.x'

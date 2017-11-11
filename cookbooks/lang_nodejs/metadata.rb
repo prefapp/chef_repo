@@ -22,7 +22,7 @@ attribute "lang/nodejs/version",
     :display_name => 'Nodejs version (latest = last version, legacy = previous)',
     :description => 'Nodejs version to install',
     :default => 'latest',
-    :validations => {regex: /^(latest|legacy|\d+\.\d+\.\d+)$/},
+    :validations => {regex: /^(latest|legacy|\d+\.?.*)$/},
     :advanced => false
 
 attribute "lang/nodejs/packages",
