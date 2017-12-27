@@ -113,7 +113,7 @@ if node["riyic"]["inside_container"]
     mode '0700'
     owner 'root'
     group 'root'
-    content "chown -R #{args['user']}:#{args['group']} #{args['target_path']}/wp-content/uploads"
+    content "mkdir -p #{args['target_path']}/wp-content/uploads && chown -R #{args['user']}:#{args['group']} #{args['target_path']}/wp-content/uploads"
   end
 
 end
