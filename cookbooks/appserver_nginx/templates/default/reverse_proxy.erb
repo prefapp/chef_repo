@@ -11,7 +11,8 @@ server {
     server_name <%= @domain %>;
 
     <% if @letsencrypt %>
-    location /.well-known/acme-challenge {
+    location /.well-known/acme-challenge/ {
+        default_type "text/plain";
         root /usr/share/nginx/html;
     }
     <%end%>

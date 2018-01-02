@@ -41,6 +41,13 @@ EOF
 end
 
 
+# nos aseguramos que exista /usr/share/nginx/html/.well-known/
+certbot_challenge_path = '/usr/share/nginx/html/.well-known'
+directory certbot_challenge_path do
+  recursive true
+  mode '0755'
+end
+
 #
 # script para crear o certificado no arranque do container
 # se parece ao de renovacion, pero necesita arrancar por separado o nginx
