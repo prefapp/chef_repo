@@ -37,7 +37,9 @@ include_recipe "nginx::default"
 # delete conf.d/default.conf
 #
 
-nginx_default_conf_file = "#{node['nginx']['dir']}/conf.d/default.conf"
+nginx_conf_d = "#{node['nginx']['dir']}/conf.d"
+
+nginx_default_conf_file = "#{nginx_conf_d}/default.conf"
 
 file nginx_default_conf_file do
 
@@ -45,5 +47,24 @@ file nginx_default_conf_file do
   only_if {
     File.exists?(nginx_default_conf_file)
   }
+
+end
+
+#
+# configurar buffer amplio para o proxy
+#
+
+file "#{nginx_conf_d}/proxy_buffer.conf" do
+  action :create
+
+  content <<EOF
+
+  proxy_buffer_size   128k;
+  proxy_buffers   4 256k;
+  proxy_busy_buffers_size   256k;
+
+EOF
+  
+  mode '0644'
 
 end

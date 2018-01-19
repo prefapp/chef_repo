@@ -31,7 +31,7 @@ platforms:
 
 
 suites:
-  - name: default
+  - name: source
     run_list:
       - [
           "recipe[riyic::default]", 
@@ -39,7 +39,7 @@ suites:
           "recipe[riyic::test_helper]"
   ]
     attributes: {}
-  - name: package
+  - name: default
     run_list:
       - [
           "recipe[riyic::default]", 
